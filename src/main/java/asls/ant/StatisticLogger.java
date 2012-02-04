@@ -48,6 +48,8 @@ public class StatisticLogger extends LoggerAdapter {
         _projects.get(projectName).getTarget(targetName).addStartTime(new Date()).increment();
         if (!_subProjectBuilding) {
             out(projectName.toUpperCase() + "." + targetName.toUpperCase());
+            out(_projects.get(projectName).getTarget(targetName).logDescriptionFormat(), _projects.get(projectName)
+                    .getTarget(targetName).logDescription());
         }
     }
 
