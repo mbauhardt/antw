@@ -46,7 +46,7 @@ public class Target extends Name {
     }
 
     public Object[] logDescription() {
-        Object[] strings = new Object[] { "Project", "Target", "Call Count", "Start", "Finish", "Duration" };
+        Object[] strings = new Object[] { "PROJECT", "TARGET", "CALL COUNT", "START", "FINISH", "DURATION" };
         return strings;
     }
 
