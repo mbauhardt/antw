@@ -1,8 +1,11 @@
-package org;
+package asls.ant;
 
 import java.util.Date;
 
 import org.apache.tools.ant.BuildEvent;
+
+import asls.model.Projects;
+import asls.model.Target;
 
 public class StatisticLogger extends LoggerAdapter {
 

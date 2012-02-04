@@ -1,4 +1,4 @@
-package org;
+package asls.util;
 
 public class TimeUtil {
 

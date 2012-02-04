@@ -1,4 +1,4 @@
-package org;
+package asls.model;
 
 import java.util.HashMap;
 import java.util.Map;

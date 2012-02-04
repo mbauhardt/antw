@@ -1,6 +1,8 @@
-package org;
+package asls.model;
 
 import java.util.Date;
+
+import asls.util.TimeUtil;
 
 public class Target extends Name {
 

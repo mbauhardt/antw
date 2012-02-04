@@ -1,4 +1,4 @@
-package org;
+package asls.model;
 
 public class Counter {
 
