@@ -1,0 +1,15 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+ 
+sourceCompatibility = 1.6
+targetCompatibility = 1.6 
+
+version='0.1-dev'
+
+repositories { 
+	flatDir name: 'localRepository', dirs: 'lib'
+}
+
+dependencies { 
+	compile group: 'apache-ant', name: 'ant', version: '1.8.2'
+}
