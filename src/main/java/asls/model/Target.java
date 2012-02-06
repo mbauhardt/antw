@@ -2,13 +2,12 @@ package asls.model;
 
 import java.util.Date;
 
-import asls.util.TimeUtil;
-
 public class Target extends Name {
 
     private Date _start;
     private Date _finish;
     private Project _project;
+    private int _durationInPercent;
 
     public Target() {
     }
@@ -31,31 +30,42 @@ public class Target extends Name {
         return _finish;
     }
 
-    public String logFormat() {
-        return "%-25s %-40s %-15d %-15tT %-15tT %-15s%n";
-    }
-
-    public Object[] logParameter() {
-        Object[] strings = new Object[] { getProject().getName(), getName(), getCounter(), getStart(), getFinish(),
-                TimeUtil.formatTimeDuration(getFinish().getTime() - getStart().getTime()) };
-        return strings;
-    }
-
-    public String logDescriptionFormat() {
-        return "%-25s %-40s %-15s %-15s %-15s %-15s%n";
-    }
-
-    public Object[] logDescription() {
-        Object[] strings = new Object[] { "PROJECT", "TARGET", "CALL COUNT", "START", "FINISH", "DURATION" };
-        return strings;
-    }
-
     public void setProject(Project project) {
         _project = project;
     }
 
     public Project getProject() {
         return _project;
+    }
+
+    public Target computeRelativeBuildTime(long duration) {
+        _durationInPercent = (int) ((_finish.getTime() - _start.getTime()) * 100 / duration);
+        return this;
+    }
+
+    public Integer getDurationInPercent() {
+        return _durationInPercent;
+    }
+
+    public Long getDuration() {
+        return _finish.getTime() - _start.getTime();
+    }
+
+    @Override
+    public boolean equals(Object arg0) {
+        Target other = (Target) arg0;
+        if (!this.getProject().equals(other.getProject())) {
+            return false;
+        }
+        if (!this.getName().equals(other.getName())) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return getProject().hashCode() + getName().hashCode();
     }
 
 }

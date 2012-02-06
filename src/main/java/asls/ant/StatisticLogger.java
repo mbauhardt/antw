@@ -1,5 +1,6 @@
 package asls.ant;
 
+import java.util.Collection;
 import java.util.Date;
 
 import org.apache.tools.ant.BuildEvent;
@@ -15,9 +16,19 @@ public class StatisticLogger extends LoggerAdapter {
     private String _lastStartedProject;
     private Date _start;
     private Date _finish;
+    private Table _table = new DurationTable();
 
     public void buildFinished(BuildEvent event) {
         _finish = new Date();
+        Collection<Target> targets = _projects.computeRelativeBuildTime(_finish.getTime() - _start.getTime());
+        for (Target target : targets) {
+            if (target.getDurationInPercent() <= 3) {
+                continue;
+            }
+            out(target.getProject().getName() + "." + target.getName() + ":"
+                    + TimeUtil.formatTimeDuration(target.getDuration()) + "(" + target.getDurationInPercent() + "%)");
+        }
+        out("");
         if (event.getException() != null) {
             err(event.getException());
             out("BUILD FAILED");
@@ -41,9 +52,9 @@ public class StatisticLogger extends LoggerAdapter {
         String projectName = event.getProject().getName();
         String targetName = event.getTarget().getName();
         Target target = _projects.get(projectName).getTarget(targetName).addFinishTime(new Date());
-        out(target.logFormat(), target.logParameter());
+        _table.record(this, target);
         if (!_subProjectBuilding) {
-            out("");
+            newLine(2);
         }
     }
 
@@ -51,14 +62,13 @@ public class StatisticLogger extends LoggerAdapter {
     public void targetStarted(BuildEvent event) {
         String projectName = event.getProject().getName();
         if (!projectName.equals(_lastStartedProject)) {
-            out("");
+            newLine();
         }
         _lastStartedProject = projectName;
         String targetName = event.getTarget().getName();
         _projects.get(projectName).getTarget(targetName).addStartTime(new Date()).increment();
         if (!_subProjectBuilding) {
-            out(_projects.get(projectName).getTarget(targetName).logDescriptionFormat(), _projects.get(projectName)
-                    .getTarget(targetName).logDescription());
+            _table.header(this);
         }
     }
 

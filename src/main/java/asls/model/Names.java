@@ -1,5 +1,6 @@
 package asls.model;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,5 +25,9 @@ public class Names<T extends Name> {
             _names.put(name, t);
         }
         return _names.get(name);
+    }
+
+    public Collection<T> values() {
+        return _names.values();
     }
 }
