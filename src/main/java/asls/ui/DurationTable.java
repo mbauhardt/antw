@@ -15,16 +15,6 @@ public class DurationTable extends Table {
     private Project _lastProject;
 
     @Override
-    public void logHeader(Printer printer) {
-        printer.out(HEADER_FORMAT, new Object[] { "PROJECT", "TARGET", "CALL COUNT", "START", "FINISH", "DURATION" });
-        String line = "";
-        for (int i = 0; i < 125; i++) {
-            line += "-";
-        }
-        printer.out(line);
-    }
-
-    @Override
     public void logBuildFinished(Printer printer, Projects projects) {
         Collection<Target> targets = projects.computeRelativeBuildTime(projects.getEnd().getTime()
                 - projects.getStart().getTime());
@@ -60,6 +50,15 @@ public class DurationTable extends Table {
         if (!target.getProject().isSubProject()) {
             printer.newLine(2);
         }
+    }
+
+    private void logHeader(Printer printer) {
+        printer.out(HEADER_FORMAT, new Object[] { "PROJECT", "TARGET", "CALL COUNT", "START", "FINISH", "DURATION" });
+        String line = "";
+        for (int i = 0; i < 125; i++) {
+            line += "-";
+        }
+        printer.out(line);
     }
 
 }
