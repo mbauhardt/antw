@@ -6,6 +6,8 @@ import org.apache.tools.ant.BuildEvent;
 
 import asls.model.Projects;
 import asls.model.Target;
+import asls.ui.DurationTable;
+import asls.ui.Table;
 
 public class StatisticLogger extends LoggerAdapter {
 

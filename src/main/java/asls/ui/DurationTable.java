@@ -1,7 +1,8 @@
-package asls.ant;
+package asls.ui;
 
 import java.util.Collection;
 
+import asls.ant.Printer;
 import asls.model.Project;
 import asls.model.Projects;
 import asls.model.Target;
