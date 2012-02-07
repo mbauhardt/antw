@@ -1,7 +1,5 @@
 package asls.ui;
 
-import java.util.Collection;
-
 import asls.ant.Printer;
 import asls.model.Project;
 import asls.model.Projects;
@@ -16,17 +14,6 @@ public class DurationTable extends Table {
 
     @Override
     public void logBuildFinished(Printer printer, Projects projects) {
-        Collection<Target> targets = projects.computeRelativeBuildTime(projects.getEnd().getTime()
-                - projects.getStart().getTime());
-        for (Target target : targets) {
-            if (target.getDurationInPercent() <= 3) {
-                continue;
-            }
-            printer.out(target.getProject().getName() + "." + target.getName() + ":"
-                    + TimeUtil.formatTimeDuration(target.getDuration()) + "(" + target.getDurationInPercent() + "%)");
-        }
-        printer.out("Total time: "
-                + TimeUtil.formatTimeDuration(projects.getEnd().getTime() - projects.getStart().getTime()));
     }
 
     @Override
