@@ -53,6 +53,9 @@ public class Target extends Name {
 
     @Override
     public boolean equals(Object arg0) {
+        if (arg0 == null) {
+            return false;
+        }
         Target other = (Target) arg0;
         if (!this.getProject().equals(other.getProject())) {
             return false;

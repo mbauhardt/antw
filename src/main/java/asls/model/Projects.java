@@ -2,10 +2,14 @@ package asls.model;
 
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.Set;
 import java.util.TreeSet;
 
 public class Projects extends Names<Project> {
+
+    private Date _start;
+    private Date _end;
 
     public Projects() {
         super(Project.class);
@@ -29,6 +33,22 @@ public class Projects extends Names<Project> {
                 return compareTo != 0 ? compareTo : -1;
             }
         };
+    }
+
+    public void setEnd(Date date) {
+        _end = date;
+    }
+
+    public Date getEnd() {
+        return _end;
+    }
+
+    public void setStart(Date date) {
+        _start = date;
+    }
+
+    public Date getStart() {
+        return _start;
     }
 
 }

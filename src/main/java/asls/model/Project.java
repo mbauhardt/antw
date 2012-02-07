@@ -4,6 +4,7 @@ import java.util.Collection;
 
 public class Project extends Name {
 
+    private boolean _subProject;
     private Targets _targets = new Targets();
 
     public Project() {
@@ -19,6 +20,15 @@ public class Project extends Name {
         return _targets.computeRelativeBuildTime(duration);
     }
 
+    public Project setSubProject(boolean subProject) {
+        _subProject = subProject;
+        return this;
+    }
+
+    public boolean isSubProject() {
+        return _subProject;
+    }
+
     @Override
     public int hashCode() {
         return getName().hashCode();
@@ -26,6 +36,9 @@ public class Project extends Name {
 
     @Override
     public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
         Project other = (Project) obj;
         return this.getName().equals(other.getName());
     }
