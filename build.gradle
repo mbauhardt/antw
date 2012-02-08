@@ -6,10 +6,62 @@ targetCompatibility = 1.6
 
 version='0.1-dev'
 
-repositories { 
-	flatDir name: 'localRepository', dirs: 'lib'
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.0-milestone-7'
 }
+
 
 dependencies { 
 	compile group: 'apache-ant', name: 'ant', version: '1.8.2'
+}
+
+artifactName = project.name + '-' + project.version
+installDirectory = new File(ant.properties['user.home']+'/.'+project.name+'/'+project.version)
+antDirectory = new File(installDirectory, 'apache-ant-1.8.2')
+
+repositories { 
+	flatDir name: 'localRepository', dirs: 'lib'
+	flatDir name: 'uploadLib', dirs: new File(installDirectory, 'lib')
+	flatDir name: 'uploadBin', dirs: new File(installDirectory, 'bin')
+}
+
+task downloadAnt << { 
+	if(!antDirectory.exists()){
+		installDirectory.mkdirs();
+		ant.get(src: 'http://www.apache.org/dist/ant/binaries/apache-ant-1.8.2-bin.zip', dest:new File(installDirectory, 'ant.zip'), verbose:true)
+		ant.unzip(src:new File(installDirectory, 'ant.zip'), dest:installDirectory)
+		new File(installDirectory, 'ant.zip').delete()
+	}
+}
+ 
+task generateScript {
+	String line = antDirectory.absolutePath+'/bin/ant' + ' -lib ' + new File(installDirectory, 'lib/'+artifactName+'.jar').absolutePath + ' -logger asls.ant.StatisticLogger $@'
+	destFile = file(project.buildDir.absolutePath+'/'+project.name+'.sh')
+	destFile.write(line)
+}
+
+
+configurations { 
+	scripts
+	libs
+} 
+
+artifacts { 
+	scripts file: generateScript.destFile
+    libs jar 
+} 
+
+uploadScripts {
+ 	repositories {
+    	add project.repositories.uploadBin
+    } 
+}
+
+uploadLibs {
+ 	repositories {
+    	add project.repositories.uploadLib
+    } 
+}
+
+task installProject(dependsOn: [downloadAnt, uploadLibs, uploadScripts]) {
 }
