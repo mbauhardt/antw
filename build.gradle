@@ -5,57 +5,83 @@ sourceCompatibility = 1.6
 targetCompatibility = 1.6 
 
 version='0.1-dev'
+artifactName = project.name + '-' + project.version
+installDirectory = new File(ant.properties['user.home']+'/.'+project.name)
+currentInstallDirectory = new File(installDirectory, 'versions/'+project.version)
+binDirectory = new File(installDirectory, 'bin')
+contribDirectory = new File(installDirectory, 'contrib')
+antDirectory = new File(contribDirectory, 'apache-ant-1.8.2')
 
 task wrapper(type: Wrapper) {
     gradleVersion = '1.0-milestone-7'
 }
 
-
 dependencies { 
 	compile group: 'apache-ant', name: 'ant', version: '1.8.2'
 }
 
-artifactName = project.name + '-' + project.version
-installDirectory = new File(ant.properties['user.home']+'/.'+project.name+'/'+project.version)
-antDirectory = new File(installDirectory, 'apache-ant-1.8.2')
 
 repositories { 
 	flatDir name: 'localRepository', dirs: 'lib'
-	flatDir name: 'uploadLib', dirs: new File(installDirectory, 'lib')
-	flatDir name: 'uploadBin', dirs: new File(installDirectory, 'bin')
+	flatDir name: 'uploadLib', dirs: new File(currentInstallDirectory, 'lib')
+	flatDir name: 'uploadBin', dirs: new File(currentInstallDirectory, 'bin')
 }
 
 task downloadAnt << { 
 	if(!antDirectory.exists()){
-		installDirectory.mkdirs();
-		ant.get(src: 'http://www.apache.org/dist/ant/binaries/apache-ant-1.8.2-bin.zip', dest:new File(installDirectory, 'ant.zip'), verbose:true)
-		ant.unzip(src:new File(installDirectory, 'ant.zip'), dest:installDirectory)
-		new File(installDirectory, 'ant.zip').delete()
+		contribDirectory.mkdirs();
+		ant.get(src: 'http://www.apache.org/dist/ant/binaries/apache-ant-1.8.2-bin.zip', dest:new File(contribDirectory, 'ant.zip'), verbose:true)
+		ant.unzip(src:new File(contribDirectory, 'ant.zip'), dest:contribDirectory)
+		new File(contribDirectory, 'ant.zip').delete()
 	}
 }
- 
-task generateScript {
-	String line = antDirectory.absolutePath+'/bin/ant' + ' -lib ' + new File(installDirectory, 'lib/'+artifactName+'.jar').absolutePath + ' -logger asls.ant.StatisticLogger $@'
-	destFile = file(project.buildDir.absolutePath+'/'+project.name+'.sh')
-	destFile.write(line)
-}
 
+downloadAnt << {
+	ant.chmod(dir: antDirectory.absolutePath+'/bin', perm: 'u+x', includes: '*')
+}
+ 
 
 configurations { 
 	scripts
 	libs
 } 
 
+def script = file(project.buildDir.absolutePath+'/'+project.name+'.sh');
+
 artifacts { 
-	scripts file: generateScript.destFile
+	scripts script
     libs jar 
 } 
+
+uploadScripts.doFirst {
+	project.buildDir.mkdirs()
+	script.append('echo \'\'')
+	script.append('\n')
+	script.append('echo \'Welcome to ' + project.name + ' version ' + project.version + '\'')
+	script.append('\n')
+	script.append('echo \'\'')
+	script.append('\n')
+	script.append(project.antDirectory.absolutePath+'/bin/ant' + ' -lib ' + new File(project.currentInstallDirectory, 'lib/'+project.artifactName+'.jar').absolutePath + ' -logger asls.ant.StatisticLogger $@')
+}
 
 uploadScripts {
  	repositories {
     	add project.repositories.uploadBin
     } 
 }
+
+uploadScripts << {
+	binDirectory.mkdirs()
+	symlink = new File(binDirectory, project.name)
+	symlink.delete();
+	ant.symlink(link: symlink, resource:currentInstallDirectory.absolutePath+'/bin/'+artifactName+'.sh')
+}
+
+uploadScripts << {
+	ant.chmod(dir: binDirectory, perm: 'u+x', includes: '*')
+	ant.chmod(dir: currentInstallDirectory.absolutePath+'/bin', perm: 'u+x', includes: '*')
+}
+
 
 uploadLibs {
  	repositories {
@@ -64,4 +90,15 @@ uploadLibs {
 }
 
 task installProject(dependsOn: [downloadAnt, uploadLibs, uploadScripts]) {
+}
+
+installProject << {
+	println ''
+	println ''
+	println 'Install Successful. Please add the folder ['+binDirectory+'] to your path'
+	println 'e.g. add the following line to your ~/.bash_profile'
+	println ''
+	println 'export PATH=$PATH:'+binDirectory
+	println ''
+	println ''
 }
