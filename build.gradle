@@ -5,8 +5,9 @@ sourceCompatibility = 1.6
 targetCompatibility = 1.6 
 
 version='0.1-dev'
+
 artifactName = project.name + '-' + project.version
-installDirectory = new File(ant.properties['user.home']+'/.'+project.name)
+installDirectory = new File(ant.properties['user.home']+'/.'+project.name+'/install')
 currentInstallDirectory = new File(installDirectory, 'versions/'+project.version)
 binDirectory = new File(installDirectory, 'bin')
 contribDirectory = new File(installDirectory, 'contrib')
