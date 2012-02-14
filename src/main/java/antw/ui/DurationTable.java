@@ -29,6 +29,9 @@ public class DurationTable extends Table {
 
     @Override
     public void logTargetFinished(Printer printer, Target target) {
+        if (!target.getProject().equals(_lastProject)) {
+            printer.newLine();
+        }
         printer.out(
                 TARGET_FORMAT,
                 new Object[] { target.getProject().getName(), target.getName(), target.getCounter(), target.getStart(),

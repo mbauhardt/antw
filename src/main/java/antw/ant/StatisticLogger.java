@@ -33,6 +33,7 @@ public class StatisticLogger extends LoggerAdapter {
     @Override
     public void buildStarted(BuildEvent event) {
         _projects.setStart(new Date());
+        newLine();
     }
 
     @Override
