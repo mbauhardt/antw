@@ -1,10 +1,10 @@
-package asls.ui;
+package antw.ui;
 
-import asls.ant.Printer;
-import asls.model.Project;
-import asls.model.Projects;
-import asls.model.Target;
-import asls.util.TimeUtil;
+import antw.ant.Printer;
+import antw.model.Project;
+import antw.model.Projects;
+import antw.model.Target;
+import antw.util.TimeUtil;
 
 public class DurationTable extends Table {
 

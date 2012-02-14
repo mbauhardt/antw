@@ -1,8 +1,8 @@
-package asls.ui;
+package antw.ui;
 
-import asls.ant.Printer;
-import asls.model.Projects;
-import asls.model.Target;
+import antw.ant.Printer;
+import antw.model.Projects;
+import antw.model.Target;
 
 public abstract class Table {
 

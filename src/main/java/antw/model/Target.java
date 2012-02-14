@@ -1,4 +1,4 @@
-package asls.model;
+package antw.model;
 
 import java.util.Date;
 

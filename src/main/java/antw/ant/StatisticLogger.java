@@ -1,14 +1,14 @@
-package asls.ant;
+package antw.ant;
 
 import java.util.Date;
 
 import org.apache.tools.ant.BuildEvent;
 
-import asls.model.Projects;
-import asls.model.Target;
-import asls.ui.DurationTable;
-import asls.ui.SummaryTable;
-import asls.ui.Table;
+import antw.model.Projects;
+import antw.model.Target;
+import antw.ui.DurationTable;
+import antw.ui.SummaryTable;
+import antw.ui.Table;
 
 public class StatisticLogger extends LoggerAdapter {
 

@@ -1,11 +1,11 @@
-package asls.ui;
+package antw.ui;
 
 import java.util.Collection;
 
-import asls.ant.Printer;
-import asls.model.Projects;
-import asls.model.Target;
-import asls.util.TimeUtil;
+import antw.ant.Printer;
+import antw.model.Projects;
+import antw.model.Target;
+import antw.util.TimeUtil;
 
 public class SummaryTable extends Table {
 
@@ -14,7 +14,6 @@ public class SummaryTable extends Table {
 
     @Override
     public void logTargetStartet(Printer printer, Target target) {
-
     }
 
     @Override
@@ -52,4 +51,5 @@ public class SummaryTable extends Table {
         }
         printer.out(line);
     }
+
 }
