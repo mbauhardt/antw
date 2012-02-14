@@ -62,7 +62,7 @@ uploadScripts.doFirst {
 	project.buildDir.mkdirs()
 	script.write('echo \'\'')
 	script.append('\n')
-	script.append('echo \'Welcome to antw, version: ' + project.version + ', revision ' + antwRevision + '\'')
+	script.append('echo \'Welcome to antw, version: ' + project.version + ', revision: ' + antwRevision + '\'')
 	script.append('\n')
 	script.append('echo \''+antwUrl+ '\'')
 	script.append('\n')
