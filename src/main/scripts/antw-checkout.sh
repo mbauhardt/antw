@@ -9,7 +9,7 @@ then
   exit
 fi
 
-echo "\033[0;34mCloning antw...\033[0m"
+echo "Cloning antw..."
 git clone ${url} ${sourceDir}
 pushd ${sourceDir} >/dev/null
 git checkout --track -b ${releaseBranch} origin/${releaseBranch}

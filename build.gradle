@@ -4,6 +4,7 @@ apply plugin: 'eclipse'
 sourceCompatibility = 1.6
 targetCompatibility = 1.6 
 
+antwUrl='https://github.com/mbauhardt/antw'
 version='0.1-dev'
 
 artifactName = project.name + '-' + project.version
@@ -54,15 +55,29 @@ artifacts {
     libs jar 
 } 
 
+
+antwRevision='n.a.'
+
 uploadScripts.doFirst {
 	project.buildDir.mkdirs()
 	script.write('echo \'\'')
 	script.append('\n')
-	script.append('echo \'Welcome to ' + project.name + ' version ' + project.version + '\'')
+	script.append('echo \'Welcome to antw, version: ' + project.version + ', revision ' + antwRevision + '\'')
+	script.append('\n')
+	script.append('echo \''+antwUrl+ '\'')
+	script.append('\n')
+	script.append('echo \'\'')
 	script.append('\n')
 	script.append('echo \'\'')
 	script.append('\n')
 	script.append(project.antDirectory.absolutePath+'/bin/ant' + ' -lib ' + new File(project.currentInstallDirectory, 'lib/'+project.artifactName+'.jar').absolutePath + ' -logger antw.ant.StatisticLogger $@')
+}
+
+uploadScripts.doFirst {
+	ant.exec(executable:'git', outputproperty:'antwRevision') {
+		arg(line:'log -1 --pretty=format:%H')
+	}
+	antwRevision=ant.antwRevision
 }
 
 uploadScripts {
