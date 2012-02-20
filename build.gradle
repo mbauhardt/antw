@@ -8,6 +8,7 @@ antwUrl='https://github.com/mbauhardt/antw'
 version='0.1-dev'
 
 artifactName = project.name + '-' + project.version
+artifactUpdateName = project.name + '-update-' + project.version
 installDirectory = new File(ant.properties['user.home']+'/.'+project.name+'/install')
 currentInstallDirectory = new File(installDirectory, 'versions/'+project.version)
 binDirectory = new File(installDirectory, 'bin')
@@ -49,9 +50,10 @@ configurations {
 } 
 
 def script = file(project.buildDir.absolutePath+'/'+project.name+'.sh');
+def updateScript = file('src/main/scripts/antw-update.sh');
 
 artifacts { 
-	scripts script
+	scripts script,updateScript
     libs jar 
 } 
 
@@ -91,6 +93,12 @@ uploadScripts << {
 	symlink = new File(binDirectory, project.name)
 	symlink.delete();
 	ant.symlink(link: symlink, resource:currentInstallDirectory.absolutePath+'/bin/'+artifactName+'.sh')
+}
+
+uploadScripts << {
+	symlink = new File(binDirectory, project.name+'-update')
+	symlink.delete();
+	ant.symlink(link: symlink, resource:currentInstallDirectory.absolutePath+'/bin/'+artifactUpdateName+'.sh')
 }
 
 uploadScripts << {
