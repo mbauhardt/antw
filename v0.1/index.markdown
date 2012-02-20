@@ -1,5 +1,12 @@
 ---
-title: This will be used as the title-tag of the page head
+title: version 0.1
 ---
 
-# This is a H1
+*Install*  
+curl -L https://raw.github.com/mbauhardt/antw/latest/src/main/scripts/antw-checkout.sh | sh
+
+
+*Update*  
+antw-update
+
+*Usage*
