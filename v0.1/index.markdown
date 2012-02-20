@@ -1,7 +1,5 @@
-*Install*  
-curl -L https://raw.github.com/mbauhardt/antw/latest/src/main/scripts/antw-checkout.sh | sh
+---
+title: This will be used as the title-tag of the page head
+---
 
-*Update*  
-antw-update
-
-*Usage*
+# This is a H1
