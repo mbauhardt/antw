@@ -28,6 +28,7 @@ repositories {
 	flatDir name: 'localRepository', dirs: 'lib'
 	flatDir name: 'uploadLib', dirs: new File(currentInstallDirectory, 'lib')
 	flatDir name: 'uploadBin', dirs: new File(currentInstallDirectory, 'bin')
+	flatDir name: 'uploadMeta', dirs: new File(currentInstallDirectory, 'meta')
 }
 
 jar {
@@ -51,14 +52,17 @@ downloadAnt << {
 configurations { 
 	scripts
 	libs
+	metas
 } 
 
 def script = file(project.buildDir.absolutePath+'/'+project.name+'.sh');
 def updateScript = file('src/main/scripts/antw-update.sh');
+def license = file(project.buildDir.absolutePath+'/LICENSE.txt');
 
 artifacts { 
 	scripts script,updateScript
-    libs jar 
+    libs jar
+    metas license 
 } 
 
 
@@ -117,7 +121,23 @@ uploadLibs {
     } 
 }
 
-task installProject(dependsOn: [downloadAnt, uploadLibs, uploadScripts]) {
+uploadMetas.doFirst {
+	ant.copy(file:'LICENSE', toFile:project.buildDir.absolutePath+'/LICENSE.txt')
+}
+
+uploadMetas {
+ 	repositories {
+    	add project.repositories.uploadMeta
+    } 
+}
+
+uploadMetas << {
+	symlink = new File(installDirectory, 'LICENSE')
+	symlink.delete();
+	ant.symlink(link: symlink, resource:currentInstallDirectory.absolutePath+'/meta/LICENSE-'+project.version+'.txt')
+}
+
+task installProject(dependsOn: [downloadAnt, uploadLibs, uploadScripts, uploadMetas]) {
 }
 
 installProject << {
