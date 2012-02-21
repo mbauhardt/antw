@@ -24,15 +24,16 @@ After installation add the bin folder to your PATH
 
 
 
-## Usage
-There are two commands to use *antw*. 
-
-    antw - executes apache ant with some special loggers
-    antw-update - update your antw installation
-
-
 ## Desinstallation
 Remove the directory *.antw*
 
     rm -rf ~/.antw
+
+
+
+## Usage
+There are two commands to use *antw*.
+
+    antw - executes apache ant with some special loggers
+    antw-update - update your antw installation
 
