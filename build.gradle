@@ -5,7 +5,7 @@ sourceCompatibility = 1.6
 targetCompatibility = 1.6 
 
 antwUrl='https://github.com/mbauhardt/antw'
-version='0.1-dev'
+version='0.1'
 
 artifactName = project.name + '-' + project.version
 artifactUpdateName = project.name + '-update-' + project.version

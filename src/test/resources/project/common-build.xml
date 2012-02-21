@@ -1,0 +1,18 @@
+<project name="common-build">
+
+	<target name="clean">
+		<echo>clean...</echo>
+		<sleep seconds="2" />
+	</target>
+
+	<target name="compile" depends="clean">
+		<echo>compile...</echo>
+		<sleep seconds="6" />
+	</target>
+
+	<target name="jar" depends="compile">
+		<echo>building jar...</echo>
+		<sleep seconds="4" />
+	</target>
+
+</project>
