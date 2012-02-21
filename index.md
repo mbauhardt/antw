@@ -13,4 +13,4 @@ Antw is a wrapper for apache ant. Antw will download and install ant and will us
 [Current](/antw/0.1/) contains documentation how to install, update and use antw.
 
 ### News
-[Version 0.1](/antw/0.1/) is released
+2012-02-21 [Version 0.1](/antw/0.1/) is released
