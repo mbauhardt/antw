@@ -39,6 +39,7 @@ There are two commands to use *antw*.
 
 
 ## Example
+For example you have a multiproject that has a root project with a core module and two separatly modules.
 
     project
         build.xml
@@ -50,4 +51,6 @@ There are two commands to use *antw*.
             module_2
                 build.xml
 
+You have a *target* jar that depends on compile and that depends on clean. you see the following logging
 
+[Build Log](antw_usage.png)
