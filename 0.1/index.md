@@ -37,3 +37,17 @@ There are two commands to use *antw*.
     antw - executes apache ant with some special loggers
     antw-update - update your antw installation
 
+
+## Example
+
+    project
+        build.xml
+        core
+            build.xml
+        modules
+            module_1
+                build.xml
+            module_2
+                build.xml
+
+
