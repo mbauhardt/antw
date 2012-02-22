@@ -1,53 +1,96 @@
 package antw.ant;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.tools.ant.BuildEvent;
+import org.apache.tools.ant.util.FileUtils;
 
 import antw.model.Projects;
 import antw.model.Target;
 import antw.ui.DurationTable;
 import antw.ui.SummaryTable;
 import antw.ui.Table;
+import antw.ui.TreeTable;
 
 public class StatisticLogger extends LoggerAdapter {
 
     private Projects _projects = new Projects();
+    private Table _defaultTable = new TreeTable();
     private Table[] _tables = new Table[] { new DurationTable(), new SummaryTable() };
-
-    public void buildFinished(BuildEvent event) {
-        _projects.setEnd(new Date());
-        for (int i = 0; i < _tables.length; i++) {
-            _tables[i].logBuildFinished(this, _projects);
-        }
-        newLine(3);
-        if (event.getException() != null) {
-            err(event.getException());
-            out("BUILD FAILED :(");
-        } else {
-            out("BUILD SUCCESSFUL :)");
-        }
-        newLine(2);
-    }
+    private Map<String, Printer> _printers = new HashMap<String, Printer>();
 
     @Override
     public void buildStarted(BuildEvent event) {
         _projects.setStart(new Date());
         newLine();
+        File reportDir = createReportDir(event);
+        _printers.put(TreeTable.class.getName(), this);
+        _printers.put(DurationTable.class.getName(), getDurationPrinter(reportDir));
+        _printers.put(SummaryTable.class.getName(), getSummaryPrinter(reportDir));
     }
 
-    @Override
-    public void messageLogged(BuildEvent event) {
-    }
-
-    @Override
-    public void targetFinished(BuildEvent event) {
-        String projectName = event.getProject().getName();
-        String targetName = event.getTarget().getName();
-        Target target = _projects.get(projectName).getTarget(targetName).addFinishTime(new Date());
-        for (int i = 0; i < _tables.length; i++) {
-            _tables[i].logTargetFinished(this, target);
+    private Printer getDurationPrinter(File reportDir) {
+        try {
+            PrintStream printStream = new PrintStream(new FileOutputStream(new File(reportDir, "duration.txt"), true));
+            return new Printer().setOutputPrint(printStream).setErrorPrint(printStream);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
         }
+    }
+
+    private Printer getSummaryPrinter(File reportDir) {
+        try {
+            return new Printer().setOutputPrint(new PrintStream(new File(reportDir, "summary.txt")));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private File createReportDir(BuildEvent event) {
+        File file = new File(event.getProject().getBaseDir(), ".antw");
+        file.mkdirs();
+        return file;
+    }
+
+    public void buildFinished(BuildEvent event) {
+        _projects.setEnd(new Date());
+
+        _defaultTable.logBuildFinished(this, _projects);
+        for (int i = 0; i < _tables.length; i++) {
+            _tables[i].logBuildFinished(_printers.get(_tables[i].getClass().getName()), _projects);
+        }
+
+        if (event.getException() != null) {
+            newLine(3);
+            err(event.getException());
+            newLine(3);
+            out("BUILD FAILED :(");
+        } else {
+            newLine(3);
+            out("BUILD SUCCESSFUL :)");
+        }
+        newLine(2);
+
+        File antwFolder = new File(event.getProject().getBaseDir(), "build/antw");
+        antwFolder.mkdirs();
+        File reportDir = createReportDir(event);
+        File[] files = reportDir.listFiles();
+        FileUtils fileUtils = FileUtils.getFileUtils();
+        for (File file : files) {
+            try {
+                fileUtils.copyFile(file, new File(antwFolder, file.getName()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     @Override
@@ -55,8 +98,23 @@ public class StatisticLogger extends LoggerAdapter {
         String projectName = event.getProject().getName();
         String targetName = event.getTarget().getName();
         _projects.get(projectName).getTarget(targetName).addStartTime(new Date()).increment();
+
+        _defaultTable.logTargetStartet(this, _projects.get(projectName).getTarget(targetName));
         for (int i = 0; i < _tables.length; i++) {
-            _tables[i].logTargetStartet(this, _projects.get(projectName).getTarget(targetName));
+            _tables[i].logTargetStartet(_printers.get(_tables[i].getClass().getName()), _projects.get(projectName)
+                    .getTarget(targetName));
+        }
+    }
+
+    @Override
+    public void targetFinished(BuildEvent event) {
+        String projectName = event.getProject().getName();
+        String targetName = event.getTarget().getName();
+        Target target = _projects.get(projectName).getTarget(targetName).addFinishTime(new Date());
+
+        _defaultTable.logTargetFinished(this, target);
+        for (int i = 0; i < _tables.length; i++) {
+            _tables[i].logTargetFinished(_printers.get(_tables[i].getClass().getName()), target);
         }
     }
 

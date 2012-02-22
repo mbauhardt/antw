@@ -7,12 +7,14 @@ public class Printer {
     private PrintStream _out;
     private PrintStream _err;
 
-    public void setOutputPrint(PrintStream output) {
+    public Printer setOutputPrint(PrintStream output) {
         _out = output;
+        return this;
     }
 
-    public void setErrorPrint(PrintStream err) {
+    public Printer setErrorPrint(PrintStream err) {
         _err = err;
+        return this;
     }
 
     public synchronized void out(String message) {
@@ -38,6 +40,16 @@ public class Printer {
     public synchronized void newLine(int lineCount) {
         for (int i = 0; i < lineCount; i++) {
             newLine();
+        }
+    }
+
+    public void tab() {
+        _out.append("\t");
+    }
+
+    public void space(int i) {
+        for (int j = 0; j < i; j++) {
+            _out.append(' ');
         }
     }
 }
