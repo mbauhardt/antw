@@ -144,7 +144,6 @@ public class StatisticLogger extends LoggerAdapter {
 
     @Override
     public void subBuildFinished(BuildEvent event) {
-        _projects.get(event.getProject().getName()).setSubProject(false);
     }
 
 }

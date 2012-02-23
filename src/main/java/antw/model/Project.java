@@ -10,6 +10,10 @@ public class Project extends Name {
     public Project() {
     }
 
+    public Project(String name) {
+        super(name);
+    }
+
     public Target getTarget(String name) {
         Target target = _targets.get(name);
         target.setProject(this);
