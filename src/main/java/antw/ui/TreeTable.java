@@ -1,14 +1,18 @@
 package antw.ui;
 
+import java.util.Date;
+
 import antw.ant.Printer;
 import antw.model.Project;
 import antw.model.Projects;
 import antw.model.Target;
+import antw.util.TimeUtil;
 
 public class TreeTable extends Table {
 
     private Project _lastProject = new Project("root");
     private int _spaceCount = 2;
+    private Date _start;
 
     @Override
     public void logTargetStartet(Printer printer, Target target) {
@@ -19,7 +23,12 @@ public class TreeTable extends Table {
         }
         _lastProject = target.getProject();
         printer.space(_spaceCount + 2);
-        printer.out("|--- " + target.getName());
+        printer.out(
+                "%-40s %-40s%n",
+                new Object[] {
+                        "|--- " + target.getName(),
+                        "[" + target.getCounter() + " times; "
+                                + TimeUtil.formatTimeDuration(System.currentTimeMillis() - _start.getTime()) + "]" });
     }
 
     private void printProject(Printer printer, Project project) {
@@ -62,7 +71,7 @@ public class TreeTable extends Table {
 
     @Override
     public void logBuildStarted(Printer printer, Projects projects) {
-
+        _start = new Date();
     }
 
 }
