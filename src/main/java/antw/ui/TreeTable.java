@@ -12,7 +12,8 @@ public class TreeTable extends Table {
     @Override
     public void logTargetStartet(Printer printer, Target target) {
         if (!target.getProject().equals(_lastProject)) {
-            printer.newLine();
+            printer.space(2);
+            printer.out("|");
             printer.out(target.getProject().getName());
         }
         _lastProject = target.getProject();
@@ -27,6 +28,11 @@ public class TreeTable extends Table {
 
     @Override
     public void logBuildFinished(Printer printer, Projects projects) {
+
+    }
+
+    @Override
+    public void logBuildStarted(Printer printer, Projects projects) {
 
     }
 

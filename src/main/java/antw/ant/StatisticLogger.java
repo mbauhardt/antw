@@ -15,6 +15,7 @@ import org.apache.tools.ant.util.FileUtils;
 import antw.model.Projects;
 import antw.model.Target;
 import antw.ui.DurationTable;
+import antw.ui.PlainDurationTable;
 import antw.ui.SummaryTable;
 import antw.ui.Table;
 import antw.ui.TreeTable;
@@ -23,7 +24,7 @@ public class StatisticLogger extends LoggerAdapter {
 
     private Projects _projects = new Projects();
     private Table _defaultTable = new TreeTable();
-    private Table[] _tables = new Table[] { new DurationTable(), new SummaryTable() };
+    private Table[] _tables = new Table[] { new DurationTable(), new SummaryTable(), new PlainDurationTable() };
     private Map<String, Printer> _printers = new HashMap<String, Printer>();
 
     @Override
@@ -34,11 +35,29 @@ public class StatisticLogger extends LoggerAdapter {
         _printers.put(TreeTable.class.getName(), this);
         _printers.put(DurationTable.class.getName(), getDurationPrinter(reportDir));
         _printers.put(SummaryTable.class.getName(), getSummaryPrinter(reportDir));
+        _printers.put(PlainDurationTable.class.getName(), getPlainDurationPrinter(reportDir));
+
+        _defaultTable.logBuildStarted(this, _projects);
+        for (int i = 0; i < _tables.length; i++) {
+            _tables[i].logBuildStarted(_printers.get(_tables[i].getClass().getName()), _projects);
+        }
+
+    }
+
+    private Printer getPlainDurationPrinter(File reportDir) {
+        try {
+            PrintStream printStream = new PrintStream(new FileOutputStream(new File(reportDir, "target-duration.tsv"),
+                    true));
+            return new Printer().setOutputPrint(printStream).setErrorPrint(printStream);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private Printer getDurationPrinter(File reportDir) {
         try {
-            PrintStream printStream = new PrintStream(new FileOutputStream(new File(reportDir, "duration.txt"), true));
+            PrintStream printStream = new PrintStream(new FileOutputStream(new File(reportDir, "target-duration.txt"),
+                    true));
             return new Printer().setOutputPrint(printStream).setErrorPrint(printStream);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
@@ -47,7 +66,7 @@ public class StatisticLogger extends LoggerAdapter {
 
     private Printer getSummaryPrinter(File reportDir) {
         try {
-            return new Printer().setOutputPrint(new PrintStream(new File(reportDir, "summary.txt")));
+            return new Printer().setOutputPrint(new PrintStream(new File(reportDir, "target-summary.txt")));
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -85,12 +104,12 @@ public class StatisticLogger extends LoggerAdapter {
         FileUtils fileUtils = FileUtils.getFileUtils();
         for (File file : files) {
             try {
-                fileUtils.copyFile(file, new File(antwFolder, file.getName()));
+                fileUtils.rename(file, new File(antwFolder, file.getName()));
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
         }
-
+        FileUtils.delete(reportDir);
     }
 
     @Override

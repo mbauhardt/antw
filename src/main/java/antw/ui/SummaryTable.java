@@ -52,4 +52,9 @@ public class SummaryTable extends Table {
         printer.out(line);
     }
 
+    @Override
+    public void logBuildStarted(Printer printer, Projects projects) {
+
+    }
+
 }

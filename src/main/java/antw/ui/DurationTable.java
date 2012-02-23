@@ -51,4 +51,10 @@ public class DurationTable extends Table {
         printer.out(line);
     }
 
+    @Override
+    public void logBuildStarted(Printer printer, Projects projects) {
+        // TODO Auto-generated method stub
+
+    }
+
 }
