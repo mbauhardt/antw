@@ -1,12 +1,12 @@
 package antw.model;
 
-public class Tests extends Names<Test> {
+public class Tests extends Names<TestCase> {
 
     public Tests() {
-        super(Test.class);
+        super(TestCase.class);
     }
 
-    public Test getTest(String name) {
+    public TestCase getTest(String name) {
         return get(name);
     }
 

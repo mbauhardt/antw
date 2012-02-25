@@ -5,7 +5,14 @@ import java.util.concurrent.TimeUnit;
 
 import antw.util.TimeUtil;
 
-public class Test extends Name {
+public class TestCase extends Name {
+
+    private static long _oneSecond = TimeUnit.SECONDS.toMillis(1);
+    private static long _tenSeconds = TimeUnit.SECONDS.toMillis(10);
+    private static long _oneMinute = TimeUnit.MINUTES.toMillis(1);
+    private static long _threeMinutes = TimeUnit.MINUTES.toMillis(3);
+    private static long _sevenMinutes = TimeUnit.MINUTES.toMillis(7);
+    private static long _manyDays = TimeUnit.DAYS.toMillis(Integer.MAX_VALUE);
 
     public static enum Status {
         ERROR, FAILURE, PASSED
@@ -13,9 +20,8 @@ public class Test extends Name {
 
     public static enum Category {
 
-        FLASH(TimeUnit.MILLISECONDS.toMillis(500)), SHORT(FLASH, TimeUnit.MINUTES.toMillis(1)), MEDIUM(SHORT,
-                TimeUnit.MINUTES.toMillis(3)), LONG(MEDIUM, TimeUnit.MINUTES.toMillis(7)), UUH(LONG, TimeUnit.DAYS
-                .toMillis(Integer.MAX_VALUE));
+        FLASH(_oneSecond), VERY_SHORT(FLASH, _tenSeconds), SHORT(VERY_SHORT, _oneMinute), MEDIUM(SHORT, _threeMinutes), LONG(
+                MEDIUM, _sevenMinutes), UUH(LONG, _manyDays);
 
         private long _ms;
         private Category _prev;
@@ -50,11 +56,12 @@ public class Test extends Name {
     }
 
     private Status _status = Status.PASSED;
-    private String _message;
+    private String _message = "";
     private Date _start;
     private Date _end;
+    private TestSuite _testSuite;
 
-    public Test setStatus(Status status) {
+    public TestCase setStatus(Status status) {
         _status = status;
         return this;
     }
@@ -71,7 +78,7 @@ public class Test extends Name {
         return _message;
     }
 
-    public Test setStartTime(Date date) {
+    public TestCase setStartTime(Date date) {
         _start = date;
         return this;
     }
@@ -80,7 +87,7 @@ public class Test extends Name {
         return _start;
     }
 
-    public Test setFinishTime(Date date) {
+    public TestCase setFinishTime(Date date) {
         _end = date;
         return this;
     }
@@ -96,5 +103,18 @@ public class Test extends Name {
     public Category getCategory() {
         long ms = _end.getTime() - _start.getTime();
         return Category.get(ms);
+    }
+
+    public TestCase setTestSuite(TestSuite testSuite) {
+        _testSuite = testSuite;
+        return this;
+    }
+
+    public TestSuite getTestSuite() {
+        return _testSuite;
+    }
+
+    public boolean failed() {
+        return _status == Status.ERROR || _status == Status.FAILURE;
     }
 }
