@@ -20,7 +20,7 @@ public class TestCase extends Name {
 
     public static enum Category {
 
-        FLASH(_oneSecond), VERY_SHORT(FLASH, _tenSeconds), SHORT(VERY_SHORT, _oneMinute), MEDIUM(SHORT, _threeMinutes), LONG(
+        FLASH(_oneSecond), FAST(FLASH, _tenSeconds), SHORT(FAST, _oneMinute), MEDIUM(SHORT, _threeMinutes), LONG(
                 MEDIUM, _sevenMinutes), UUH(LONG, _manyDays);
 
         private long _ms;
