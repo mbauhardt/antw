@@ -3,7 +3,6 @@ package antw.ui;
 import antw.ant.Printer;
 import antw.model.Projects;
 import antw.model.Target;
-import antw.util.TimeUtil;
 
 public class PlainDurationTable extends Table {
 
@@ -16,8 +15,7 @@ public class PlainDurationTable extends Table {
     @Override
     public void logTargetFinished(Printer printer, Target target) {
         printer.out(target.getProject().getName() + TAB + target.getName() + TAB + target.getCounter() + TAB
-                + target.getStart() + TAB + target.getFinish() + TAB
-                + TimeUtil.formatTimeDuration(target.getFinish().getTime() - target.getStart().getTime()));
+                + target.getStart() + TAB + target.getFinish() + TAB + target.getDuration());
     }
 
     @Override
@@ -26,7 +24,8 @@ public class PlainDurationTable extends Table {
 
     @Override
     public void logBuildStarted(Printer printer, Projects projects) {
-        printer.out("PROJECT" + TAB + "TARGET" + TAB + "CALL COUNT" + TAB + "START" + TAB + "FINISH" + TAB + "DURATION");
+        printer.out("PROJECT" + TAB + "TARGET" + TAB + "CALL COUNT" + TAB + "START" + TAB + "FINISH" + TAB
+                + "DURATION (ms)");
     }
 
 }

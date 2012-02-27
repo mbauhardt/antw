@@ -18,6 +18,7 @@ import antw.model.TestCase;
 import antw.model.TestCase.Status;
 import antw.model.TestSuite;
 import antw.model.TestSuites;
+import antw.ui.JunitPlainTable;
 import antw.ui.JunitStandardTable;
 import antw.ui.JunitTable;
 import antw.util.TestUtil;
@@ -30,7 +31,7 @@ public class JUnitFormatter extends Printer implements JUnitResultFormatter {
     private Printer _plainPrinter;
 
     public JUnitFormatter() {
-        File folder = new File("build/antw");
+        File folder = new File("build/antw/reports");
         folder.mkdirs();
         try {
             setOutputPrint(new PrintStream(new FileOutputStream(new File(folder, "junit.txt"), true)));

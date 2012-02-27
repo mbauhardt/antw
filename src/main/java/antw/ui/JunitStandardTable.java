@@ -25,8 +25,10 @@ public class JunitStandardTable extends JunitTable {
     @Override
     public void logTestCaseFinished(Printer printer, TestCase testCase) {
         printer.space(4);
-        printer.out("%-65s %-15s %-15s %-15s %-10s %n", new Object[] { testCase.getName(), testCase.getDuration(),
-                testCase.getCategory(), testCase.getStatus(), testCase.getMessage() });
+        printer.out(
+                "%-65s %-15s %-15s %-15s %-10s %n",
+                new Object[] { testCase.getName(), testCase.getDurationAsString(), testCase.getCategory(),
+                        testCase.getStatus(), testCase.getMessage() });
     }
 
 }

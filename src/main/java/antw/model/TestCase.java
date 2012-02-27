@@ -96,8 +96,12 @@ public class TestCase extends Name {
         return _end;
     }
 
-    public String getDuration() {
-        return TimeUtil.formatTimeDuration(_end.getTime() - _start.getTime());
+    public Long getDuration() {
+        return _end.getTime() - _start.getTime();
+    }
+
+    public String getDurationAsString() {
+        return TimeUtil.formatTimeDuration(getDuration());
     }
 
     public Category getCategory() {

@@ -1,8 +1,8 @@
-package antw.ant;
+package antw.ui;
 
+import antw.ant.Printer;
 import antw.model.TestCase;
 import antw.model.TestSuite;
-import antw.ui.JunitTable;
 
 public class JunitPlainTable extends JunitTable {
 

@@ -4,7 +4,6 @@ import antw.ant.Printer;
 import antw.model.Project;
 import antw.model.Projects;
 import antw.model.Target;
-import antw.util.TimeUtil;
 
 public class DurationTable extends Table {
 
@@ -32,11 +31,8 @@ public class DurationTable extends Table {
         if (!target.getProject().equals(_lastProject)) {
             printer.newLine();
         }
-        printer.out(
-                TARGET_FORMAT,
-                new Object[] { target.getProject().getName(), target.getName(), target.getCounter(), target.getStart(),
-                        target.getFinish(),
-                        TimeUtil.formatTimeDuration(target.getFinish().getTime() - target.getStart().getTime()) });
+        printer.out(TARGET_FORMAT, new Object[] { target.getProject().getName(), target.getName(), target.getCounter(),
+                target.getStart(), target.getFinish(), target.getDurationAsString() });
         if (!target.getProject().isSubProject()) {
             printer.newLine(2);
         }
