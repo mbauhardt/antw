@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.tools.ant.BuildEvent;
@@ -19,6 +20,7 @@ import antw.ui.PlainDurationTable;
 import antw.ui.SummaryTable;
 import antw.ui.Table;
 import antw.ui.TreeTable;
+import antw.util.FileUtil;
 
 public class StatisticLogger extends LoggerAdapter {
 
@@ -73,7 +75,7 @@ public class StatisticLogger extends LoggerAdapter {
     }
 
     private File createReportDir(BuildEvent event) {
-        File file = new File(event.getProject().getBaseDir(), ".antw");
+        File file = new File(event.getProject().getBaseDir(), ".antw/reports");
         file.mkdirs();
         return file;
     }
@@ -109,6 +111,12 @@ public class StatisticLogger extends LoggerAdapter {
                 throw new RuntimeException(e);
             }
         }
+
+        List<File> junitFiles = FileUtil.findFiles(event.getProject().getBaseDir(), "junit.txt");
+        FileUtil.merge(junitFiles, new File("build/antw/junit.txt"));
+        junitFiles = FileUtil.findFiles(event.getProject().getBaseDir(), "junit-plain.tsv");
+        FileUtil.merge(junitFiles, new File("build/antw/junit-plain.tsv"));
+
         FileUtils.delete(reportDir);
     }
 

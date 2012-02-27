@@ -5,7 +5,7 @@ sourceCompatibility = 1.6
 targetCompatibility = 1.6 
 
 antwUrl='https://github.com/mbauhardt/antw'
-version='0.2'
+version='0.3'
 
 artifactName = project.name + '-' + project.version
 artifactUpdateName = project.name + '-update-' + project.version
@@ -21,6 +21,8 @@ task wrapper(type: Wrapper) {
 
 dependencies { 
 	compile group: 'apache-ant', name: 'ant', version: '1.8.2'
+	compile group: 'apache-ant', name: 'ant-junit', version: '1.8.2'
+	compile group: 'junit', name: 'junit', version: '4.10'
 }
 
 

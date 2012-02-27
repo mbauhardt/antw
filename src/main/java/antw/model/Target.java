@@ -2,6 +2,8 @@ package antw.model;
 
 import java.util.Date;
 
+import antw.util.TimeUtil;
+
 public class Target extends Name {
 
     private Date _start;
@@ -49,6 +51,10 @@ public class Target extends Name {
 
     public Long getDuration() {
         return _finish.getTime() - _start.getTime();
+    }
+
+    public String getDurationAsString() {
+        return TimeUtil.formatTimeDuration(getDuration());
     }
 
     @Override
