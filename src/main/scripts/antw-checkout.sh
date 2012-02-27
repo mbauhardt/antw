@@ -10,9 +10,9 @@ then
 fi
 
 echo "Cloning antw..."
-git clone ${url} ${sourceDir}
-pushd ${sourceDir} >/dev/null
-git checkout --track -b ${releaseBranch} origin/${releaseBranch}
-./gradlew clean installProject
-popd >/dev/null
+/usr/bin/env git clone ${url} ${sourceDir}
+/usr/bin/env pushd ${sourceDir} >/dev/null
+/usr/bin/env git checkout --track -b ${releaseBranch} origin/${releaseBranch}
+/usr/bin/env ./gradlew clean installProject
+/usr/bin/env popd >/dev/null
  
