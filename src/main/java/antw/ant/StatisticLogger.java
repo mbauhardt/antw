@@ -93,9 +93,11 @@ public class StatisticLogger extends LoggerAdapter {
             err(event.getException());
             newLine(3);
             out("BUILD FAILED :(");
+            out("Total Time: " + _projects.getDurationAsString());
         } else {
             newLine(3);
             out("BUILD SUCCESSFUL :)");
+            out("Total Time: " + _projects.getDurationAsString());
         }
         newLine(2);
 
