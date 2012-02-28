@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.Set;
 import java.util.TreeSet;
 
+import antw.util.TimeUtil;
+
 public class Projects extends Names<Project> {
 
     private Date _start;
@@ -49,6 +51,14 @@ public class Projects extends Names<Project> {
 
     public Date getStart() {
         return _start;
+    }
+
+    public Long getDuration() {
+        return _end.getTime() - _start.getTime();
+    }
+
+    public String getDurationAsString() {
+        return TimeUtil.formatTimeDuration(getDuration());
     }
 
 }
