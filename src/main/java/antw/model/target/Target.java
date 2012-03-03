@@ -1,7 +1,8 @@
-package antw.model;
+package antw.model.target;
 
 import java.util.Date;
 
+import antw.model.Name;
 import antw.util.TimeUtil;
 
 public class Target extends Name {

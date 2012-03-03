@@ -1,8 +1,9 @@
-package antw.model;
+package antw.model.junit;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import antw.model.Name;
 import antw.util.TimeUtil;
 
 public class TestCase extends Name {

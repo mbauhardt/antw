@@ -1,6 +1,8 @@
-package antw.model;
+package antw.model.target;
 
 import java.util.Collection;
+
+import antw.model.Names;
 
 public class Targets extends Names<Target> {
 

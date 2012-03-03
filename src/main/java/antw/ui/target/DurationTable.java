@@ -1,9 +1,9 @@
-package antw.ui;
+package antw.ui.target;
 
-import antw.ant.Printer;
-import antw.model.Project;
-import antw.model.Projects;
-import antw.model.Target;
+import antw.logger.Printer;
+import antw.model.target.Project;
+import antw.model.target.Projects;
+import antw.model.target.Target;
 
 public class DurationTable extends Table {
 

@@ -1,11 +1,11 @@
-package antw.ui;
+package antw.ui.target;
 
 import java.util.Date;
 
-import antw.ant.Printer;
-import antw.model.Project;
-import antw.model.Projects;
-import antw.model.Target;
+import antw.logger.Printer;
+import antw.model.target.Project;
+import antw.model.target.Projects;
+import antw.model.target.Target;
 import antw.util.TimeUtil;
 
 public class TreeTable extends Table {

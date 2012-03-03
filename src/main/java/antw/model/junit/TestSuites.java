@@ -1,4 +1,6 @@
-package antw.model;
+package antw.model.junit;
+
+import antw.model.Names;
 
 public class TestSuites extends Names<TestSuite> {
 

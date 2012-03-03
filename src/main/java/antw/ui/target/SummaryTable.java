@@ -1,10 +1,10 @@
-package antw.ui;
+package antw.ui.target;
 
 import java.util.Collection;
 
-import antw.ant.Printer;
-import antw.model.Projects;
-import antw.model.Target;
+import antw.logger.Printer;
+import antw.model.target.Projects;
+import antw.model.target.Target;
 import antw.util.TimeUtil;
 
 public class SummaryTable extends Table {

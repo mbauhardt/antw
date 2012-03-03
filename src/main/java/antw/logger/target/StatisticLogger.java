@@ -1,4 +1,4 @@
-package antw.ant;
+package antw.logger.target;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,13 +13,15 @@ import java.util.Map;
 import org.apache.tools.ant.BuildEvent;
 import org.apache.tools.ant.util.FileUtils;
 
-import antw.model.Projects;
-import antw.model.Target;
-import antw.ui.DurationTable;
-import antw.ui.PlainDurationTable;
-import antw.ui.SummaryTable;
-import antw.ui.Table;
-import antw.ui.TreeTable;
+import antw.logger.LoggerAdapter;
+import antw.logger.Printer;
+import antw.model.target.Projects;
+import antw.model.target.Target;
+import antw.ui.target.DurationTable;
+import antw.ui.target.PlainDurationTable;
+import antw.ui.target.SummaryTable;
+import antw.ui.target.Table;
+import antw.ui.target.TreeTable;
 import antw.util.FileUtil;
 
 public class StatisticLogger extends LoggerAdapter {

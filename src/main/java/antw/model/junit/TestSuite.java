@@ -1,8 +1,10 @@
-package antw.model;
+package antw.model.junit;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import antw.model.Name;
 
 public class TestSuite extends Name {
 
