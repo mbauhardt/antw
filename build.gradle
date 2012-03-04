@@ -82,7 +82,7 @@ uploadScripts.doFirst {
 	script.append('\n')
 	script.append('echo \'\'')
 	script.append('\n')
-	script.append(project.antDirectory.absolutePath+'/bin/ant' + ' -lib ' + new File(project.currentInstallDirectory, 'lib/'+project.artifactName+'.jar').absolutePath + ' -logger antw.ant.StatisticLogger $@')
+	script.append(project.antDirectory.absolutePath+'/bin/ant' + ' -lib ' + new File(project.currentInstallDirectory, 'lib/'+project.artifactName+'.jar').absolutePath + ' -logger antw.logger.StatisticLogger $@')
 }
 
 uploadScripts.doFirst {

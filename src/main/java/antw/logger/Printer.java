@@ -17,6 +17,14 @@ public class Printer {
         return this;
     }
 
+    public PrintStream getOutputPrint() {
+        return _out;
+    }
+
+    public PrintStream getErrorPrint() {
+        return _err;
+    }
+
     public synchronized void out(String message) {
         _out.println(message);
     }
