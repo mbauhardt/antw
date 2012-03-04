@@ -1,7 +1,6 @@
 package antw.logger;
 
 import java.io.PrintStream;
-import java.util.Date;
 
 import org.apache.tools.ant.BuildEvent;
 import org.apache.tools.ant.BuildListener;
@@ -14,7 +13,9 @@ public class StatisticLogger extends LoggerAdapter {
 
     @Override
     public void buildStarted(BuildEvent event) {
-        _context.getProjects().setStart(new Date());
+
+        BuildListener collector = (BuildListener) new ProjectCollector(_context);
+        collector.buildStarted(event);
 
         BuildListener treeView = (BuildListener) new TreeLogger(_context).setOutputPrint(getOutputPrint())
                 .setErrorPrint(getErrorPrint());
@@ -35,6 +36,7 @@ public class StatisticLogger extends LoggerAdapter {
                 .setErrorPrint(summaryStream);
         summaryView.buildStarted(event);
 
+        event.getProject().addBuildListener(collector);
         event.getProject().addBuildListener(treeView);
         event.getProject().addBuildListener(durationView);
         event.getProject().addBuildListener(plainDurationView);
@@ -43,49 +45,15 @@ public class StatisticLogger extends LoggerAdapter {
     }
 
     public void buildFinished(BuildEvent event) {
-        _context.getProjects().setEnd(new Date());
+        _context.finishReports(event);
 
-        // File antwFolder = new File(event.getProject().getBaseDir(),
-        // "build/antw");
-        // antwFolder.mkdirs();
-        // File reportDir = createReportDir(event);
-        // File[] files = reportDir.listFiles();
-        // FileUtils fileUtils = FileUtils.getFileUtils();
-        // for (File file : files) {
-        // try {
-        // fileUtils.rename(file, new File(antwFolder, file.getName()));
-        // } catch (IOException e) {
-        // throw new RuntimeException(e);
-        // }
-        // }
-        //
         // List<File> junitFiles =
         // FileUtil.findFiles(event.getProject().getBaseDir(), "junit.txt");
         // FileUtil.merge(junitFiles, new File("build/antw/junit.txt"));
         // junitFiles = FileUtil.findFiles(event.getProject().getBaseDir(),
         // "junit-plain.tsv");
         // FileUtil.merge(junitFiles, new File("build/antw/junit-plain.tsv"));
-        //
-        // FileUtils.delete(reportDir);
-    }
 
-    @Override
-    public void targetStarted(BuildEvent event) {
-        _context.getTarget(event).addStartTime(new Date()).increment();
-    }
-
-    @Override
-    public void targetFinished(BuildEvent event) {
-        _context.getTarget(event).addFinishTime(new Date());
-    }
-
-    @Override
-    public void subBuildStarted(BuildEvent event) {
-        _context.getProject(event).setSubProject(true);
-    }
-
-    @Override
-    public void subBuildFinished(BuildEvent event) {
     }
 
 }

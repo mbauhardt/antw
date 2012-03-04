@@ -3,9 +3,11 @@ package antw;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
 
 import org.apache.tools.ant.BuildEvent;
+import org.apache.tools.ant.util.FileUtils;
 
 import antw.model.Project;
 import antw.model.Projects;
@@ -53,5 +55,22 @@ public class AntwContext {
 
     private String getTargetName(BuildEvent event) {
         return event.getTarget().getName();
+    }
+
+    public void finishReports(BuildEvent event) {
+        File antwFolder = new File(event.getProject().getBaseDir(), "build/antw");
+        antwFolder.mkdirs();
+        File reportDir = new File(getReportDir());
+        File[] files = reportDir.listFiles();
+        FileUtils fileUtils = FileUtils.getFileUtils();
+        for (File file : files) {
+            try {
+                fileUtils.rename(file, new File(antwFolder, file.getName()));
+            } catch (IOException e) {
+                throw ExceptionUtil.convertToRuntimeException("can not rename file", e);
+            }
+        }
+        FileUtils.delete(reportDir);
+
     }
 }
