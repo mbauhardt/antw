@@ -7,9 +7,9 @@ import java.io.PrintStream;
 
 import org.apache.tools.ant.BuildEvent;
 
-import antw.model.target.Project;
-import antw.model.target.Projects;
-import antw.model.target.Target;
+import antw.model.Project;
+import antw.model.Projects;
+import antw.model.Target;
 import antw.util.ExceptionUtil;
 
 public class AntwContext {

@@ -1,8 +1,7 @@
-package antw.model.target;
+package antw.model;
 
 import java.util.Collection;
 
-import antw.model.Name;
 
 public class Project extends Name {
 

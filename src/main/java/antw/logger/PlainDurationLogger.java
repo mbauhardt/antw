@@ -3,7 +3,7 @@ package antw.logger;
 import org.apache.tools.ant.BuildEvent;
 
 import antw.AntwContext;
-import antw.model.target.Target;
+import antw.model.Target;
 
 public class PlainDurationLogger extends LoggerAdapter {
 

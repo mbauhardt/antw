@@ -1,4 +1,4 @@
-package antw.logger.junit;
+package antw.logger;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -14,11 +14,10 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.optional.junit.JUnitResultFormatter;
 import org.apache.tools.ant.taskdefs.optional.junit.JUnitTest;
 
-import antw.logger.Printer;
-import antw.model.junit.TestCase;
-import antw.model.junit.TestSuite;
-import antw.model.junit.TestSuites;
-import antw.model.junit.TestCase.Status;
+import antw.model.TestCase;
+import antw.model.TestSuite;
+import antw.model.TestSuites;
+import antw.model.TestCase.Status;
 import antw.ui.junit.JunitPlainTable;
 import antw.ui.junit.JunitStandardTable;
 import antw.ui.junit.JunitTable;

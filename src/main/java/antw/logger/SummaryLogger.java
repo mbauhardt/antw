@@ -5,8 +5,8 @@ import java.util.Collection;
 import org.apache.tools.ant.BuildEvent;
 
 import antw.AntwContext;
-import antw.model.target.Projects;
-import antw.model.target.Target;
+import antw.model.Projects;
+import antw.model.Target;
 import antw.util.TimeUtil;
 
 public class SummaryLogger extends LoggerAdapter {

@@ -1,4 +1,4 @@
-package antw.model.target;
+package antw.model;
 
 import java.util.Collection;
 import java.util.Comparator;
@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.Set;
 import java.util.TreeSet;
 
-import antw.model.Names;
 import antw.util.TimeUtil;
 
 public class Projects extends Names<Project> {

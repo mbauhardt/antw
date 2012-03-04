@@ -3,8 +3,8 @@ package antw.logger;
 import org.apache.tools.ant.BuildEvent;
 
 import antw.AntwContext;
-import antw.model.target.Project;
-import antw.model.target.Target;
+import antw.model.Project;
+import antw.model.Target;
 
 public class DurationLogger extends LoggerAdapter {
 

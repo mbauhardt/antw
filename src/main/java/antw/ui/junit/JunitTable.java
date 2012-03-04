@@ -1,8 +1,8 @@
 package antw.ui.junit;
 
 import antw.logger.Printer;
-import antw.model.junit.TestCase;
-import antw.model.junit.TestSuite;
+import antw.model.TestCase;
+import antw.model.TestSuite;
 
 public abstract class JunitTable {
 

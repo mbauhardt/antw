@@ -1,6 +1,5 @@
-package antw.model.junit;
+package antw.model;
 
-import antw.model.Names;
 
 public class Tests extends Names<TestCase> {
 

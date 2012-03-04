@@ -5,8 +5,8 @@ import java.util.Date;
 import org.apache.tools.ant.BuildEvent;
 
 import antw.AntwContext;
-import antw.model.target.Project;
-import antw.model.target.Target;
+import antw.model.Project;
+import antw.model.Target;
 import antw.util.TimeUtil;
 
 public class TreeLogger extends LoggerAdapter {
