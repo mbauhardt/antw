@@ -36,11 +36,17 @@ public class StatisticLogger extends LoggerAdapter {
                 .setErrorPrint(summaryStream);
         summaryView.buildStarted(event);
 
+        PrintStream junitStream = _context.openReportingStream("junit-plain.csv");
+        BuildListener junitView = (BuildListener) new JunitLogger().setOutputPrint(junitStream).setErrorPrint(
+                junitStream);
+        junitView.buildStarted(event);
+
         event.getProject().addBuildListener(collector);
         event.getProject().addBuildListener(treeView);
         event.getProject().addBuildListener(durationView);
         event.getProject().addBuildListener(plainDurationView);
         event.getProject().addBuildListener(summaryView);
+        event.getProject().addBuildListener(junitView);
 
     }
 

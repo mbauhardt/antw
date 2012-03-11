@@ -1,8 +1,5 @@
 package antw.logger;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.Date;
@@ -15,31 +12,15 @@ import org.apache.tools.ant.taskdefs.optional.junit.JUnitResultFormatter;
 import org.apache.tools.ant.taskdefs.optional.junit.JUnitTest;
 
 import antw.model.TestCase;
+import antw.model.TestCase.Status;
 import antw.model.TestSuite;
 import antw.model.TestSuites;
-import antw.model.TestCase.Status;
-import antw.ui.junit.JunitPlainTable;
-import antw.ui.junit.JunitStandardTable;
-import antw.ui.junit.JunitTable;
+import antw.util.Constants;
 import antw.util.TestUtil;
 
 public class JUnitFormatter extends Printer implements JUnitResultFormatter {
 
     private TestSuites _testSuites = new TestSuites();
-    private JunitTable _defaultTable = new JunitStandardTable();
-    private JunitTable _plainTable = new JunitPlainTable();
-    private Printer _plainPrinter;
-
-    public JUnitFormatter() {
-        File folder = new File("build/antw/reports");
-        folder.mkdirs();
-        try {
-            setOutputPrint(new PrintStream(new FileOutputStream(new File(folder, "junit.txt"), true)));
-            _plainPrinter = getPlainPrinter(folder);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     @Override
     public void addError(Test test, Throwable t) {
@@ -58,24 +39,20 @@ public class JUnitFormatter extends Printer implements JUnitResultFormatter {
     @Override
     public void startTestSuite(JUnitTest unitTest) throws BuildException {
         TestSuite testSuite = _testSuites.get(unitTest.getName());
-        _defaultTable.logTestSuiteStarted(this, testSuite);
-        _plainTable.logTestSuiteStarted(_plainPrinter, testSuite);
+        newLine();
+        out("%-20s %-65s %n", new Object[] { Constants.TEST_SUITE_LABEL, testSuite.getName() });
     }
 
     @Override
     public void endTestSuite(JUnitTest unitTest) throws BuildException {
-        TestSuite testSuite = _testSuites.getTestSuite(unitTest.getName());
-        _defaultTable.logTestSuiteFinished(this, testSuite);
-        _plainTable.logTestSuiteFinished(_plainPrinter, testSuite);
+        _testSuites.getTestSuite(unitTest.getName());
     }
 
     @Override
     public void startTest(Test test) {
         String suiteName = TestUtil.getSuiteName(test);
         String testCaseName = TestUtil.getNameOfTestCase(test);
-        TestCase testCase = _testSuites.getTestSuite(suiteName).getTest(testCaseName).setStartTime(new Date());
-        _defaultTable.logTestCaseStarted(this, testCase);
-        _plainTable.logTestCaseStarted(_plainPrinter, testCase);
+        _testSuites.getTestSuite(suiteName).getTest(testCaseName).setStartTime(new Date());
     }
 
     @Override
@@ -83,12 +60,14 @@ public class JUnitFormatter extends Printer implements JUnitResultFormatter {
         String suiteName = TestUtil.getSuiteName(test);
         String testCaseName = TestUtil.getNameOfTestCase(test);
         TestCase testCase = _testSuites.getTestSuite(suiteName).getTest(testCaseName).setFinishTime(new Date());
-        _defaultTable.logTestCaseFinished(this, testCase);
-        _plainTable.logTestCaseFinished(_plainPrinter, testCase);
+        space(4);
+        out("%-20s %-65s %-15s %-15s %-15s %-10s %n", new Object[] { Constants.TEST_CASE_LABEL, testCase.getName(),
+                testCase.getDurationAsString(), testCase.getCategory(), testCase.getStatus(), testCase.getMessage() });
     }
 
     @Override
     public void setOutput(OutputStream outputStream) {
+        setOutputPrint(new PrintStream(outputStream));
     }
 
     @Override
@@ -97,16 +76,6 @@ public class JUnitFormatter extends Printer implements JUnitResultFormatter {
 
     @Override
     public void setSystemOutput(String out) {
-    }
-
-    private Printer getPlainPrinter(File reportDir) {
-        try {
-            PrintStream printStream = new PrintStream(
-                    new FileOutputStream(new File(reportDir, "junit-plain.tsv"), true));
-            return new Printer().setOutputPrint(printStream).setErrorPrint(printStream);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
     }
 
 }

@@ -7,6 +7,10 @@ import org.apache.tools.ant.taskdefs.optional.junit.JUnitVersionHelper;
 
 public class TestUtil {
 
+    public static String getSimpleClassName(String fullName) {
+        return fullName.substring(fullName.lastIndexOf("."));
+    }
+
     public static String getFullQualifiedName(Test test) {
         return getNameOfClass(test) + "." + getNameOfTestCase(test);
     }

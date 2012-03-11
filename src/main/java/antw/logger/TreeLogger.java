@@ -7,14 +7,17 @@ import org.apache.tools.ant.BuildEvent;
 import antw.AntwContext;
 import antw.model.Project;
 import antw.model.Target;
+import antw.util.Constants;
+import antw.util.StringUtil;
 import antw.util.TimeUtil;
 
 public class TreeLogger extends LoggerAdapter {
 
-    private Project _lastProject = new Project("");
-    private int _spaceCount = 2;
-    private Date _start;
-    private final AntwContext _context;
+    protected Project _lastProject = new Project("");
+    protected int _spaceCount = 2;
+    protected Date _start;
+    protected final AntwContext _context;
+    private boolean _junitTaskWasRunning;
 
     public TreeLogger(AntwContext context) {
         _context = context;
@@ -85,6 +88,55 @@ public class TreeLogger extends LoggerAdapter {
             out("Total Time: " + _context.getProjects().getDurationAsString());
         }
         newLine(2);
+    }
+
+    @Override
+    public void messageLogged(BuildEvent event) {
+        if (event.getTask() != null) {
+            if ("junit".equals(event.getTask().getTaskType())) {
+                if (!_junitTaskWasRunning) {
+                    switchToTestSuite();
+                }
+                if (event.getPriority() <= org.apache.tools.ant.Project.MSG_INFO) {
+                    String message = event.getMessage();
+                    if (message.contains(Constants.TEST_SUITE_LABEL)) {
+                        printTestSuite(message);
+                    } else if (message.contains(Constants.TEST_CASE_LABEL)) {
+                        printTestCase(message);
+                    }
+                }
+                _junitTaskWasRunning = true;
+            } else {
+                if (_junitTaskWasRunning) {
+                    switchFromTestSuite();
+                }
+                _junitTaskWasRunning = false;
+            }
+        }
+    }
+
+    private void switchFromTestSuite() {
+        space(_spaceCount + 1);
+        _spaceCount -= 2;
+        out("/");
+    }
+
+    private void printTestCase(String message) {
+        space(_spaceCount + 2);
+        out("|--- " + StringUtil.remove(Constants.TEST_CASE_LABEL, message));
+    }
+
+    private void switchToTestSuite() {
+        _spaceCount += 2;
+        space(_spaceCount + 1);
+        out("\\");
+    }
+
+    private void printTestSuite(String testStuite) {
+        space(_spaceCount + 2);
+        out("|");
+        space(_spaceCount + 1);
+        out(StringUtil.remove(Constants.TEST_SUITE_LABEL, testStuite));
     }
 
 }
