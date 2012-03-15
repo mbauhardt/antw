@@ -1,0 +1,6 @@
+archivesBaseName = 'antw-logger'
+
+dependencies { 
+	compile project(':common')
+	compile group: 'apache-ant', name: 'ant', version: '1.8.2'
+}
