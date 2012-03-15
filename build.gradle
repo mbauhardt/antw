@@ -30,6 +30,11 @@ configure(subprojects.findAll {it.name != 'installer'}) {
 	sourceCompatibility = 1.6
 	targetCompatibility = 1.6
 	
+
+	jar {
+		from(new File(rootDir,'/LICENSE'))
+	}
+		
 	configurations { 
 		libs
 	} 
@@ -51,4 +56,15 @@ configure(subprojects.findAll {it.name != 'installer'}) {
 
 
 task installProject(dependsOn: [':installer:downloadAnt', ':common:uploadLibs', ':logger:uploadLibs', ':junit:uploadLibs', ':installer:uploadMetas', ':installer:uploadScripts']) {
+}
+
+installProject << {
+	println ''
+	println ''
+	println 'Install Successful. Please add the folder ['+project(':installer').binDirectory+'] to your path'
+	println 'e.g. add the following line to your ~/.bash_profile'
+	println ''
+	println 'export PATH=$PATH:'+project(':installer').binDirectory
+	println ''
+	println ''
 }
