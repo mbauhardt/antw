@@ -55,16 +55,16 @@ configure(subprojects.findAll {it.name != 'installer'}) {
 }
 
 
-task installProject(dependsOn: [':installer:downloadAnt', ':common:uploadLibs', ':logger:uploadLibs', ':junit:uploadLibs', ':installer:uploadMetas', ':installer:uploadScripts']) {
+task installProject(dependsOn: [':modules:installer:downloadAnt', ':modules:common:uploadLibs', ':modules:logger:uploadLibs', ':modules:junit:uploadLibs', ':modules:installer:uploadMetas', ':modules:installer:uploadScripts']) {
 }
 
 installProject << {
 	println ''
 	println ''
-	println 'Install Successful. Please add the folder ['+project(':installer').binDirectory+'] to your path'
+	println 'Install Successful. Please add the folder ['+project(':modules:installer').binDirectory+'] to your path'
 	println 'e.g. add the following line to your ~/.bash_profile'
 	println ''
-	println 'export PATH=$PATH:'+project(':installer').binDirectory
+	println 'export PATH=$PATH:'+project(':modules:installer').binDirectory
 	println ''
 	println ''
 }
