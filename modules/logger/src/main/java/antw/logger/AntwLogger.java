@@ -4,10 +4,12 @@ import java.io.PrintStream;
 
 import org.apache.tools.ant.BuildEvent;
 import org.apache.tools.ant.BuildListener;
+import org.apache.tools.ant.BuildLogger;
 
 public class AntwLogger extends LoggerAdapter {
 
     private LoggerContext _context = new LoggerContext();
+    private int _level;
 
     @Override
     public void buildStarted(BuildEvent event) {
@@ -38,13 +40,24 @@ public class AntwLogger extends LoggerAdapter {
                 junitStream);
         junitView.buildStarted(event);
 
+        PrintStream messageStream = _context.openReportingStream("messages.txt");
+        BuildLogger messageView = (BuildLogger) new MessageLogger().setOutputPrint(messageStream).setErrorPrint(
+                messageStream);
+        messageView.setMessageOutputLevel(_level);
+        messageView.buildStarted(event);
+
         event.getProject().addBuildListener(collector);
         event.getProject().addBuildListener(treeView);
         event.getProject().addBuildListener(durationView);
         event.getProject().addBuildListener(plainDurationView);
         event.getProject().addBuildListener(summaryView);
         event.getProject().addBuildListener(junitView);
+        event.getProject().addBuildListener(messageView);
+    }
 
+    @Override
+    public void setMessageOutputLevel(int level) {
+        _level = level;
     }
 
     public void buildFinished(BuildEvent event) {
