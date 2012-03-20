@@ -87,7 +87,7 @@ uploadScripts.doFirst {
 	project.buildDir.mkdirs()
 	scriptPath.write('echo \'\'')
 	scriptPath.append('\n')
-	scriptPath.append('echo \'Welcome to antw, version: ' + project.version + ', revision: ' + antwRevision + '\'' + ', based on apache-ant-1.8.3')
+	scriptPath.append('echo \'Welcome to antw, version: ' + project.version + ', revision: ' + antwRevision + '\'' + ', build with apache-ant-1.8.3')
 	scriptPath.append('\n')
 	scriptPath.append('echo \''+antwSrcUrl+ '\'')
 	scriptPath.append('\n')
