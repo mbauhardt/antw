@@ -1,5 +1,6 @@
 ---
-title: antw
+layout: default
+title: antw version 0.5
 ---
 
 <a href="https://github.com/mbauhardt/antw"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
