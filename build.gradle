@@ -1,154 +1,70 @@
-apply plugin: 'java'
-apply plugin: 'eclipse'
- 
-sourceCompatibility = 1.6
-targetCompatibility = 1.6 
 
-antwUrl='https://github.com/mbauhardt/antw'
-version='0.4-dev'
+version='0.5'
+installDirectory = new File(ant.properties['user.home']+'/.'+rootProject.name+'/install')
+currentInstallDirectory = new File(installDirectory, 'versions/'+rootProject.version)
 
-artifactName = project.name + '-' + project.version
-artifactUpdateName = project.name + '-update-' + project.version
-installDirectory = new File(ant.properties['user.home']+'/.'+project.name+'/install')
-currentInstallDirectory = new File(installDirectory, 'versions/'+project.version)
-binDirectory = new File(installDirectory, 'bin')
-contribDirectory = new File(installDirectory, 'contrib')
-antDirectory = new File(contribDirectory, 'apache-ant-1.8.2')
+allprojects{
+	group='antw'
+	version=rootProject.version
+}
 
+	
 task wrapper(type: Wrapper) {
     gradleVersion = '1.0-milestone-7'
 }
 
-dependencies { 
-	compile group: 'apache-ant', name: 'ant', version: '1.8.2'
-	compile group: 'apache-ant', name: 'ant-junit', version: '1.8.2'
-	compile group: 'junit', name: 'junit', version: '4.10'
-}
 
+
+subprojects {
+	apply plugin: 'base'
+}
 
 repositories { 
-	flatDir name: 'localRepository', dirs: 'lib'
 	flatDir name: 'uploadLib', dirs: new File(currentInstallDirectory, 'lib')
-	flatDir name: 'uploadBin', dirs: new File(currentInstallDirectory, 'bin')
-	flatDir name: 'uploadMeta', dirs: new File(currentInstallDirectory, 'meta')
 }
 
-jar {
-	from('LICENSE')
-}
+configure(subprojects.findAll {it.name != 'installer'}) {
+	apply plugin: 'java' 
+	apply plugin: 'eclipse'
+	
+	sourceCompatibility = 1.6
+	targetCompatibility = 1.6
+	
 
-task downloadAnt << { 
-	if(!antDirectory.exists()){
-		contribDirectory.mkdirs();
-		ant.get(src: 'http://www.apache.org/dist/ant/binaries/apache-ant-1.8.2-bin.zip', dest:new File(contribDirectory, 'ant.zip'), verbose:true)
-		ant.unzip(src:new File(contribDirectory, 'ant.zip'), dest:contribDirectory)
-		new File(contribDirectory, 'ant.zip').delete()
+	jar {
+		from(new File(rootDir,'/LICENSE'))
+	}
+		
+	configurations { 
+		libs
+	} 
+	
+	artifacts {
+		libs jar
+	}
+
+	repositories { 
+		flatDir name: 'localRepository', dirs: new File(rootDir, '/lib')
+	}
+		
+	uploadLibs {
+ 		repositories {
+    		add rootProject.repositories.uploadLib
+    	} 
 	}
 }
 
-downloadAnt << {
-	ant.chmod(dir: antDirectory.absolutePath+'/bin', perm: 'u+x', includes: '*')
-}
- 
 
-configurations { 
-	scripts
-	libs
-	metas
-} 
-
-def script = file(project.buildDir.absolutePath+'/'+project.name+'.sh');
-def updateScript = file('src/main/scripts/antw-update.sh');
-def license = file(project.buildDir.absolutePath+'/LICENSE.txt');
-
-artifacts { 
-	scripts script,updateScript
-    libs jar
-    metas license 
-} 
-
-
-antwRevision='n.a.'
-
-uploadScripts.doFirst {
-	project.buildDir.mkdirs()
-	script.write('echo \'\'')
-	script.append('\n')
-	script.append('echo \'Welcome to antw, version: ' + project.version + ', revision: ' + antwRevision + '\'')
-	script.append('\n')
-	script.append('echo \''+antwUrl+ '\'')
-	script.append('\n')
-	script.append('echo \'\'')
-	script.append('\n')
-	script.append('echo \'\'')
-	script.append('\n')
-	script.append(project.antDirectory.absolutePath+'/bin/ant' + ' -lib ' + new File(project.currentInstallDirectory, 'lib/'+project.artifactName+'.jar').absolutePath + ' -logger antw.ant.StatisticLogger $@')
-}
-
-uploadScripts.doFirst {
-	ant.exec(executable:'git', outputproperty:'antwRevision') {
-		arg(line:'log -1 --pretty=format:%H')
-	}
-	antwRevision=ant.antwRevision
-}
-
-uploadScripts {
- 	repositories {
-    	add project.repositories.uploadBin
-    } 
-}
-
-uploadScripts << {
-	binDirectory.mkdirs()
-	symlink = new File(binDirectory, project.name)
-	symlink.delete();
-	ant.symlink(link: symlink, resource:currentInstallDirectory.absolutePath+'/bin/'+artifactName+'.sh')
-}
-
-uploadScripts << {
-	symlink = new File(binDirectory, project.name+'-update')
-	symlink.delete();
-	ant.symlink(link: symlink, resource:currentInstallDirectory.absolutePath+'/bin/'+artifactUpdateName+'.sh')
-}
-
-uploadScripts << {
-	ant.chmod(dir: binDirectory, perm: 'u+x', includes: '*')
-	ant.chmod(dir: currentInstallDirectory.absolutePath+'/bin', perm: 'u+x', includes: '*')
-}
-
-
-uploadLibs {
- 	repositories {
-    	add project.repositories.uploadLib
-    } 
-}
-
-uploadMetas.doFirst {
-	ant.copy(file:'LICENSE', toFile:project.buildDir.absolutePath+'/LICENSE.txt')
-}
-
-uploadMetas {
- 	repositories {
-    	add project.repositories.uploadMeta
-    } 
-}
-
-uploadMetas << {
-	symlink = new File(installDirectory, 'LICENSE')
-	symlink.delete();
-	ant.symlink(link: symlink, resource:currentInstallDirectory.absolutePath+'/meta/LICENSE-'+project.version+'.txt')
-}
-
-task installProject(dependsOn: [downloadAnt, uploadLibs, uploadScripts, uploadMetas]) {
+task installProject(dependsOn: [':modules:installer:downloadAnt', ':modules:common:uploadLibs', ':modules:logger:uploadLibs', ':modules:junit:uploadLibs', ':modules:installer:uploadMetas', ':modules:installer:uploadScripts']) {
 }
 
 installProject << {
 	println ''
 	println ''
-	println 'Install Successful. Please add the folder ['+binDirectory+'] to your path'
+	println 'Install Successful. Please add the folder ['+project(':modules:installer').binDirectory+'] to your path'
 	println 'e.g. add the following line to your ~/.bash_profile'
 	println ''
-	println 'export PATH=$PATH:'+binDirectory
+	println 'export PATH=$PATH:'+project(':modules:installer').binDirectory
 	println ''
 	println ''
 }

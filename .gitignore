@@ -2,8 +2,10 @@ bin
 .project
 .classpath
 .settings
+.externalToolBuilders
 
 build
 .gradle
 
 *~
+antw.tmproj

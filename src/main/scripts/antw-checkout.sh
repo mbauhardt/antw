@@ -1,6 +1,6 @@
 #!/bin/bash
 
-url=git@github.com:mbauhardt/antw.git
+url=git://github.com/mbauhardt/antw.git
 rootDir=~/.antw
 sourceDir=${rootDir}/source
 releaseBranch=latest
