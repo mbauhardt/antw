@@ -1,0 +1,5 @@
+archivesBaseName = 'antw-example-core'
+
+dependencies { 
+	compile group: 'junit', name: 'junit', version: '4.10'
+}

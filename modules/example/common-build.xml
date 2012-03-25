@@ -1,0 +1,66 @@
+<project name="common-build">
+
+	<property file="build.properties" />
+	
+	<path id="compile.classpath">
+		<fileset dir="${root.dir}/lib">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="build">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<target name="clean">
+		<echo>clean...</echo>
+		<delete dir="build">
+		</delete>
+	</target>
+
+	<target name="compile" depends="clean">
+		<echo>compile...</echo>
+		<mkdir dir="build/classes" />
+		<javac srcdir="src/main/java" includes="**/*.java" destdir="build/classes">
+		</javac>
+	</target>
+
+	<target name="compile-tests" depends="clean">
+		<echo>compile tests...</echo>
+		<mkdir dir="build/test-classes" />
+		<javac srcdir="src/test/java" includes="**/*.java" destdir="build/test-classes">
+			<classpath refid="compile.classpath" />
+		</javac>
+	</target>
+
+	<target name="jar" depends="compile">
+		<echo>building jar...</echo>
+		<jar jarfile="build/artifacts/${jar.name}" basedir="build/classes" />
+	</target>
+
+	<target name="unit-jar" depends="compile-tests">
+		<echo>building unit jar...</echo>
+		<jar jarfile="build/test-artifacts/${jar.name}" basedir="build/test-classes" />
+	</target>
+
+	<target name="test" depends="jar, unit-jar">
+		<mkdir dir="build/reports" />
+		<junit haltonfailure="true">
+
+			<formatter type="xml"/>
+			<formatter classname="org.apache.tools.ant.taskdefs.optional.junit.PlainJUnitResultFormatter" usefile="false"/>
+			<!--<formatter classname="antw.junit.JUnitFormatter" usefile="false"/>-->
+			
+			<classpath>
+				<path refid="compile.classpath" />
+			</classpath>
+
+
+			<batchtest fork="yes" todir="build/reports">
+				<fileset dir="src/test/java">
+					<include name="**/*Test.java" />
+				</fileset>
+			</batchtest>
+		</junit>
+	</target>
+
+</project>
