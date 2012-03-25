@@ -37,8 +37,12 @@ public class Printer {
         _err.println(message);
     }
 
-    public synchronized void err(Throwable exception) {
-        exception.printStackTrace(_err);
+    public synchronized void err(Throwable exception, boolean withStack) {
+        if (withStack) {
+            exception.printStackTrace(_err);
+        } else {
+            _err.print(exception.getMessage());
+        }
     }
 
     public synchronized void newLine() {

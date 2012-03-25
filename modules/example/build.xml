@@ -1,26 +1,19 @@
 <project name="Root Project">
 
-	<path id="core">
-		<pathelement path="core" />
-	</path>
-
 	<path id="modules">
 		<pathelement path="modules/module_1" />
 		<pathelement path="modules/module_2" />
 	</path>
 
 	<target name="test">
-		<subant buildpathref="core" target="test" />
 		<subant buildpathref="modules" target="test" />
 	</target>
 
 	<target name="jar">
-		<subant buildpathref="core" target="jar" />
 		<subant buildpathref="modules" target="jar" />
 	</target>
 
 	<target name="clean">
-		<subant buildpathref="core" target="clean" />
 		<subant buildpathref="modules" target="clean" />
 	</target>
 

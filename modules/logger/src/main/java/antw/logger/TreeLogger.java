@@ -77,7 +77,7 @@ public class TreeLogger extends LoggerAdapter {
     public void buildFinished(BuildEvent event) {
         if (event.getException() != null) {
             newLine(3);
-            err(event.getException());
+            err(event.getException(), false);
             newLine(3);
             out("BUILD FAILED :(");
             out("Total Time: " + _context.getProjects().getDurationAsString());

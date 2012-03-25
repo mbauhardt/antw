@@ -22,7 +22,7 @@ public class MessageLogger extends LoggerAdapter {
     @Override
     public void buildFinished(BuildEvent event) {
         if (event.getException() != null) {
-            err(event.getException());
+            err(event.getException(), false);
             out("BUILD FAILED :(");
         } else {
             out("BUILD SUCCESSFUL :)");

@@ -5,6 +5,7 @@ import java.io.PrintStream;
 import org.apache.tools.ant.BuildEvent;
 import org.apache.tools.ant.BuildListener;
 import org.apache.tools.ant.BuildLogger;
+import org.apache.tools.ant.DefaultLogger;
 
 public class AntwLogger extends LoggerAdapter {
 
@@ -46,6 +47,13 @@ public class AntwLogger extends LoggerAdapter {
         messageView.setMessageOutputLevel(_level);
         messageView.buildStarted(event);
 
+        PrintStream antDefaultStream = _context.openReportingStream("ant-default.txt");
+        BuildLogger antDefaultView = (BuildLogger) new DefaultLogger();
+        antDefaultView.setMessageOutputLevel(_level);
+        antDefaultView.setOutputPrintStream(antDefaultStream);
+        antDefaultView.setErrorPrintStream(antDefaultStream);
+        antDefaultView.buildStarted(event);
+
         event.getProject().addBuildListener(collector);
         event.getProject().addBuildListener(treeView);
         event.getProject().addBuildListener(durationView);
@@ -53,6 +61,7 @@ public class AntwLogger extends LoggerAdapter {
         event.getProject().addBuildListener(summaryView);
         event.getProject().addBuildListener(junitView);
         event.getProject().addBuildListener(messageView);
+        event.getProject().addBuildListener(antDefaultView);
     }
 
     @Override

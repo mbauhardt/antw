@@ -46,9 +46,9 @@
 		<mkdir dir="build/reports" />
 		<junit haltonfailure="true">
 
-			<formatter type="xml"/>
-			<formatter classname="org.apache.tools.ant.taskdefs.optional.junit.PlainJUnitResultFormatter" usefile="false"/>
-			<!--<formatter classname="antw.junit.JUnitFormatter" usefile="false"/>-->
+			<!--<formatter type="xml"/>
+			<formatter classname="org.apache.tools.ant.taskdefs.optional.junit.PlainJUnitResultFormatter" usefile="false"/>-->
+			<formatter classname="antw.junit.JUnitFormatter" usefile="false"/>
 			
 			<classpath>
 				<path refid="compile.classpath" />
