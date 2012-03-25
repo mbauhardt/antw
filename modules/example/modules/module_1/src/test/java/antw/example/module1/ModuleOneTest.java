@@ -7,8 +7,14 @@ import org.junit.Test;
 public class ModuleOneTest extends TestCase {
 
     @Test
-    public void testModuleOne() throws Exception {
+    public void testToString() throws Exception {
         ModuleOne moduleOne = new ModuleOne();
         assertEquals("module1", moduleOne.toString());
+    }
+
+    @Test
+    public void testHashCode() throws Exception {
+        ModuleOne moduleOne = new ModuleOne();
+        assertEquals("module1".hashCode(), moduleOne.hashCode());
     }
 }

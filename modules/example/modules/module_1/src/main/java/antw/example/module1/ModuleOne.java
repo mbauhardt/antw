@@ -6,4 +6,9 @@ public class ModuleOne {
     public String toString() {
         return "module1";
     }
+
+    @Override
+    public int hashCode() {
+        return toString().hashCode();
+    }
 }
