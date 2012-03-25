@@ -1,5 +1,5 @@
 
-version='0.5-dev'
+version='0.5'
 installDirectory = new File(ant.properties['user.home']+'/.'+rootProject.name+'/install')
 currentInstallDirectory = new File(installDirectory, 'versions/'+rootProject.version)
 
