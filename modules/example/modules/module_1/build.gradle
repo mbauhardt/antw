@@ -3,3 +3,5 @@ archivesBaseName = 'antw-example-module-1'
 dependencies { 
 	compile group: 'junit', name: 'junit', version: '4.10'
 }
+
+test.enabled = false

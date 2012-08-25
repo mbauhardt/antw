@@ -16,7 +16,6 @@ public class MethodAdapter extends MethodVisitor {
 
     @Override
     public void visitCode() {
-        System.out.println(_className + "." + _methodName);
         this.visitLdcInsn(_className);
         this.visitLdcInsn(_methodName);
         this.visitMethodInsn(Opcodes.INVOKESTATIC, "antw/profiler/Profiler", "start",

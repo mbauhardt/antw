@@ -1,10 +1,10 @@
-package foo;
+package antw.profiler.example;
 
-public class Bar {
+public class Language {
 
     private String _name;
 
-    public void setName(String name) {
+    public Language(String name) {
         _name = name;
     }
 
