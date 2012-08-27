@@ -26,7 +26,7 @@ public class Profiler {
         MethodStack methodStack = _currentStack.get();
         MethodCall parent = methodStack.getMethodCall();
         MethodCall currentMethodCall = null;
-        if (parent.alreadyCalled(className, methodName)) {
+        if (parent.findMethodCall(className, methodName) != null) {
             currentMethodCall = parent.findMethodCall(className, methodName);
         } else {
             currentMethodCall = new MethodCall(parent, new Method(className, methodName));

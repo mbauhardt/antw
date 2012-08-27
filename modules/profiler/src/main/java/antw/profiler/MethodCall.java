@@ -1,8 +1,9 @@
 package antw.profiler;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MethodCall {
@@ -22,8 +23,8 @@ public class MethodCall {
         method.setMethodCall(this);
     }
 
-    public Collection<MethodCall> getChildren() {
-        return _children.values();
+    public List<MethodCall> getChildren() {
+        return new ArrayList<MethodCall>(_children.values());
     }
 
     public MethodCall getParent() {
@@ -57,7 +58,7 @@ public class MethodCall {
     }
 
     public MethodCall findMethodCall(Method method) {
-        return _method != null && _method.equals(method) ? _method.getMethodCall() : _children.get(method);
+        return _children.get(method);
     }
 
     public long getTime() {
@@ -77,8 +78,4 @@ public class MethodCall {
         return ret;
     }
 
-    public boolean alreadyCalled(String className, String methodName) {
-        return (_method != null && _method.equals(new Method(className, methodName)))
-                || _children.containsKey(new Method(className, methodName));
-    }
 }

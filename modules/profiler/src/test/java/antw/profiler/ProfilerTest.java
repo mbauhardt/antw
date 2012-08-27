@@ -112,4 +112,22 @@ public class ProfilerTest {
         assertThat(bar.getMethod()).isEqualTo(new Method("org.Bar", "bar"));
         assertThat(bar.getCount()).isEqualTo(2);
     }
+
+    @Test
+    public void testRecursion() throws Exception {
+        Profiler.start("org.FooBar", "foobar");
+        Profiler.start("org.FooBar", "foobar");
+        Profiler.end("org.FooBar", "foobar");
+        Profiler.end("org.FooBar", "foobar");
+
+        Map<Long, List<MethodCall>> methodCalls = Profiler.getMethodCalls();
+        List<MethodCall> calls = methodCalls.values().iterator().next();
+        assertThat(calls).hasSize(2);
+        assertThat(calls.get(0).getMethod()).isEqualTo(new Method("org.Foo", "foo"));
+        assertThat(calls.get(0).getChildren()).isEmpty();
+        assertThat(calls.get(1).getMethod()).isEqualTo(new Method("org.FooBar", "foobar"));
+        assertThat(calls.get(1).getChildren()).hasSize(1);
+        assertThat(calls.get(1).getChildren().get(0).getMethod()).isEqualTo(new Method("org.FooBar", "foobar"));
+    }
+
 }
