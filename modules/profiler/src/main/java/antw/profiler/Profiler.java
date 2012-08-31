@@ -74,8 +74,8 @@ public class Profiler {
         _currentStack.get().disable();
     }
 
-    public static void cleanup() {
+    public static void clear() {
         MethodStack methodStack = _currentStack.get();
-        methodStack.getMethodCall().getChildren().clear();
+        methodStack.clear();
     }
 }

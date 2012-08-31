@@ -20,7 +20,7 @@ public class ProfilerTest {
 
     @After
     public void teardown() throws InterruptedException {
-        Profiler.cleanup();
+        Profiler.clear();
     }
 
     @Test
@@ -41,6 +41,7 @@ public class ProfilerTest {
         List<MethodCall> calls = methodCalls.values().iterator().next();
         assertThat(calls).hasSize(1);
         MethodCall methodCall = calls.get(0);
+        assertThat(methodCall.getCount()).isEqualTo(1);
         assertThat(methodCall.getTime()).isGreaterThanOrEqualTo(500);
         assertThat(methodCall.getTime()).isLessThan(1000);
     }

@@ -78,4 +78,8 @@ public class MethodCall {
         return ret;
     }
 
+    public void clear() {
+        _children.clear();
+    }
+
 }

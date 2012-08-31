@@ -44,11 +44,11 @@
 
 	<target name="test" depends="jar, unit-jar">
 		<mkdir dir="build/reports" />
-		<junit haltonfailure="true">
-
+		<junit haltonfailure="true" fork="true" >
+			<jvmarg value="-javaagent:lib/antw-profiler-0.6-dev.jar"/>
 			<!--<formatter type="xml"/>
 			<formatter classname="org.apache.tools.ant.taskdefs.optional.junit.PlainJUnitResultFormatter" usefile="false"/>-->
-			<formatter classname="antw.junit.JUnitFormatter" usefile="false"/>
+			<formatter classname="antw.junit.JUnitProfilerFormatter" usefile="false"/>
 			
 			<classpath>
 				<path refid="compile.classpath" />

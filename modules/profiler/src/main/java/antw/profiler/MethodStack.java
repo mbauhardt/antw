@@ -10,11 +10,14 @@ public class MethodStack {
 
     private boolean _enabled;
 
+    private MethodCall _rootMethod;
+
     public MethodStack(long threadId, ApplicationStack applicationStack, boolean enabled) {
         _threadId = threadId;
         _applicationStack = applicationStack;
         _enabled = enabled;
-        registerMethodCall(new MethodCall(null, new Method(Profiler.class.getName(), "init()")));
+        _rootMethod = new MethodCall(null, new Method(Profiler.class.getName(), "init()"));
+        registerMethodCall(_rootMethod);
         _applicationStack.registerMethodStack(_threadId, this);
     }
 
@@ -50,4 +53,7 @@ public class MethodStack {
         return _methodCall != null;
     }
 
+    public void clear() {
+        _rootMethod.clear();
+    }
 }
