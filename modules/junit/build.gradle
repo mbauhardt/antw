@@ -1,9 +1,29 @@
 archivesBaseName = 'antw-junit'
 
-dependencies { 
-	compile project(':modules:common')
-	compile project(':modules:profiler')
+configurations{
+    fatJar
+}
+
+dependencies {
+	fatJar project(':modules:common')
+	fatJar project(':modules:profiler')
 	compile group: 'apache-ant', name: 'ant', version: '1.8.3'
 	compile group: 'apache-ant', name: 'ant-junit', version: '1.8.3'
 	compile group: 'junit', name: 'junit', version: '4.10'
+	configurations.compile.extendsFrom(configurations.fatJar)
+}
+
+task fatJar(type: Jar) {
+	classifier = "fat"
+	from sourceSets.main.classes
+	from new File(rootDir,'/LICENSE')
+	from { 
+		configurations.fatJar.collect {
+				return it.isDirectory() ? it : zipTree(it) 
+		} 
+	}
+}
+
+artifacts {
+	libs fatJar
 }
