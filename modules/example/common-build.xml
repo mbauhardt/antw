@@ -3,7 +3,7 @@
 	<property file="build.properties" />
 	
 	<path id="compile.classpath">
-		<fileset dir="${root.dir}/lib">
+		<fileset dir="${root.dir}/lib/compile">
 			<include name="**/*.jar" />
 		</fileset>
 		<fileset dir="build">
@@ -20,7 +20,7 @@
 	<target name="compile" depends="clean">
 		<echo>compile...</echo>
 		<mkdir dir="build/classes" />
-		<javac srcdir="src/main/java" includes="**/*.java" destdir="build/classes">
+		<javac srcdir="src/main/java" includes="**/*.java" destdir="build/classes" includeantruntime="false">
 		</javac>
 	</target>
 
@@ -44,8 +44,9 @@
 
 	<target name="test" depends="jar, unit-jar">
 		<mkdir dir="build/reports" />
-		<junit haltonfailure="true" fork="true" >
-			<jvmarg value="-javaagent:lib/antw-profiler-0.6-dev.jar"/>
+		<junit haltonfailure="true" fork="yes" forkmode="once">
+			<jvmarg value="-javaagent:lib/provided/antw-profiler-0.6-dev-fat.jar"/>
+			
 			<!--<formatter type="xml"/>
 			<formatter classname="org.apache.tools.ant.taskdefs.optional.junit.PlainJUnitResultFormatter" usefile="false"/>-->
 			<formatter classname="antw.junit.JUnitProfilerFormatter" usefile="false"/>
@@ -53,7 +54,6 @@
 			<classpath>
 				<path refid="compile.classpath" />
 			</classpath>
-
 
 			<batchtest fork="yes" todir="build/reports">
 				<fileset dir="src/test/java">

@@ -1,12 +1,12 @@
 archivesBaseName = 'antw-junit'
 
-configurations{
+configurations {
     fatJar
 }
 
 dependencies {
 	fatJar project(':modules:common')
-	fatJar project(':modules:profiler')
+	compile project(':modules:profiler')
 	compile group: 'apache-ant', name: 'ant', version: '1.8.3'
 	compile group: 'apache-ant', name: 'ant-junit', version: '1.8.3'
 	compile group: 'junit', name: 'junit', version: '4.10'
@@ -14,6 +14,7 @@ dependencies {
 }
 
 task fatJar(type: Jar) {
+	manifest { attributes 'Premain-Class': 'antw.profiler.asm.Main' }
 	classifier = "fat"
 	from sourceSets.main.classes
 	from new File(rootDir,'/LICENSE')

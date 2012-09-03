@@ -10,7 +10,7 @@ public class ApplicationStack {
     public void registerMethodStack(Long threadId, MethodStack methodStack) {
         if (_methodStacks.containsKey(threadId)) {
             throw new IllegalArgumentException("method stack already registered: " + methodStack.getThreadId() + "@"
-                    + methodStack.getMethodCall().getMethod().toString());
+                    + methodStack.getCurrentMethodCall().getMethod().toString());
         }
         _methodStacks.put(threadId, methodStack);
     }

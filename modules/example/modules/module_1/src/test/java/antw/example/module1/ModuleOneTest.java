@@ -9,6 +9,8 @@ public class ModuleOneTest extends TestCase {
     @Test
     public void testToString() throws Exception {
         ModuleOne moduleOne = new ModuleOne();
+        moduleOne.setName("foo");
+        moduleOne.getName();
         assertEquals("module1", moduleOne.toString());
     }
 

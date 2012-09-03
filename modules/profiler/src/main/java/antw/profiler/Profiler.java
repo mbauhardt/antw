@@ -1,10 +1,7 @@
 package antw.profiler;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -20,11 +17,12 @@ public class Profiler {
     };
 
     public static void start(String className, String methodName) {
+        System.out.println("-> " + className + "." + methodName);
         if (!isEnabled()) {
             return;
         }
         MethodStack methodStack = _currentStack.get();
-        MethodCall parent = methodStack.getMethodCall();
+        MethodCall parent = methodStack.getCurrentMethodCall();
         MethodCall currentMethodCall = null;
         if (parent.findMethodCall(className, methodName) != null) {
             currentMethodCall = parent.findMethodCall(className, methodName);
@@ -40,30 +38,30 @@ public class Profiler {
     }
 
     public static void end(String className, String methodName) {
+        System.out.println("<- " + className + "." + methodName);
+        System.out.println();
         if (!isEnabled()) {
             return;
         }
         MethodStack methodStack = _currentStack.get();
         if (methodStack.hasItems()) {
-            MethodCall methodCall = methodStack.getMethodCall();
+            MethodCall methodCall = methodStack.getCurrentMethodCall();
+            assertMethodCall(methodCall, className, methodName);
             methodCall.setEndTime(new Date());
             methodStack.deregisterMethodCall(methodCall);
         }
     }
 
-    public static Map<Long, MethodStack> getMethodStacks() {
-        return _applicationStack.getMethodStacks();
-    }
-
-    public static Map<Long, List<MethodCall>> getMethodCalls() {
-        Map<Long, List<MethodCall>> methodCalls = new LinkedHashMap<Long, List<MethodCall>>();
-        Set<Long> threadIds = getMethodStacks().keySet();
-        for (Long threadId : threadIds) {
-            MethodStack methodStack = getMethodStacks().get(threadId);
-            Collection<MethodCall> children = methodStack.getMethodCall().getChildren();
-            methodCalls.put(threadId, new ArrayList<MethodCall>(children));
+    private static void assertMethodCall(MethodCall methodCall, String className, String methodName) {
+        if (!methodCall.getMethod().getClassName().equals(className)
+                || !methodCall.getMethod().getMethodName().equals(methodName)) {
+            // throw new IllegalArgumentException("invalid end of method [" +
+            // methodCall.getMethod().toString()
+            // + "] on argument [" + className + "." + methodName + "]");
+            System.err.println("invalid end of method [" + methodCall.getMethod().toString() + "] on argument ["
+                    + className + "." + methodName + "]");
         }
-        return methodCalls;
+
     }
 
     public static void enable() {
@@ -77,5 +75,26 @@ public class Profiler {
     public static void clear() {
         MethodStack methodStack = _currentStack.get();
         methodStack.clear();
+    }
+
+    public static MethodCall getRootMethodFromCurrentThread() {
+        return getRootMethod(Thread.currentThread().getId());
+    }
+
+    public static MethodCall getRootMethod(long threadId) {
+        Map<Long, MethodStack> methodStacks = _applicationStack.getMethodStacks();
+        return methodStacks.get(threadId).getRootMethod();
+    }
+
+    public static Map<Long, MethodCall> getRootMethods() {
+        Map<Long, MethodCall> rootMethods = new HashMap<Long, MethodCall>();
+        Map<Long, MethodStack> methodStacks = _applicationStack.getMethodStacks();
+        Set<Long> threadIds = methodStacks.keySet();
+        for (Long threadId : threadIds) {
+            MethodStack methodStack = methodStacks.get(threadId);
+            MethodCall rootMethod = methodStack.getRootMethod();
+            rootMethods.put(threadId, rootMethod);
+        }
+        return rootMethods;
     }
 }

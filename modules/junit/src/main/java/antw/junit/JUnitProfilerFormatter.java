@@ -3,7 +3,6 @@ package antw.junit;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -35,7 +34,6 @@ public class JUnitProfilerFormatter extends antw.common.Printer implements JUnit
 
     @Override
     public void endTest(Test test) {
-        dump();
     }
 
     @Override
@@ -44,22 +42,18 @@ public class JUnitProfilerFormatter extends antw.common.Printer implements JUnit
 
     @Override
     public void endTestSuite(JUnitTest suite) throws BuildException {
-        dump();
-    }
-
-    private void dump() {
-        Map<Long, List<MethodCall>> methodCallMaping = Profiler.getMethodCalls();
-        Set<Long> threadIds = methodCallMaping.keySet();
+        Map<Long, MethodCall> rootMethods = Profiler.getRootMethods();
+        Set<Long> threadIds = rootMethods.keySet();
         for (Long threadId : threadIds) {
-            List<MethodCall> methodCalls = methodCallMaping.get(threadId);
-            for (MethodCall methodCall : methodCalls) {
-                out("", methodCall);
-            }
+            MethodCall methodCall = rootMethods.get(threadId);
+            out(".", methodCall);
         }
+
     }
 
     private void out(String prefix, MethodCall methodCall) {
-        out(prefix + methodCall.getMethod().toString() + "\t" + methodCall.getCount() + "\t" + methodCall.getTime());
+        // out(prefix + methodCall.getMethod().toString() + "\t" +
+        // methodCall.getCount() + "\t" + methodCall.getTime());
         Collection<MethodCall> children = methodCall.getChildren();
         for (MethodCall child : children) {
             out(prefix + prefix, child);
@@ -69,16 +63,17 @@ public class JUnitProfilerFormatter extends antw.common.Printer implements JUnit
     @Override
     public void setOutput(OutputStream outputStream) {
         setOutputPrint(new PrintStream(outputStream));
+        setErrorPrint(new PrintStream(outputStream));
     }
 
     @Override
     public void setSystemError(String error) {
-
+        err(error);
     }
 
     @Override
-    public void setSystemOutput(String outpit) {
-
+    public void setSystemOutput(String output) {
+        out(output);
     }
 
 }

@@ -8,7 +8,7 @@ public class MethodStack {
 
     private ApplicationStack _applicationStack;
 
-    private boolean _enabled;
+    private boolean _enabled = true;
 
     private MethodCall _rootMethod;
 
@@ -33,7 +33,7 @@ public class MethodStack {
         _methodCall = methodCall.getParent();
     }
 
-    public MethodCall getMethodCall() {
+    public MethodCall getCurrentMethodCall() {
         return _methodCall;
     }
 
@@ -55,5 +55,9 @@ public class MethodStack {
 
     public void clear() {
         _rootMethod.clear();
+    }
+
+    public MethodCall getRootMethod() {
+        return _rootMethod;
     }
 }
