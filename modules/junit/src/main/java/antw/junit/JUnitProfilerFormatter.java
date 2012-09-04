@@ -19,27 +19,23 @@ public class JUnitProfilerFormatter extends JUnitFormatter {
 
     @Override
     public void startTest(Test test) {
-        Profiler.enable();
         super.startTest(test);
     }
 
     @Override
     public void endTest(Test test) {
-        Profiler.disable();
         super.endTest(test);
         flushProfiling();
     }
 
     @Override
     public void startTestSuite(JUnitTest suite) throws BuildException {
-        Profiler.clear();
-        Profiler.disable();
+        Profiler.reset();
         super.startTestSuite(suite);
     }
 
     @Override
     public void endTestSuite(JUnitTest suite) throws BuildException {
-        Profiler.disable();
         super.endTestSuite(suite);
     }
 

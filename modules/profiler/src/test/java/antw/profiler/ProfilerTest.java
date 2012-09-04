@@ -19,7 +19,7 @@ public class ProfilerTest {
 
     @After
     public void teardown() throws InterruptedException {
-        Profiler.clear();
+        Profiler.reset();
     }
 
     @Test
@@ -128,6 +128,23 @@ public class ProfilerTest {
         assertThat(calls.get(1).getMethod()).isEqualTo(new Method("org.FooBar", "foobar"));
         assertThat(calls.get(1).getChildren()).hasSize(1);
         assertThat(calls.get(1).getChildren().get(0).getMethod()).isEqualTo(new Method("org.FooBar", "foobar"));
+    }
+
+    @Test
+    public void testReset() throws Exception {
+        Profiler.reset();
+        Profiler.start("org.Bar", "bar");
+        Profiler.end("org.Bar", "bar");
+        MethodCall rootCall = Profiler.getRootMethodFromCurrentThread();
+        assertThat(rootCall.getChildren()).hasSize(1);
+        assertThat(rootCall.getChildren().get(0).getMethod()).isEqualTo(new Method("org.Bar", "bar"));
+        Profiler.reset();
+        Profiler.start("org.FooBar", "foobar");
+        Profiler.end("org.FooBar", "foobar");
+        rootCall = Profiler.getRootMethodFromCurrentThread();
+        assertThat(rootCall.getChildren()).hasSize(1);
+        assertThat(rootCall.getChildren().get(0).getMethod()).isEqualTo(new Method("org.FooBar", "foobar"));
+
     }
 
 }
