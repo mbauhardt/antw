@@ -6,57 +6,60 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-import junit.framework.AssertionFailedError;
 import junit.framework.Test;
 
 import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.taskdefs.optional.junit.JUnitResultFormatter;
 import org.apache.tools.ant.taskdefs.optional.junit.JUnitTest;
 
+import antw.common.util.Constants;
 import antw.profiler.MethodCall;
 import antw.profiler.Profiler;
 
-public class JUnitProfilerFormatter extends antw.common.Printer implements JUnitResultFormatter {
-
-    @Override
-    public void addError(Test test, Throwable t) {
-
-    }
-
-    @Override
-    public void addFailure(Test test, AssertionFailedError t) {
-
-    }
+public class JUnitProfilerFormatter extends JUnitFormatter {
 
     @Override
     public void startTest(Test test) {
+        Profiler.enable();
+        super.startTest(test);
     }
 
     @Override
     public void endTest(Test test) {
+        Profiler.disable();
+        super.endTest(test);
+        flushProfiling();
     }
 
     @Override
     public void startTestSuite(JUnitTest suite) throws BuildException {
+        Profiler.clear();
+        Profiler.disable();
+        super.startTestSuite(suite);
     }
 
     @Override
     public void endTestSuite(JUnitTest suite) throws BuildException {
+        Profiler.disable();
+        super.endTestSuite(suite);
+    }
+
+    private void flushProfiling() {
         Map<Long, MethodCall> rootMethods = Profiler.getRootMethods();
         Set<Long> threadIds = rootMethods.keySet();
         for (Long threadId : threadIds) {
             MethodCall methodCall = rootMethods.get(threadId);
-            out(".", methodCall);
+            out(0, methodCall);
         }
-
     }
 
-    private void out(String prefix, MethodCall methodCall) {
-        // out(prefix + methodCall.getMethod().toString() + "\t" +
-        // methodCall.getCount() + "\t" + methodCall.getTime());
+    private void out(int spaces, MethodCall methodCall) {
+        space(8);
+        String space = buildSpaces(spaces);
+        out("%-20s %-65s %-5s %-10s %n", new Object[] { Constants.PROFILER_LABEL, space + methodCall.getMethod(),
+                methodCall.getCount(), methodCall.getTime() });
         Collection<MethodCall> children = methodCall.getChildren();
         for (MethodCall child : children) {
-            out(prefix + prefix, child);
+            out(spaces + 1, child);
         }
     }
 

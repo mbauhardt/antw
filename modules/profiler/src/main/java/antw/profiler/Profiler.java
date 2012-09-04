@@ -17,7 +17,6 @@ public class Profiler {
     };
 
     public static void start(String className, String methodName) {
-        System.out.println("-> " + className + "." + methodName);
         if (!isEnabled()) {
             return;
         }
@@ -38,30 +37,27 @@ public class Profiler {
     }
 
     public static void end(String className, String methodName) {
-        System.out.println("<- " + className + "." + methodName);
-        System.out.println();
         if (!isEnabled()) {
             return;
         }
         MethodStack methodStack = _currentStack.get();
-        if (methodStack.hasItems()) {
-            MethodCall methodCall = methodStack.getCurrentMethodCall();
-            assertMethodCall(methodCall, className, methodName);
+        MethodCall methodCall = methodStack.reverseFindMethodCall(new Method(className, methodName));
+        if (methodCall != null) {
             methodCall.setEndTime(new Date());
             methodStack.deregisterMethodCall(methodCall);
         }
+        lazyEnd(methodCall);
     }
 
-    private static void assertMethodCall(MethodCall methodCall, String className, String methodName) {
-        if (!methodCall.getMethod().getClassName().equals(className)
-                || !methodCall.getMethod().getMethodName().equals(methodName)) {
-            // throw new IllegalArgumentException("invalid end of method [" +
-            // methodCall.getMethod().toString()
-            // + "] on argument [" + className + "." + methodName + "]");
-            System.err.println("invalid end of method [" + methodCall.getMethod().toString() + "] on argument ["
-                    + className + "." + methodName + "]");
+    private static void lazyEnd(MethodCall methodCall) {
+        if (methodCall == null) {
+            return;
         }
-
+        if (methodCall.getParent() != null) {
+            if (methodCall.getParent().getMethod().equals(new Method(Profiler.class.getName(), "init()"))) {
+                methodCall.getParent().setEndTime(new Date());
+            }
+        }
     }
 
     public static void enable() {

@@ -1,5 +1,7 @@
 package antw.profiler;
 
+import java.util.Date;
+
 public class MethodStack {
 
     private long _threadId;
@@ -16,7 +18,7 @@ public class MethodStack {
         _threadId = threadId;
         _applicationStack = applicationStack;
         _enabled = enabled;
-        _rootMethod = new MethodCall(null, new Method(Profiler.class.getName(), "init()"));
+        _rootMethod = new MethodCall(null, new Method(Profiler.class.getName(), "init()")).setStartTime(new Date());
         registerMethodCall(_rootMethod);
         _applicationStack.registerMethodStack(_threadId, this);
     }
@@ -33,6 +35,35 @@ public class MethodStack {
         _methodCall = methodCall.getParent();
     }
 
+    public MethodCall reverseFindMethodCall(Method method) {
+        MethodCall currentMethodCall = getCurrentMethodCall();
+        if (currentMethodCall == null) {
+            return null;
+        }
+        boolean goingReverse = false;
+        while (!currentMethodCall.getMethod().equals(method)) {
+            goingReverse = true;
+            currentMethodCall.setEndTime(new Date());
+            // System.err.println("Method [" + method +
+            // "] does not match the current pointer in the stack ["
+            // + currentMethodCall.getMethod() +
+            // "]. Move the pointer to parent  ["
+            // + currentMethodCall.getParent().getMethod() + "]");
+            currentMethodCall = currentMethodCall.getParent();
+            if (currentMethodCall == null) {
+                break;
+            }
+
+        }
+        // if (goingReverse) {
+        // System.err.println("Now method [" + method +
+        // "] should match the current pointer in the stack ["
+        // + currentMethodCall.getMethod() + "]");
+        //
+        // }
+        return currentMethodCall;
+    }
+
     public MethodCall getCurrentMethodCall() {
         return _methodCall;
     }
@@ -47,10 +78,6 @@ public class MethodStack {
 
     public boolean isEnabled() {
         return _enabled;
-    }
-
-    public boolean hasItems() {
-        return _methodCall != null;
     }
 
     public void clear() {
