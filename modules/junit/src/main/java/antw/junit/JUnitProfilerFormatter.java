@@ -26,11 +26,11 @@ public class JUnitProfilerFormatter extends JUnitFormatter {
     public void endTest(Test test) {
         super.endTest(test);
         flushProfiling();
+        Profiler.reset();
     }
 
     @Override
     public void startTestSuite(JUnitTest suite) throws BuildException {
-        Profiler.reset();
         super.startTestSuite(suite);
     }
 

@@ -13,17 +13,16 @@ import org.objectweb.asm.ClassWriter;
 
 public class ClassTransformer implements ClassFileTransformer {
 
-    private Properties _properties = new Properties();
+    private Properties _defaultProperties = new Properties();
+    private Properties _dynamicProperties = new Properties();
 
     public ClassTransformer() throws IOException {
         // load default
-        _properties.load(this.getClass().getResourceAsStream("/antw-transform.properties"));
+        _defaultProperties.load(this.getClass().getResourceAsStream("/antw-transform.properties"));
 
         String dynamicPropertyFile = System.getProperty("antw-transform.properties");
         if (dynamicPropertyFile != null) {
-            Properties dynamicProperties = new Properties();
-            dynamicProperties.load(new FileInputStream(dynamicPropertyFile));
-            _properties.putAll(dynamicProperties);
+            _dynamicProperties.load(new FileInputStream(dynamicPropertyFile));
         }
     }
 
@@ -51,25 +50,38 @@ public class ClassTransformer implements ClassFileTransformer {
     }
 
     private boolean exclude(String className) {
-        String excludes = (String) _properties.get("antw.transform.excludes");
-        String[] classNames = excludes.split(",");
-        for (String excludeClassName : classNames) {
-            if (className.startsWith(excludeClassName)) {
-                return true;
+        return exclude(className, _defaultProperties) || exclude(className, _dynamicProperties);
+    }
+
+    private boolean exclude(String className, Properties properties) {
+        if (properties.containsKey("antw.transform.excludes")) {
+            String excludes = (String) properties.get("antw.transform.excludes");
+            String[] classNames = excludes.split(",");
+            for (String excludeClassName : classNames) {
+                if (className.startsWith(excludeClassName)) {
+                    return true;
+                }
             }
         }
         return false;
     }
 
     private boolean include(String className) {
-        String includes = (String) _properties.get("antw.transform.includes");
-        String[] classNames = includes.split(",");
-        for (String includeClassName : classNames) {
-            if (className.startsWith(includeClassName)) {
-                return true;
+        return include(className, _defaultProperties) || include(className, _dynamicProperties);
+    }
+
+    private boolean include(String className, Properties properties) {
+        if (properties.containsKey("antw.transform.includes")) {
+            String includes = (String) properties.get("antw.transform.includes");
+            String[] classNames = includes.split(",");
+            for (String includeClassName : classNames) {
+                if (className.startsWith(includeClassName)) {
+                    return true;
+                }
             }
         }
         return false;
+
     }
 
     private byte[] transform(String className, byte[] classfileBuffer) {

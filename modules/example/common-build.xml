@@ -46,7 +46,7 @@
 		<mkdir dir="build/reports" />
 		<junit haltonfailure="true" fork="yes" forkmode="once">
 			<jvmarg value="-javaagent:lib/provided/antw-profiler-0.6-dev-fat.jar"/>
-			
+			<sysproperty key="antw-transform.properties" value="antw-transform.properties"/>
 			<!--<formatter type="xml"/>
 			<formatter classname="org.apache.tools.ant.taskdefs.optional.junit.PlainJUnitResultFormatter" usefile="false"/>-->
 			<formatter classname="antw.junit.JUnitProfilerFormatter" usefile="false"/>
