@@ -51,8 +51,8 @@ public class JUnitProfilerFormatter extends JUnitFormatter {
     private void out(int spaces, MethodCall methodCall) {
         space(8);
         String space = buildSpaces(spaces);
-        out("%-20s %-65s %-5s %-10s %n", new Object[] { Constants.PROFILER_LABEL, space + methodCall.getMethod(),
-                methodCall.getCount(), methodCall.getTime() });
+        out("%-20s %-65s %-11s %-11s %n", new Object[] { Constants.PROFILER_LABEL, space + methodCall.getMethod(),
+                methodCall.getCount() + " times", methodCall.getTime() + " ms" });
         Collection<MethodCall> children = methodCall.getChildren();
         for (MethodCall child : children) {
             out(spaces + 1, child);

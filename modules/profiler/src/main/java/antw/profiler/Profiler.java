@@ -46,18 +46,6 @@ public class Profiler {
             methodCall.setEndTime(new Date());
             methodStack.deregisterMethodCall(methodCall);
         }
-        lazyEnd(methodCall);
-    }
-
-    private static void lazyEnd(MethodCall methodCall) {
-        if (methodCall == null) {
-            return;
-        }
-        if (methodCall.getParent() != null) {
-            if (methodCall.getParent().getMethod().equals(new Method(Profiler.class.getName(), "init()"))) {
-                methodCall.getParent().setEndTime(new Date());
-            }
-        }
     }
 
     public static void enable() {

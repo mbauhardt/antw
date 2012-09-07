@@ -41,10 +41,10 @@ public class MethodCall {
     }
 
     public void setEndTime(Date endTime) {
-        if ((endTime.getTime() - _lastStartTime) > 0) {
-            _metrics.inc(endTime.getTime() - _lastStartTime);
-        } else {
+        if (_lastStartTime == 0) {
             _metrics.inc(0);
+        } else if ((endTime.getTime() - _lastStartTime) >= 0) {
+            _metrics.inc(endTime.getTime() - _lastStartTime);
         }
         _lastStartTime = 0;
     }
