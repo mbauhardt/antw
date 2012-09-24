@@ -1,0 +1,11 @@
+---
+layout: documentation
+title: Antw - Usage
+---
+{% include JB/setup %}
+{% include themes/antw/example.md %}
+
+##### AntDefaultLogger
+The file *ant-default.txt* contains the messages from the ant default logger.
+
+![AntDefaultLogger](ant_default_logger.png)
