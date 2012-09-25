@@ -1,2 +1,2 @@
 rootProject.name = 'antw'
-include "modules:common", "modules:logger", "modules:junit", "modules:profiler", "modules:installer", "modules:example:modules:module_1", "modules:example:modules:module_2"
+include "modules:common", "modules:logger", "modules:junit", "modules:profiler", "modules:installer", "modules:example:modules:sun", "modules:example:modules:water", "modules:example:modules:herbivore", "modules:example:modules:carnivore", "modules:example:modules:plant"

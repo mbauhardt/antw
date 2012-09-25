@@ -2,6 +2,7 @@
 
 	<property file="build.properties" />
 	
+	
 	<path id="compile.classpath">
 		<fileset dir="${root.dir}/lib/compile">
 			<include name="**/*.jar" />
@@ -11,6 +12,21 @@
 		</fileset>
 	</path>
 
+	<path id="artifact.classpath" />
+
+	 <macrodef name="addArtifactToClasspath">
+        <attribute name="module" />
+        <sequential>
+            <pathconvert property="artifact.classpath.@{module}" refid="artifact.classpath" />
+            <path id="artifact.classpath">
+                <pathelement path="${artifact.classpath.@{module}}" />
+                <fileset dir="${root.dir}/modules/@{module}/build">
+                    <include name="**/*.jar" />
+                </fileset>
+            </path>
+		</sequential>
+	</macrodef>
+	
 	<target name="clean">
 		<echo>clean...</echo>
 		<delete dir="build">
@@ -21,6 +37,7 @@
 		<echo>compile...</echo>
 		<mkdir dir="build/classes" />
 		<javac srcdir="src/main/java" includes="**/*.java" destdir="build/classes" includeantruntime="false">
+			<classpath refid="artifact.classpath" />
 		</javac>
 	</target>
 
@@ -29,6 +46,7 @@
 		<mkdir dir="build/test-classes" />
 		<javac srcdir="src/test/java" includes="**/*.java" destdir="build/test-classes">
 			<classpath refid="compile.classpath" />
+			<classpath refid="artifact.classpath" />
 		</javac>
 	</target>
 
@@ -53,6 +71,7 @@
 			
 			<classpath>
 				<path refid="compile.classpath" />
+				<path refid="artifact.classpath" />
 			</classpath>
 
 			<batchtest fork="yes" todir="build/reports">

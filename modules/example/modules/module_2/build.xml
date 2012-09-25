@@ -1,3 +1,0 @@
-<project name="module_2">
-    <import file="../../common-build.xml" />
-</project>

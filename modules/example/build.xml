@@ -1,8 +1,11 @@
 <project name="Root Project">
 
 	<path id="modules">
-		<pathelement path="modules/module_1" />
-		<pathelement path="modules/module_2" />
+		<pathelement path="modules/sun" />
+		<pathelement path="modules/water" />
+		<pathelement path="modules/plant" />
+		<pathelement path="modules/herbivore" />
+		<pathelement path="modules/carnivore" />
 	</path>
 
 	<target name="test">
