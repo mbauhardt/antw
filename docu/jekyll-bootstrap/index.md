@@ -5,14 +5,14 @@ tagline: Supporting tagline
 ---
 {% include JB/setup %}
 
-### About
-Antw is a wrapper for apache ant. Antw attach at runtime a bunch of loggers to log some helpful statistics about your build. All statistics are logged to a directory called *antw* located in your build directory (usually *build/antw*).
+### What is antw
+Antw is a wrapper which contains [apache ant](http://ant.apache.org) with some nice features. 
+Antw attach at runtime a bunch of loggers to log some helpful statistics about your ant build. 
+All statistics are logged into files under directory called *antw* located in your build directory (usually *build/antw*).
 
+The current main features of antw are
 
-### What antw will do for you
-Antw will download and install apache ant version 1.8.3 for you under directory
-    
-    ~/.antw/install/contrib
-
-It provides a script that use a set of loggers. Not more.
++ many loggers which logs very helpful statistics about your ant targets
++ junit formatters to log statictics about your junit tests
++ a built in profiler which logs profiling statistics about your code   
 

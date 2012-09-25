@@ -16,11 +16,11 @@ or via wget
     wget --no-check-certificate https://raw.github.com/mbauhardt/antw/latest/src/main/scripts/antw-checkout.sh -O - | sh
 
 
-This will install the *antw* sources under directory
+This command will install the *antw* sources under directory
 
     ~/.antw/source
 
-And the binary under directory
+And the binary incl. apache ant under directory
 
     ~/.antw/install
 
