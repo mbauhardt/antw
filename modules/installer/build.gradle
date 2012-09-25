@@ -61,7 +61,7 @@ repositories {
 }
 
 antwSrcUrl='https://github.com/mbauhardt/antw'
-antwNewsUrl='http://twitter.com/mbauhardt'
+antwNewsUrl='http://twitter.com/antwcc'
 binDirectory = new File(installDirectory, 'bin')
 
 commonJar = new File(project.currentInstallDirectory, 'lib/antw-common-'+project.version+'.jar').absolutePath

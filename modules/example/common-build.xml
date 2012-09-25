@@ -28,12 +28,12 @@
 	</macrodef>
 	
 	<target name="clean">
-		<echo>clean...</echo>
-		<delete dir="build">
+		<echo>clean... - delete directory ${ant.project.name}/build</echo>
+		<delete dir="${ant.project.name}/build">
 		</delete>
 	</target>
 
-	<target name="compile" depends="clean">
+	<target name="compile">
 		<echo>compile...</echo>
 		<mkdir dir="build/classes" />
 		<javac srcdir="src/main/java" includes="**/*.java" destdir="build/classes" includeantruntime="false">
@@ -41,7 +41,7 @@
 		</javac>
 	</target>
 
-	<target name="compile-tests" depends="clean">
+	<target name="compile-tests">
 		<echo>compile tests...</echo>
 		<mkdir dir="build/test-classes" />
 		<javac srcdir="src/test/java" includes="**/*.java" destdir="build/test-classes">
