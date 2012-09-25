@@ -1,14 +1,13 @@
 ### Example Apache Ant Project Structure
 
-The following loggers will attach at runtime to the ant process. We will demonstrate the different loggers with a small ant multiproject build that has two separately modules.
+We have a demo multoproject to demonstrate how the different loggers work. The project contains 5 modules which depends on each other. The modules _sun_ and _water_ has no dependencies to other modules. The module _plant_ depends on _sun_ and _water_. Module _herbivore_ deends on _plant_ and _carnivore_ depends on _herbivore_.
 
-    project
-        build.xml
-        modules
-            module_1
-                build.xml
-            module_2
-                build.xml
+    sun, water
+       \  /
+       plant
+         |
+     herbivore
+         |
+     carnivore
 
-This project has a *target* test that depends on compile, compile-test, jar, unit-jar etc. There are two tests in *module_1*  they are passed. There are one test in *module_2* that will fail.
-
+This project has a target _test_ that depends on _compile_, _jar_, _compile-test_, _unit-jar_.
