@@ -60,8 +60,8 @@ repositories {
 	flatDir name: 'uploadBin', dirs: new File(currentInstallDirectory, 'bin')
 }
 
-antwSrcUrl='https://github.com/mbauhardt/antw'
-antwNewsUrl='http://twitter.com/antwcc'
+antwUrl='http://www.antw.cc'
+tstamp = new java.text.SimpleDateFormat("d-MMMM-yyyy").format(new Date());
 binDirectory = new File(installDirectory, 'bin')
 
 commonJar = new File(project.currentInstallDirectory, 'lib/antw-common-'+project.version+'.jar').absolutePath
@@ -87,11 +87,9 @@ uploadScripts.doFirst {
 	project.buildDir.mkdirs()
 	scriptPath.write('echo \'\'')
 	scriptPath.append('\n')
-	scriptPath.append('echo \'Welcome to antw, version: ' + project.version + ', revision: ' + antwRevision + '\'' + ', build with apache-ant-1.8.3')
+	scriptPath.append('echo \'Welcome to antw, version: ' + project.version + ', revision: ' + antwRevision + '\', built on ' + tstamp + ' with apache-ant-1.8.3')
 	scriptPath.append('\n')
-	scriptPath.append('echo \''+antwSrcUrl+ '\'')
-	scriptPath.append('\n')
-	scriptPath.append('echo \''+antwNewsUrl+ '\'')
+	scriptPath.append('echo \''+antwUrl+ '\'')
 	scriptPath.append('\n')
 	scriptPath.append('echo \'\'')
 	scriptPath.append('\n')
