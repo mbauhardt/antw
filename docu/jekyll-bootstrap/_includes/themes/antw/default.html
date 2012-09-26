@@ -42,13 +42,10 @@
 			</div>
 		  	<div class="row-fluid">
 				<ul class="nav nav-pills">
-				  <li><a href="/"><i class="icon-home icon-black"></i> Home</a></li>
-				  <li><a href="/news"><i class="icon-bullhorn icon-black"></i> News</a></li>
-				  <li><a href="/documentation"><i class="icon-book icon-black"></i> Documentation</a></li>
-				  <li><a href="/support"><i class="icon-globe icon-black"></i> Support</a></li>
-				  <li><a href="/download"><i class="icon-download icon-black"></i> Download</a></li>
-				  <li><a href="/license"><i class="icon-certificate icon-black"></i> License</a></li>
-				</ul>
+				  {% assign pages_list = site.pages %}
+				  {% assign group = 'main_navigation' %}
+				  {% include JB/navigation %}
+				</ul>		  	
 		  	</div>
 			<!-- Content -->
 			<div class="row-fluid">

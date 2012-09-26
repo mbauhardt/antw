@@ -1,6 +1,10 @@
 ---
 layout: page
-title: Antw - Support
+title: Support
+group: main_navigation
+icon: icon-globe icon-black
+permalink: /
+weight: 3
 ---
 {% include JB/setup %}
 

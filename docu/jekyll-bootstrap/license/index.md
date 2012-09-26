@@ -1,6 +1,10 @@
 ---
 layout: page
-title: Antw - License
+title: License
+group: main_navigation
+icon: icon-certificate icon-black
+permalink: /
+weight: 5
 ---
 {% include JB/setup %}
 

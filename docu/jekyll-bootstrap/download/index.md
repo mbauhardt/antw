@@ -1,6 +1,10 @@
 ---
 layout: page
-title: Antw - Download
+title: Download
+group: main_navigation
+icon: icon-download icon-black
+permalink: /
+weight: 4
 ---
 {% include JB/setup %}
 

@@ -1,7 +1,10 @@
 ---
 layout: page
-title: Antw - Home
-tagline: Supporting tagline
+title: Home
+group: main_navigation
+icon: icon-home icon-black
+permalink: /
+weight: 0
 ---
 {% include JB/setup %}
 

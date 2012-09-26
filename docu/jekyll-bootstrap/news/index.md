@@ -1,7 +1,10 @@
 ---
 layout: page
-title: Antw - Support
-tagline: Supporting tagline
+title: News
+group: main_navigation
+icon: icon-bullhorn icon-black
+permalink: /
+weight: 1
 ---
 {% include JB/setup %}
 

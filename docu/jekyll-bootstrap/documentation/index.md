@@ -1,6 +1,10 @@
 ---
 layout: documentation
-title: Antw - Documentation
+title: Documentation
+group: main_navigation
+icon: icon-book icon-black
+permalink: /
+weight: 2
 ---
 {% include JB/setup %}
 
