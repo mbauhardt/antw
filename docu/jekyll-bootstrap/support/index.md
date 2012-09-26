@@ -4,7 +4,7 @@ title: Antw - Support
 ---
 {% include JB/setup %}
 
-<dl class="dl-horizontal">
+<dl>
 	<dt>Code</dt>
 	<dd>Antw is a open source project hosted on <a href="https://github.com/mbauhardt/antw">Github</a>. Please feel free to fork the project to provide patches, improvements or new features.</dd>
 	<br>

@@ -50,7 +50,7 @@ It is also recommended to enable the *antw junit formatter's*. Read the document
 		</tr>
 		<tr>
 			<td>0.6</td>
-			<td><a href="https://github.com/downloads/mbauhardt/antw/antw-profiler-0.6-fat.jar">antw-porfiler-0.6-fat.jar</a></td>
+			<td><a href="https://github.com/downloads/mbauhardt/antw/antw-profiler-0.6-fat.jar">antw-profiler-0.6-fat.jar</a></td>
 			<td>profler classes which profiles your code</td>
 		</tr>
 	</tbody>

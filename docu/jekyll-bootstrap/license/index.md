@@ -4,7 +4,7 @@ title: Antw - License
 ---
 {% include JB/setup %}
 
-<dl class="dl-horizontal">
+<dl>
   <dt>Sofware</dt>
   <dd>The software project <a href="https://github.com/mbauhardt/antw">antw</a> is licensed under <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache License, Version 2.0</a></dd>
   <br>
