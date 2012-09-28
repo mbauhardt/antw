@@ -18,7 +18,7 @@ import antw.junit.model.TestSuites;
 import antw.junit.model.TestCase.Status;
 import antw.junit.util.TestUtil;
 
-public class JUnitFormatter extends antw.common.Printer implements JUnitResultFormatter {
+public class JUnitStandardFormatter extends antw.common.Printer implements JUnitResultFormatter {
 
     private TestSuites _testSuites = new TestSuites();
 

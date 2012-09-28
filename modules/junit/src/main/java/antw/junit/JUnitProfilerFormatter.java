@@ -15,7 +15,7 @@ import antw.common.util.Constants;
 import antw.profiler.MethodCall;
 import antw.profiler.Profiler;
 
-public class JUnitProfilerFormatter extends JUnitFormatter {
+public class JUnitProfilerFormatter extends JUnitStandardFormatter {
 
     @Override
     public void startTest(Test test) {
