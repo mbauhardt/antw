@@ -1,6 +1,6 @@
 ---
 layout: documentation
-title: Antw - Installation/Deinstallation
+title: Deinstallation
 ---
 {% include JB/setup %}
 
@@ -27,10 +27,3 @@ And the binary incl. apache ant under directory
 After installation add the bin folder to your PATH
 
     export PATH=$PATH:~/.antw/install/bin
-
-
-
-### Desinstallation
-Remove the directory *.antw*
-
-    rm -rf ~/.antw

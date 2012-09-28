@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Download
+title: Downloads
 group: main_navigation
 icon: icon-download icon-black
 permalink: /

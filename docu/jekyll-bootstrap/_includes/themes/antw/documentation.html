@@ -6,27 +6,27 @@
 	<div class="span3">
 		<ul class="nav nav-list">
 		  <li class="nav-header"><i class="icon-folder-open icon-black"></i> Get / Remove The Software</li>
-		  <li><a href="/documentation/get-remove#installation">&nbsp;&nbsp;Installation</a></li>
-		  <li><a href="/documentation/get-remove#desinstallation">&nbsp;&nbsp;Deinstallation</a></li>
+		  <li {%if page.url contains '/installation'%}class="active"{%endif%}><a href="/documentation/get-remove/installation.html">&nbsp;&nbsp;Installation</a></li>
+		  <li {%if page.url contains '/deinstallation'%}class="active"{%endif%}><a href="/documentation/get-remove/deinstallation.html">&nbsp;&nbsp;Deinstallation</a></li>
 		</ul>
 		<ul class="nav nav-list">
 		  <li class="nav-header"><i class="icon-folder-open icon-black"></i> Usage</li>
-		  <li><a href="/documentation/usage#antw">&nbsp;&nbsp;Antw</a></li>
-		  <li><a href="/documentation/usage#apacheant">&nbsp;&nbsp;Apache Ant</a></li>
+		  <li {%if page.url contains '/antw.html'%}class="active"{%endif%}><a href="/documentation/usage/antw.html">&nbsp;&nbsp;Antw</a></li>
+		  <li {%if page.url contains '/apache-ant'%}class="active"{%endif%}><a href="/documentation/usage/apache-ant.html">&nbsp;&nbsp;Apache Ant</a></li>
 		</ul>
 		<ul class="nav nav-list">
 		  <li class="nav-header"><i class="icon-folder-open icon-black"></i> Logger</li>
-		  <li><a href="/documentation/logger/tree.html">&nbsp;&nbsp;Tree</a></li>
-		  <li><a href="/documentation/logger/target-duration.html">&nbsp;&nbsp;Target Duration</a></li>
-		  <li><a href="/documentation/logger/target-summary.html">&nbsp;&nbsp;Target Summary</a></li>
-		  <li><a href="/documentation/logger/junit.html">&nbsp;&nbsp;Junit</a></li>
-		  <li><a href="/documentation/logger/message.html">&nbsp;&nbsp;Message</a></li>
-		  <li><a href="/documentation/logger/ant-default.html">&nbsp;&nbsp;Ant Default</a></li>
+		  <li {%if page.url contains '/tree'%}class="active"{%endif%}><a href="/documentation/logger/tree.html">&nbsp;&nbsp;Tree</a></li>
+		  <li {%if page.url contains '/target-duration'%}class="active"{%endif%}><a href="/documentation/logger/target-duration.html">&nbsp;&nbsp;Target Duration</a></li>
+		  <li {%if page.url contains '/target-summary'%}class="active"{%endif%}><a href="/documentation/logger/target-summary.html">&nbsp;&nbsp;Target Summary</a></li>
+		  <li {%if page.url contains '/junit.html'%}class="active"{%endif%}><a href="/documentation/logger/junit.html">&nbsp;&nbsp;Junit</a></li>
+		  <li {%if page.url contains '/message'%}class="active"{%endif%}><a href="/documentation/logger/message.html">&nbsp;&nbsp;Message</a></li>
+		  <li {%if page.url contains '/ant-default'%}class="active"{%endif%}><a href="/documentation/logger/ant-default.html">&nbsp;&nbsp;Ant Default</a></li>
 		</ul>
 		<ul class="nav nav-list">
 		  <li class="nav-header"><i class="icon-folder-open icon-black"></i> Junit Formatter</li>
-		  <li><a href="#">&nbsp;&nbsp;Default</a></li>
-		  <li><a href="#">&nbsp;&nbsp;Profiler</a></li>
+		  <li {%if page.url contains '/junit-standard-formatter.html'%}class="active"{%endif%}><a href="/documentation/junit-formatter/junit-standard-formatter.html">&nbsp;&nbsp;Standard Formatter</a></li>
+		  <li {%if page.url contains '/junit-profiler-formatter.html'%}class="active"{%endif%}><a href="/documentation/junit-formatter/junit-profiler-formatter.html">&nbsp;&nbsp;Profiler Formatter</a></li>
 		</ul>
 
 	</div>
