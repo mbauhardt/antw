@@ -39,11 +39,15 @@
 				  <p class="lead">a wrapper for apache ant</p>
 			</div>
 		  	<div class="row-fluid">
-				<ul class="nav nav-pills">
-				  {% assign pages_list = site.pages %}
-				  {% assign group = 'main_navigation' %}
-				  {% include JB/navigation %}
-				</ul>		  	
+		  		<div class="navbar">
+		  			<div class="navbar-inner">
+						<ul class="nav">
+						  {% assign pages_list = site.pages %}
+						  {% assign group = 'main_navigation' %}
+						  {% include JB/navigation %}
+						</ul>
+					</div>
+				</div>		  	
 		  	</div>
 			<!-- Content -->
 			<div class="row-fluid">
