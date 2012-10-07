@@ -1,6 +1,6 @@
 ---
 layout: documentation
-title: Antw - Tree Logger
+title: Tree Logger
 ---
 {% include JB/setup %}
 {% include themes/antw/example.md %}

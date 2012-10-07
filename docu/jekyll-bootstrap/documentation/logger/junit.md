@@ -1,6 +1,6 @@
 ---
 layout: documentation
-title: Antw - Junit Logger
+title: Junit Logger
 ---
 {% include JB/setup %}
 {% include themes/antw/example.md %}

@@ -1,6 +1,6 @@
 ---
 layout: documentation
-title: Antw - Messages Logger
+title: Messages Logger
 ---
 {% include JB/setup %}
 {% include themes/antw/example.md %}

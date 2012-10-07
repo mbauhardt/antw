@@ -1,6 +1,6 @@
 ---
 layout: documentation
-title: Antw - Target Summary Logger
+title: Target Summary Logger
 ---
 {% include JB/setup %}
 {% include themes/antw/example.md %}

@@ -1,6 +1,6 @@
 ---
 layout: documentation
-title: Antw - Target Duration Logger 
+title: Target Duration Logger 
 ---
 {% include JB/setup %}
 {% include themes/antw/example.md %}

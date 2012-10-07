@@ -1,6 +1,6 @@
 ---
 layout: documentation
-title: Antw - AntLogger
+title: AntLogger
 ---
 {% include JB/setup %}
 {% include themes/antw/example.md %}
