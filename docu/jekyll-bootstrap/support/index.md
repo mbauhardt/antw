@@ -22,11 +22,11 @@ weight: 3
 	<br>
 
 	<dt>Issues</dt>
-	<dd>When you find bugs or want to provide a new feature, please create an issue on <a href="http://mbauhardt.lighthouseapp.com/projects/99246-antw/overview">mbauhardt.lighthouseapp.com</a></dd>
+	<dd>When you find bugs or want to provide a new feature, please create an issue on <a href="https://github.com/mbauhardt/antw/issues">github issue tracker</a></dd>
 	<br>
 
 	<dt>Wiki</dt>
-	<dd>Read our <a href="http://www.antw.cc/documentation">Documentation</a></dd>
+	<dd>Read our <a href="http://www.antw.cc/documentation">documentation</a></dd>
 	<br>
 
 	<dt>Continous Integration</dt>

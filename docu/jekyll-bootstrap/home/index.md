@@ -67,7 +67,7 @@ weight: 0
 	</div>
 
 	<div class="span4">
-		<h4>Lightweight Profiler</h4>
+		<h4>Lightweight Profiler  <small>NEW</small></h4>
 		<p>
 			A very cool feature is the lightweight profiler. The profiler profiles the running junit tests.
 			Creates a snapshot about the current method stack trace for every thread and provide a call count and duration about each method in this stack.

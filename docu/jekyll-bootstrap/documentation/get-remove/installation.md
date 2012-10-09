@@ -1,6 +1,6 @@
 ---
 layout: documentation
-title: Deinstallation
+title: Installation
 ---
 {% include JB/setup %}
 

@@ -9,9 +9,11 @@ weight: 4
 {% include JB/setup %}
 
 *Antw* provides some jar files you can use to create interesting reports/statistics about your ant build.
-The recommended way to [use](/documentation/usage/#antw) antw is simply to [install](/documentation/get-remove/#installation) the application. You need no root privileges to do this.
+The recommended way to [use](/documentation/usage/antw.html) antw is simply to [install](/documentation/get-remove/installation.html) the application. You need no root privileges for the installation!
 
-When you want to use antw without to install the app read the [documentation](documentation/usage/#apacheant) how to do this and download the following files
+---
+
+When you want to use antw without to install the application read the [documentation](/documentation/usage/apache-ant.html) how to do this and download the following files
 
 <table class="table">
 	<thead>
@@ -36,7 +38,8 @@ When you want to use antw without to install the app read the [documentation](do
 </table>
 
 
-It is also recommended to enable the *antw junit formatter's*. Read the documentation how to enable the [antw junit deault formatter](/documentation/junit/#defaultformatter) and the [antw profiler formatter](/documentation/junit/#profilerformatter). Here are the files you have to use.
+It is also recommended to enable the *antw junit formatter's*. Read the documentation how to enable the [antw junit standard formatter](/documentation/junit-formatter/junit-standard-formatter.html) 
+and the [antw profiler formatter](/documentation/junit-formatter/junit-profiler-formatter.html). Here are the files you have to use.
 
 <table class="table">
 	<thead>
