@@ -14,8 +14,8 @@ weight: 0
 		<h3>What Is Antw</h3>
 		<p>
 			Antw is a wrapper which contains <a href="http://ant.apache.org">apache ant</a> with some nice features.
-			The main goal is to have an application which provides an easy installer for <i>apache ant</i> and a better logging to see statistics about your build.
-			Antw provides those statistics. All reports are logged into files located in your build directory (usually <b>build/antw</b>).
+			The main goal is to have an application which provides an easy installer for apache ant inclusive a bunch of loggers which provides statistics about your build.
+			All reports are logged into files located in your build directory <em>build/antw</em>.
 		</p>
 	</div>
 	<div class="span7">
