@@ -6,7 +6,7 @@ title: Junit Logger
 {% include themes/antw/example.md %}
 
 ### JunitLogger
-This logger log filter all messages coming from the antw [junit standard formatter](/documentation/junit-formatter/junit-standard-formatter.html) into file *junit_plain.csv*
+This logger log all messages coming from the antw [junit standard formatter](/documentation/junit-formatter/junit-standard-formatter.html) into file *junit_plain.csv*
 This is a comma separated value file. Consisting of 6 columns
 
     TestSuite, TestCase, DurationInSec, TestGroup, Status, TestFailureMessage

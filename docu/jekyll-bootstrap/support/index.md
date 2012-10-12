@@ -13,6 +13,10 @@ weight: 3
 	<dd>Antw is a open source project hosted on <a href="https://github.com/mbauhardt/antw">Github</a>. Please feel free to fork the project to provide patches, improvements or new features.</dd>
 	<br>
 
+	<dt>Discussion</dt>
+	<dd>Start a discussion or post questions in the <a href="https://groups.google.com/forum/?#!forum/antw">Forum</a></dd>
+	<br>
+
 	<dt>Mail</dt>
 	<dd>Questions or comments? Write an mail to <a href="mailto:support@antw.cc">support@antw.cc</a></dd>
 	<br>

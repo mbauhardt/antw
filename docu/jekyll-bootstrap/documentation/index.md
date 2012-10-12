@@ -8,12 +8,6 @@ weight: 2
 ---
 {% include JB/setup %}
 
-### Documentation
+### Antw Documentation
 
-The following documentation describes 
-
-* how to install/deinstall antw 
-* which reports (loggers) will be created when using antw
-* the different junit formatters inclusive the profiler    
-
-
+Version 0.6

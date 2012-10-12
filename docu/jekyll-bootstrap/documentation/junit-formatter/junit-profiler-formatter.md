@@ -32,4 +32,4 @@ To enable the profiler you need to add the profiler and the formatter jar to you
 		</junit>
     </target>
 
-The [tree logger](/documentation/logger/tree.html), [junit logger](/documentation/logger/junit.html), [message logger](/documentation/logger/message.html) and [apache ant default logger](/documentation/logger/ant-default.html) will filter and log these messages.
+The [tree logger](/documentation/logger/tree.html), [junit profiler logger](/documentation/logger/junit-profiler.html), [message logger](/documentation/logger/message.html) and [apache ant default logger](/documentation/logger/ant-default.html) will filter and log these messages.
