@@ -3,13 +3,13 @@
 /************************** ANT ********************************/
 
 contribDirectory = new File(installDirectory, 'contrib')
-antDirectory = new File(contribDirectory, 'apache-ant-1.8.3')
+antDirectory = new File(contribDirectory, 'apache-ant-1.8.4')
 
 
 task downloadAnt << { 
 	if(!antDirectory.exists()){
 		contribDirectory.mkdirs();
-		ant.get(src: 'http://www.apache.org/dist/ant/binaries/apache-ant-1.8.3-bin.zip', dest:new File(contribDirectory, 'ant.zip'), verbose:true)
+		ant.get(src: 'http://www.apache.org/dist/ant/binaries/apache-ant-1.8.4-bin.zip', dest:new File(contribDirectory, 'ant.zip'), verbose:true)
 		ant.unzip(src:new File(contribDirectory, 'ant.zip'), dest:contribDirectory)
 		new File(contribDirectory, 'ant.zip').delete()
 	}
@@ -87,7 +87,7 @@ uploadScripts.doFirst {
 	project.buildDir.mkdirs()
 	scriptPath.write('echo \'\'')
 	scriptPath.append('\n')
-	scriptPath.append('echo \'Welcome to antw, version: ' + project.version + ', revision: ' + antwRevision + '\', built on ' + tstamp + ' with apache-ant-1.8.3')
+	scriptPath.append('echo \'Welcome to antw, version: ' + project.version + ', revision: ' + antwRevision + '\', built on ' + tstamp + ' with apache-ant-1.8.4')
 	scriptPath.append('\n')
 	scriptPath.append('echo \''+antwUrl+ '\'')
 	scriptPath.append('\n')
