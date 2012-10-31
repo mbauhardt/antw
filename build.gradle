@@ -1,7 +1,9 @@
 
 version='0.6.1-dev'
-installDirectory = new File(ant.properties['user.home']+'/.'+rootProject.name+'/install')
-currentInstallDirectory = new File(installDirectory, 'versions/'+rootProject.version)
+project.ext {
+	installDirectory = new File(ant.properties['user.home']+'/.'+rootProject.name+'/install')
+	currentInstallDirectory = new File(installDirectory, 'versions/'+rootProject.version)
+}
 
 allprojects{
 	group='antw'
@@ -10,7 +12,7 @@ allprojects{
 
 	
 task wrapper(type: Wrapper) {
-    gradleVersion = '1.0-milestone-7'
+    gradleVersion = '1.2'
 }
 
 

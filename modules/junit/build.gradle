@@ -16,7 +16,7 @@ dependencies {
 task fatJar(type: Jar) {
 	manifest { attributes 'Premain-Class': 'antw.profiler.asm.Main' }
 	classifier = "fat"
-	from sourceSets.main.classes
+	from sourceSets.main.output
 	from new File(rootDir,'/LICENSE')
 	from { 
 		configurations.fatJar.collect {
