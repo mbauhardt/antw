@@ -1,7 +1,0 @@
-<project name="carnivore">
-    <import file="../../common-build.xml" />
-	<addArtifactToClasspath module="sun"/>
-	<addArtifactToClasspath module="water"/>
-    <addArtifactToClasspath module="plant"/>
-	<addArtifactToClasspath module="herbivore"/>
-</project>

@@ -1,5 +1,0 @@
-<project name="plant">
-    <import file="../../common-build.xml" />
-	<addArtifactToClasspath module="water"/>
-	<addArtifactToClasspath module="sun"/>
-</project>
