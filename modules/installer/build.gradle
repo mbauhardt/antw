@@ -7,16 +7,14 @@ project.ext {
 	antDirectory = new File(contribDirectory, 'apache-ant-1.8.4')
 }
 
-task downloadAnt << { 
-	if(!antDirectory.exists()){
-		contribDirectory.mkdirs();
-		ant.get(src: 'http://www.apache.org/dist/ant/binaries/apache-ant-1.8.4-bin.zip', dest:new File(contribDirectory, 'ant.zip'), verbose:true)
-		ant.unzip(src:new File(contribDirectory, 'ant.zip'), dest:contribDirectory)
-		new File(contribDirectory, 'ant.zip').delete()
+task installAnt << { 
+	if(!project.antDirectory.exists()){
+		project.contribDirectory.mkdirs();
+		ant.unzip(src:new File(new File(rootDir, 'contrib'), 'apache-ant-1.8.4-bin.zip'), dest:contribDirectory)
 	}
 }
 
-downloadAnt << {
+installAnt << {
 	ant.chmod(dir: antDirectory.absolutePath+'/bin', perm: 'u+x', includes: '*')
 }
 
