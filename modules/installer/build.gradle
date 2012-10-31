@@ -60,7 +60,7 @@ repositories {
 	flatDir name: 'uploadBin', dirs: new File(currentInstallDirectory, 'bin')
 }
 
-antwUrl='http://www.antw.cc'
+antwUrl='http://antw.cc'
 tstamp = new java.text.SimpleDateFormat("d-MMMM-yyyy").format(new Date());
 binDirectory = new File(installDirectory, 'bin')
 
