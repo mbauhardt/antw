@@ -1,0 +1,7 @@
+archivesBaseName = 'antw-example-water'
+
+dependencies { 
+	compile group: 'junit', name: 'junit', version: '4.10'
+}
+
+test.enabled = false

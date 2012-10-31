@@ -2,8 +2,9 @@
 
 	<property file="build.properties" />
 	
+	
 	<path id="compile.classpath">
-		<fileset dir="${root.dir}/lib">
+		<fileset dir="${root.dir}/lib/compile">
 			<include name="**/*.jar" />
 		</fileset>
 		<fileset dir="build">
@@ -11,24 +12,41 @@
 		</fileset>
 	</path>
 
+	<path id="artifact.classpath" />
+
+	 <macrodef name="addArtifactToClasspath">
+        <attribute name="module" />
+        <sequential>
+            <pathconvert property="artifact.classpath.@{module}" refid="artifact.classpath" />
+            <path id="artifact.classpath">
+                <pathelement path="${artifact.classpath.@{module}}" />
+                <fileset dir="${root.dir}/modules/@{module}/build">
+                    <include name="**/*.jar" />
+                </fileset>
+            </path>
+		</sequential>
+	</macrodef>
+	
 	<target name="clean">
-		<echo>clean...</echo>
-		<delete dir="build">
+		<echo>clean... - delete directory ${ant.project.name}/build</echo>
+		<delete dir="${ant.project.name}/build">
 		</delete>
 	</target>
 
-	<target name="compile" depends="clean">
+	<target name="compile">
 		<echo>compile...</echo>
 		<mkdir dir="build/classes" />
-		<javac srcdir="src/main/java" includes="**/*.java" destdir="build/classes">
+		<javac srcdir="src/main/java" includes="**/*.java" destdir="build/classes" includeantruntime="false">
+			<classpath refid="artifact.classpath" />
 		</javac>
 	</target>
 
-	<target name="compile-tests" depends="clean">
+	<target name="compile-tests">
 		<echo>compile tests...</echo>
 		<mkdir dir="build/test-classes" />
 		<javac srcdir="src/test/java" includes="**/*.java" destdir="build/test-classes">
 			<classpath refid="compile.classpath" />
+			<classpath refid="artifact.classpath" />
 		</javac>
 	</target>
 
@@ -44,16 +62,17 @@
 
 	<target name="test" depends="jar, unit-jar">
 		<mkdir dir="build/reports" />
-		<junit haltonfailure="true">
-
+		<junit haltonfailure="true" fork="yes" forkmode="once">
+			<jvmarg value="-javaagent:lib/provided/antw-profiler-0.6-dev-fat.jar"/>
+			<sysproperty key="antw-transform.properties" value="${basedir}/${root.dir}/antw-transform.properties"/>
 			<!--<formatter type="xml"/>
 			<formatter classname="org.apache.tools.ant.taskdefs.optional.junit.PlainJUnitResultFormatter" usefile="false"/>-->
-			<formatter classname="antw.junit.JUnitFormatter" usefile="false"/>
+			<formatter classname="antw.junit.JUnitProfilerFormatter" usefile="false"/>
 			
 			<classpath>
 				<path refid="compile.classpath" />
+				<path refid="artifact.classpath" />
 			</classpath>
-
 
 			<batchtest fork="yes" todir="build/reports">
 				<fileset dir="src/test/java">

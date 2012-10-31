@@ -29,6 +29,10 @@ public class Printer {
         _out.println(message);
     }
 
+    public synchronized void append(String message) {
+        _out.append(message);
+    }
+
     public synchronized void out(String logFormat, Object... messages) {
         _out.printf(logFormat, messages);
     }
@@ -64,4 +68,13 @@ public class Printer {
             _out.append(' ');
         }
     }
+
+    public String buildSpaces(int spaces) {
+        String space = "";
+        for (int i = 0; i < spaces; i++) {
+            space += " ";
+        }
+        return space;
+    }
+
 }

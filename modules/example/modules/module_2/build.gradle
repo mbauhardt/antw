@@ -1,5 +1,0 @@
-archivesBaseName = 'antw-example-module-2'
-
-dependencies { 
-	compile group: 'junit', name: 'junit', version: '4.10'
-}

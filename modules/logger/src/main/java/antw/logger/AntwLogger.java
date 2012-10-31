@@ -54,6 +54,11 @@ public class AntwLogger extends LoggerAdapter {
         antDefaultView.setErrorPrintStream(antDefaultStream);
         antDefaultView.buildStarted(event);
 
+        PrintStream profilerStream = _context.openReportingStream("junit-profiler.txt");
+        BuildLogger profilerView = (BuildLogger) new JunitProfilerLogger();
+        profilerView.setMessageOutputLevel(_level);
+        profilerView.setOutputPrintStream(profilerStream);
+
         event.getProject().addBuildListener(collector);
         event.getProject().addBuildListener(treeView);
         event.getProject().addBuildListener(durationView);
@@ -62,6 +67,7 @@ public class AntwLogger extends LoggerAdapter {
         event.getProject().addBuildListener(junitView);
         event.getProject().addBuildListener(messageView);
         event.getProject().addBuildListener(antDefaultView);
+        event.getProject().addBuildListener(profilerView);
     }
 
     @Override

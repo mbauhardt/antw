@@ -1,5 +1,5 @@
 
-version='0.5'
+version='0.6'
 installDirectory = new File(ant.properties['user.home']+'/.'+rootProject.name+'/install')
 currentInstallDirectory = new File(installDirectory, 'versions/'+rootProject.version)
 
@@ -26,7 +26,7 @@ repositories {
 configure(subprojects.findAll {it.name != 'installer'}) {
 	apply plugin: 'java' 
 	apply plugin: 'eclipse'
-	
+
 	sourceCompatibility = 1.6
 	targetCompatibility = 1.6
 	
@@ -55,7 +55,7 @@ configure(subprojects.findAll {it.name != 'installer'}) {
 }
 
 
-task installProject(dependsOn: [':modules:installer:downloadAnt', ':modules:common:uploadLibs', ':modules:logger:uploadLibs', ':modules:junit:uploadLibs', ':modules:installer:uploadMetas', ':modules:installer:uploadScripts']) {
+task installProject(dependsOn: [':modules:installer:downloadAnt', ':modules:common:uploadLibs', ':modules:logger:uploadLibs', ':modules:junit:uploadLibs', ':modules:profiler:uploadLibs', ':modules:installer:uploadMetas', ':modules:installer:uploadScripts']) {
 }
 
 installProject << {
