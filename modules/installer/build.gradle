@@ -20,6 +20,7 @@ installAnt << {
 
 
 
+
 /************************ METAS *****************************/
 repositories { 
 	flatDir name: 'uploadMeta', dirs: new File(currentInstallDirectory, 'meta')
@@ -64,9 +65,8 @@ project.ext {
 	tstamp = new java.text.SimpleDateFormat("d-MMMM-yyyy").format(new Date());
 	binDirectory = new File(installDirectory, 'bin')
 
-	commonJar = new File(project.currentInstallDirectory, 'lib/antw-common-'+project.version+'.jar').absolutePath
-	loggerJar = new File(project.currentInstallDirectory, 'lib/antw-logger-'+project.version+'.jar').absolutePath
-	antwClassPath = commonJar + ':' + loggerJar
+	loggerJar = new File(project.currentInstallDirectory, 'lib/antw-logger-'+project.version+'-fat.jar').absolutePath
+	antwClassPath = loggerJar
 
 	scriptName ='antw-' + project.version
 	scriptUpdateName = 'antw-update-' + project.version
