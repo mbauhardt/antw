@@ -70,18 +70,20 @@ project.ext {
 
 	scriptName ='antw-' + project.version
 	scriptUpdateName = 'antw-update-' + project.version
+	scriptUninstallName = 'antw-uninstall-' + project.version
 	antwRevision='n.a.'
 }
 
 def scriptPath = file(project.buildDir.absolutePath+'/antw.sh');
 def scriptUpdatePath = file('src/main/scripts/antw-update.sh');
+def scriptUninstallPath = file('src/main/scripts/antw-uninstall.sh');
 
 configurations { 
 	scripts
 }
 
 artifacts { 
-	scripts scriptPath,scriptUpdatePath
+	scripts scriptPath,scriptUpdatePath,scriptUninstallPath
 } 
 
 
@@ -124,6 +126,12 @@ uploadScripts << {
 	def symlink = new File(binDirectory, 'antw-update')
 	symlink.delete();
 	ant.symlink(link: symlink, resource:currentInstallDirectory.absolutePath+'/bin/'+scriptUpdateName+'.sh')
+}
+
+uploadScripts << {
+	def symlink = new File(binDirectory, 'antw-uninstall')
+	symlink.delete();
+	ant.symlink(link: symlink, resource:currentInstallDirectory.absolutePath+'/bin/'+scriptUninstallName+'.sh')
 }
 
 uploadScripts << {
