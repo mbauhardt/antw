@@ -2,22 +2,22 @@
 
 /************************** ANT ********************************/
 
-contribDirectory = new File(installDirectory, 'contrib')
-antDirectory = new File(contribDirectory, 'apache-ant-1.8.4')
+project.ext {
+	contribDirectory = new File(installDirectory, 'contrib')
+	antDirectory = new File(contribDirectory, 'apache-ant-1.8.4')
+}
 
-
-task downloadAnt << { 
-	if(!antDirectory.exists()){
-		contribDirectory.mkdirs();
-		ant.get(src: 'http://www.apache.org/dist/ant/binaries/apache-ant-1.8.4-bin.zip', dest:new File(contribDirectory, 'ant.zip'), verbose:true)
-		ant.unzip(src:new File(contribDirectory, 'ant.zip'), dest:contribDirectory)
-		new File(contribDirectory, 'ant.zip').delete()
+task installAnt << { 
+	if(!project.antDirectory.exists()){
+		project.contribDirectory.mkdirs();
+		ant.unzip(src:new File(new File(rootDir, 'contrib'), 'apache-ant-1.8.4-bin.zip'), dest:contribDirectory)
 	}
 }
 
-downloadAnt << {
+installAnt << {
 	ant.chmod(dir: antDirectory.absolutePath+'/bin', perm: 'u+x', includes: '*')
 }
+
 
 
 
@@ -48,7 +48,7 @@ uploadMetas {
 }
 
 uploadMetas << {
-	symlink = new File(installDirectory, 'LICENSE')
+	def symlink = new File(installDirectory, 'LICENSE')
 	symlink.delete();
 	ant.symlink(link: symlink, resource:currentInstallDirectory.absolutePath+'/meta/LICENSE-'+project.version+'.txt')
 }
@@ -60,34 +60,38 @@ repositories {
 	flatDir name: 'uploadBin', dirs: new File(currentInstallDirectory, 'bin')
 }
 
-antwUrl='http://antw.cc'
-tstamp = new java.text.SimpleDateFormat("d-MMMM-yyyy").format(new Date());
-binDirectory = new File(installDirectory, 'bin')
+project.ext {
+	antwUrl='http://antw.cc'
+	tstamp = new java.text.SimpleDateFormat("d-MMMM-yyyy").format(new Date());
+	binDirectory = new File(installDirectory, 'bin')
 
-commonJar = new File(project.currentInstallDirectory, 'lib/antw-common-'+project.version+'.jar').absolutePath
-loggerJar = new File(project.currentInstallDirectory, 'lib/antw-logger-'+project.version+'.jar').absolutePath
-antwClassPath = commonJar + ':' + loggerJar
+	loggerJar = new File(project.currentInstallDirectory, 'lib/antw-logger-'+project.version+'-fat.jar').absolutePath
+	antwClassPath = loggerJar
 
-scriptName ='antw-' + project.version
-scriptUpdateName = 'antw-update-' + project.version
+	scriptName ='antw-' + project.version
+	scriptUpdateName = 'antw-update-' + project.version
+	scriptUninstallName = 'antw-uninstall-' + project.version
+	antwRevision='n.a.'
+}
+
 def scriptPath = file(project.buildDir.absolutePath+'/antw.sh');
 def scriptUpdatePath = file('src/main/scripts/antw-update.sh');
+def scriptUninstallPath = file('src/main/scripts/antw-uninstall.sh');
 
 configurations { 
 	scripts
 }
 
 artifacts { 
-	scripts scriptPath,scriptUpdatePath
+	scripts scriptPath,scriptUpdatePath,scriptUninstallPath
 } 
 
-antwRevision='n.a.'
 
 uploadScripts.doFirst {
 	project.buildDir.mkdirs()
 	scriptPath.write('echo \'\'')
 	scriptPath.append('\n')
-	scriptPath.append('echo \'Welcome to antw, version: ' + project.version + ', revision: ' + antwRevision + '\', built on ' + tstamp + ' with apache-ant-1.8.4')
+	scriptPath.append('echo \'Welcome to antw, version: ' + project.version + ', revision: ' + project.antwRevision + '\', built on ' + tstamp + ' with apache-ant-1.8.4')
 	scriptPath.append('\n')
 	scriptPath.append('echo \''+antwUrl+ '\'')
 	scriptPath.append('\n')
@@ -102,7 +106,7 @@ uploadScripts.doFirst {
 	ant.exec(executable:'git', outputproperty:'antwRevision') {
 		arg(line:'log -1 --pretty=format:%H')
 	}
-	antwRevision=ant.antwRevision
+	project.antwRevision=ant.antwRevision
 }
 
 uploadScripts {
@@ -113,15 +117,21 @@ uploadScripts {
 
 uploadScripts << {
 	binDirectory.mkdirs()
-	symlink = new File(binDirectory, 'antw')
+	def symlink = new File(binDirectory, 'antw')
 	symlink.delete();
 	ant.symlink(link: symlink, resource:currentInstallDirectory.absolutePath+'/bin/'+scriptName+'.sh')
 }
 
 uploadScripts << {
-	symlink = new File(binDirectory, 'antw-update')
+	def symlink = new File(binDirectory, 'antw-update')
 	symlink.delete();
 	ant.symlink(link: symlink, resource:currentInstallDirectory.absolutePath+'/bin/'+scriptUpdateName+'.sh')
+}
+
+uploadScripts << {
+	def symlink = new File(binDirectory, 'antw-uninstall')
+	symlink.delete();
+	ant.symlink(link: symlink, resource:currentInstallDirectory.absolutePath+'/bin/'+scriptUninstallName+'.sh')
 }
 
 uploadScripts << {

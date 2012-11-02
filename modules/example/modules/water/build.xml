@@ -1,3 +1,0 @@
-<project name="water">
-    <import file="../../common-build.xml" />
-</project>

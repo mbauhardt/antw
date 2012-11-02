@@ -1,7 +1,9 @@
 
-version='0.6'
-installDirectory = new File(ant.properties['user.home']+'/.'+rootProject.name+'/install')
-currentInstallDirectory = new File(installDirectory, 'versions/'+rootProject.version)
+version='0.6.1'
+project.ext {
+	installDirectory = new File(ant.properties['user.home']+'/.'+rootProject.name+'/install')
+	currentInstallDirectory = new File(installDirectory, 'versions/'+rootProject.version)
+}
 
 allprojects{
 	group='antw'
@@ -10,7 +12,7 @@ allprojects{
 
 	
 task wrapper(type: Wrapper) {
-    gradleVersion = '1.0-milestone-7'
+    gradleVersion = '1.2'
 }
 
 
@@ -55,7 +57,7 @@ configure(subprojects.findAll {it.name != 'installer'}) {
 }
 
 
-task installProject(dependsOn: [':modules:installer:downloadAnt', ':modules:common:uploadLibs', ':modules:logger:uploadLibs', ':modules:junit:uploadLibs', ':modules:profiler:uploadLibs', ':modules:installer:uploadMetas', ':modules:installer:uploadScripts']) {
+task installProject(dependsOn: [':modules:installer:installAnt', ':modules:common:uploadLibs', ':modules:logger:uploadLibs', ':modules:junit:uploadLibs', ':modules:profiler:uploadLibs', ':modules:installer:uploadMetas', ':modules:installer:uploadScripts']) {
 }
 
 installProject << {

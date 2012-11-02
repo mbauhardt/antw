@@ -1,8 +1,0 @@
-archivesBaseName = 'antw-example-herbivore'
-
-dependencies {
-	compile project(':modules:example:modules:plant') 
-	compile group: 'junit', name: 'junit', version: '4.10'
-}
-
-test.enabled = false
