@@ -7,7 +7,7 @@ configurations {
 
 dependencies { 
 	fatJar project(':modules:common')
-	compile group: 'apache-ant', name: 'ant', version: '1.8.3'
+	compile group: 'apache-ant', name: 'ant', version: '1.8.4'
 	configurations.compile.extendsFrom(configurations.fatJar)
 }
 

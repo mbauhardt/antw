@@ -1,0 +1,36 @@
+archivesBaseName = 'antw-multiproject'
+
+configurations {
+	fatJar
+	//hack: we disable all transitive deps to have only project files in the fat jar
+    fatJar.transitive=false
+}
+
+dependencies {
+	//hack: we disable all transitive deps to have only project files in the fat jar, for that reason add the two projects instead only the logger jar 
+	fatJar project(':modules:logger')
+	fatJar project(':modules:common')
+	compile group: 'apache-ant', name: 'ant', version: '1.8.4'
+	compile group: 'apache-ant', name: 'ant-launcher', version: '1.8.4'
+	configurations.compile.extendsFrom(configurations.fatJar)
+}
+
+
+dependencies { 
+	compile group: 'apache-ant', name: 'ant', version: '1.8.4'
+}
+
+task fatJar(type: Jar) {
+	classifier = "fat"
+	from sourceSets.main.output
+	from new File(rootDir,'/LICENSE')
+	from { 
+		configurations.fatJar.collect {
+				return it.isDirectory() ? it : zipTree(it) 
+		} 
+	}
+}
+
+artifacts {
+	libs fatJar
+}
