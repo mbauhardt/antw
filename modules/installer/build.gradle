@@ -65,8 +65,8 @@ project.ext {
 	tstamp = new java.text.SimpleDateFormat("d-MMMM-yyyy").format(new Date());
 	binDirectory = new File(installDirectory, 'bin')
 
-	loggerJar = new File(project.currentInstallDirectory, 'lib/antw-logger-'+project.version+'-fat.jar').absolutePath
-	antwClassPath = loggerJar
+	multiprojectJar = new File(project.currentInstallDirectory, 'lib/antw-multiproject-'+project.version+'-fat.jar').absolutePath
+	antwClassPath = multiprojectJar
 
 	scriptName ='antw-' + project.version
 	scriptUpdateName = 'antw-update-' + project.version
@@ -99,7 +99,7 @@ uploadScripts.doFirst {
 	scriptPath.append('\n')
 	scriptPath.append('echo \'\'')
 	scriptPath.append('\n')
-	scriptPath.append(project.antDirectory.absolutePath+'/bin/ant' + ' -lib ' + antwClassPath + ' -logger antw.logger.AntwLogger $@')
+	scriptPath.append(project.antDirectory.absolutePath+'/bin/ant' + ' -lib ' + antwClassPath + ' -logger antw.logger.AntwLogger -main antw.multiproject.Main $@')
 }
 
 uploadScripts.doFirst {

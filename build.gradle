@@ -57,7 +57,7 @@ configure(subprojects.findAll {it.name != 'installer'}) {
 }
 
 
-task installProject(dependsOn: [':modules:installer:installAnt', ':modules:common:uploadLibs', ':modules:logger:uploadLibs', ':modules:junit:uploadLibs', ':modules:profiler:uploadLibs', ':modules:installer:uploadMetas', ':modules:installer:uploadScripts']) {
+task installProject(dependsOn: [':modules:installer:installAnt', ':modules:common:uploadLibs', ':modules:logger:uploadLibs', ':modules:junit:uploadLibs', ':modules:profiler:uploadLibs', ':modules:multiproject:uploadLibs', ':modules:installer:uploadMetas', ':modules:installer:uploadScripts']) {
 }
 
 installProject << {
