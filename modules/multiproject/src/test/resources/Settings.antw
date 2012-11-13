@@ -1,1 +1,2 @@
+import '/tmp/build_1.xml', '/tmp/build_2.xml'
 include 'foo', 'bar'

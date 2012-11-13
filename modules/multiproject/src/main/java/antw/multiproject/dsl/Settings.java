@@ -38,8 +38,11 @@ public class Settings {
 
 	@SuppressWarnings("unchecked")
 	private static void buildSettings(CommonTree tree, Settings settings) {
+		// System.out.println(tree.getType()+":"+tree.getText());
 		if (tree.getType() == SettingsLexer.MODULENAME) {
 			settings.addModule(new Module(tree.getChild(0).getText()));
+		} else if (tree.getType() == SettingsLexer.IMPORTPATH) {
+			settings.addImport(new Import(tree.getChild(0).getText()));
 		}
 		List<CommonTree> childrens = tree.getChildren();
 		if (childrens == null) {
@@ -51,13 +54,22 @@ public class Settings {
 	}
 
 	private List<Module> _modules = new ArrayList<Module>();
+	private List<Import> _imports = new ArrayList<Import>();
 
 	private void addModule(Module module) {
 		_modules.add(module);
 	}
-	
+
+	public void addImport(Import importFile) {
+		_imports.add(importFile);
+	}
+
 	public List<Module> getModules() {
 		return _modules;
+	}
+	
+	public List<Import> getImports() {
+		return _imports;
 	}
 
 }

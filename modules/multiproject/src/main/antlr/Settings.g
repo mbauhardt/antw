@@ -11,6 +11,7 @@ options {
 tokens {
 INCLUDE;
 MODULENAME;
+IMPORTPATH;
 }
  
 @lexer::header{ package antw.multiproject.dsl; }
@@ -20,7 +21,12 @@ MODULENAME;
 }
 
 
-settings: includes;
+settings: (imports)* includes;
+imports: 'import' files;
+files: file (',' file)*;
+file: '\'' path '\'' -> ^(IMPORTPATH path);
+path: Id;
+
 includes: 'include' modules -> ^(INCLUDE modules);
 modules: module (',' module)*; 
 module: '\'' moduleName '\'' -> ^(MODULENAME moduleName);
@@ -28,7 +34,7 @@ moduleName: Id;
 
 
 fragment Digit : '0'..'9' ;
-fragment Letter : 'a'..'z' | 'A'..'Z' | '_';
+fragment Letter : 'a'..'z' | 'A'..'Z' | '_' | '/' | '\.';
 Id: Letter (Letter | Digit)* ;
 
 
