@@ -4,21 +4,22 @@ configurations {
 	fatJar
 	//hack: we disable all transitive deps to have only project files in the fat jar
     fatJar.transitive=false
+    antlr3
 }
 
 dependencies {
 	//hack: we disable all transitive deps to have only project files in the fat jar, for that reason add the two projects instead only the logger jar 
 	fatJar project(':modules:logger')
 	fatJar project(':modules:common')
+	antlr3 group: 'org.antlr', name: 'antlr', version: '3.4', classifier: 'complete', transitive:false
+	compile group: 'org.antlr', name: 'antlr', version: '3.4', classifier: 'complete', transitive:false
 	compile group: 'apache-ant', name: 'ant', version: '1.8.4'
 	compile group: 'apache-ant', name: 'ant-launcher', version: '1.8.4'
+	compile group: 'junit', name: 'junit', version: '4.10'
 	configurations.compile.extendsFrom(configurations.fatJar)
+	
 }
 
-
-dependencies { 
-	compile group: 'apache-ant', name: 'ant', version: '1.8.4'
-}
 
 task fatJar(type: Jar) {
 	classifier = "fat"
@@ -34,3 +35,24 @@ task fatJar(type: Jar) {
 artifacts {
 	libs fatJar
 }
+
+
+
+antlrSource = "src/main/antlr"  
+antlrOutput = "$buildDir/generated-src/main/antlr"
+
+
+task generateGrammarSource {  
+  description = "Generates Java sources from Antlr3 grammars."  
+  inputs.dir file(antlrSource)  
+  outputs.dir file(antlrOutput)  
+} 
+
+generateGrammarSource << {  
+  mkdir(antlrOutput)  
+  def grammars = fileTree(antlrSource).include("**/*.g")  
+  ant.java(classname: 'org.antlr.Tool', fork: true, classpath: "${configurations.antlr3.asPath}") {  
+     arg(line: "-o ${antlrOutput}/antw/multiproject/dsl")  
+     arg(line: grammars.files.join(" "))  
+  }  
+}  
