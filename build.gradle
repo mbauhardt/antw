@@ -1,5 +1,5 @@
 
-version='0.6.2'
+version='0.6.3'
 project.ext {
 	installDirectory = new File(ant.properties['user.home']+'/.'+rootProject.name+'/install')
 	currentInstallDirectory = new File(installDirectory, 'versions/'+rootProject.version)
