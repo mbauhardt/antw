@@ -27,12 +27,12 @@ public class JunitLogger extends LoggerAdapter {
 
     }
 
-    private void printTestCase(String message) {
+    void printTestCase(String message) {
 	String testCase = StringUtil.remove(Constants.TEST_CASE_LABEL, message);
-	testCase = testCase.replaceAll("\\s{2,}", ",");
+	testCase = testCase.replaceAll("\\s{2,}", ";");
 	String s = _lastTestSuite;
 	try {
-	    String[] splits = testCase.split(",");
+	    String[] splits = testCase.split(";");
 	    for (int i = 0; i < splits.length; i++) {
 		String split = splits[i];
 		if (i == 1) {
