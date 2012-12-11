@@ -10,6 +10,10 @@ public class JunitLogger extends LoggerAdapter {
 
     private String _lastTestSuite;
 
+    public JunitLogger() {
+	super("junit");
+    }
+
     @Override
     public void messageLogged(BuildEvent event) {
 	if (event.getTask() != null) {
@@ -41,7 +45,7 @@ public class JunitLogger extends LoggerAdapter {
 		s = s + "," + split;
 	    }
 	} catch (Throwable t) {
-	    
+
 	}
 	out(s);
     }

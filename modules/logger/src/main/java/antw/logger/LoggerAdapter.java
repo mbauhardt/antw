@@ -8,7 +8,18 @@ import org.apache.tools.ant.SubBuildListener;
 
 import antw.common.Printer;
 
-public class LoggerAdapter extends Printer implements BuildLogger, SubBuildListener {
+public class LoggerAdapter extends Printer implements BuildLogger,
+	SubBuildListener {
+
+    private final String _id;
+
+    public LoggerAdapter(String id) {
+	_id = id;
+    }
+
+    public String getId() {
+	return _id;
+    }
 
     public void buildStarted(BuildEvent event) {
 
@@ -50,7 +61,7 @@ public class LoggerAdapter extends Printer implements BuildLogger, SubBuildListe
     }
 
     public void setOutputPrintStream(PrintStream output) {
-        setOutputPrint(output);
+	setOutputPrint(output);
     }
 
     public void setEmacsMode(boolean emacsMode) {
@@ -58,7 +69,7 @@ public class LoggerAdapter extends Printer implements BuildLogger, SubBuildListe
     }
 
     public void setErrorPrintStream(PrintStream err) {
-        setErrorPrint(err);
+	setErrorPrint(err);
     }
 
 }

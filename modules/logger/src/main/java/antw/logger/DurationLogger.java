@@ -13,6 +13,7 @@ public class DurationLogger extends LoggerAdapter {
     private final LoggerContext _context;
 
     public DurationLogger(LoggerContext context) {
+	super("duration");
         _context = context;
     }
 
