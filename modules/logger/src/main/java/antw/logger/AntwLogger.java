@@ -54,9 +54,10 @@ public class AntwLogger extends LoggerAdapter {
 	BuildListener messageView = createMessageView(event);
 	BuildListener antDefaultView = createAntDefaultView(event);
 	BuildListener profilerView = createJunitProfilerView();
+	BuildListener powerLineView = createPowerLineView(event);
 	return Arrays.asList(collector, treeView, durationView,
 		plainDurationView, summaryView, junitView, messageView,
-		antDefaultView, profilerView);
+		antDefaultView, profilerView, powerLineView);
 
     }
 
@@ -146,6 +147,16 @@ public class AntwLogger extends LoggerAdapter {
 		.setOutputPrint(treeStream).setErrorPrint(treeStream);
 	treeView.buildStarted(event);
 	return treeView;
+    }
+
+    private BuildListener createPowerLineView(BuildEvent event) {
+	PrintStream powerlineStream = _context.openReportingStream("powerline.txt");
+	BuildListener powerlineView = (BuildListener) new PowerLineLogger(_context)
+		.setOutputPrint(powerlineStream)
+		.setErrorPrint(powerlineStream);
+	((BuildLogger) powerlineView).setMessageOutputLevel(_level);
+	powerlineView.buildStarted(event);
+	return powerlineView;
     }
 
     @Override

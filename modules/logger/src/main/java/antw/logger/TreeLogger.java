@@ -69,7 +69,6 @@ public class TreeLogger extends LoggerAdapter {
 		out("\\");
 	    }
 	}
-
     }
 
     @Override
