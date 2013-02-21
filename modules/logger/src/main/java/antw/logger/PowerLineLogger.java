@@ -42,15 +42,21 @@ public class PowerLineLogger extends LoggerAdapter {
 	    _printer.out(
 		    "%.4s %.8s %.7s %.20s %.7s %.20s %.7s %.20s %.7s %.50s",
 		    new Object[] {
-
-		    _progress[_counter++ % _progress.length] + "   ",
-			    TimeUtil.formatDate(new Date()), "   >   ",
-			    StringUtil.padding(_project.getName(), 20),
+			    _progress[_counter++ % _progress.length] + "   ",
+			    TimeUtil.formatDate(new Date()),
 			    "   >   ",
-			    StringUtil.padding(_target.getName(), 20),
+			    StringUtil.padding(
+				    "\033[0;34m" + _project.getName(), 20),
 			    "   >   ",
-			    StringUtil.padding(_task.getTaskName(), 20),
-			    "   >   ", StringUtil.padding(_message, 20) });
+			    StringUtil.padding(
+				    "\033[0;33m" + _target.getName(), 20),
+			    "   >   ",
+			    StringUtil.padding(
+				    "\033[0;35m" + _task.getTaskName(), 20),
+			    "   >   ",
+			    "\033[0;36m" + StringUtil.padding(_message, 20) });
+	    _printer.append("\033[0;00m");
+	    // _printer.append("\033[0;00m ");
 	}
 
     }
@@ -86,7 +92,7 @@ public class PowerLineLogger extends LoggerAdapter {
 
     @Override
     public void buildStarted(BuildEvent event) {
-	_timer.schedule(new Flush(this), new Date(), 100);
+	_timer.schedule(new Flush(this), new Date(), 200);
 	newLine();
 	newLine();
     }
