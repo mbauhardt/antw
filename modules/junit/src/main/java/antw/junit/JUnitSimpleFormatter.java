@@ -3,6 +3,7 @@ package antw.junit;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 
 import junit.framework.AssertionFailedError;
@@ -15,6 +16,7 @@ import org.junit.runner.Description;
 import org.junit.runner.RunWith;
 
 import antw.common.util.Constants;
+import antw.common.util.ExceptionUtil;
 import antw.common.util.StringUtil;
 import antw.junit.model.TestCase;
 import antw.junit.model.TestSuite;
@@ -32,18 +34,16 @@ public class JUnitSimpleFormatter extends antw.common.Printer implements
 	String suiteName = TestUtil.getSuiteName(test);
 	String testCase = TestUtil.getNameOfTestCase(test);
 	_testSuites.get(suiteName).getTest(testCase).setStatus(Status.ERROR)
-		.setMessage(t.getMessage());
+		.setMessage(t.getMessage())
+		.setStackTrace(ExceptionUtil.getStackTraceAsString(t));
     }
 
     @Override
     public void addFailure(Test test, AssertionFailedError t) {
 	String suiteName = TestUtil.getSuiteName(test);
 	String testCase = TestUtil.getNameOfTestCase(test);
-	TestCase status = _testSuites.get(suiteName).getTest(testCase)
-		.setStatus(Status.FAILURE);
-	if (t.getMessage() != null) {
-	    status.setMessage(t.getMessage());
-	}
+	_testSuites.get(suiteName).getTest(testCase).setStatus(Status.FAILURE)
+		.setMessage(t.getMessage());
     }
 
     @Override
@@ -53,7 +53,7 @@ public class JUnitSimpleFormatter extends antw.common.Printer implements
 	newLine();
 	out("%-10s %-80s %n",
 		new Object[] {
-			StringUtil.padding(Constants.TEST_SUITE_LABEL, 20),
+			StringUtil.padding(Constants.TEST_SUITE_LABEL, 10),
 			StringUtil.padding(
 				testSuite.getName()
 					+ " running"
@@ -97,15 +97,18 @@ public class JUnitSimpleFormatter extends antw.common.Printer implements
 	TestCase testCase = _testSuites.getTestSuite(suiteName)
 		.getTest(testCaseName).setFinishTime(new Date());
 	space(2);
-	out("%-10s %-50s %-15s %-15s %-10s %n",
+	out("%-10s %-80s %-15s %-15s %-10s %n",
 		new Object[] {
-			StringUtil.padding(Constants.TEST_CASE_LABEL, 20),
-			StringUtil.padding(testCase.getName(), 50),
+			StringUtil.padding(Constants.TEST_CASE_LABEL, 10),
+			StringUtil.padding(testCase.getName(), 80),
 			StringUtil.padding(testCase.getDurationAsString(), 15),
 			StringUtil.padding(status(testCase.getStatus()), 15)
 				+ "\033[0;00m",
 
 			StringUtil.padding(testCase.getMessage(), 10) });
+	if (testCase.getStackTrace() != null) {
+	    out(testCase.getStackTrace());
+	}
     }
 
     private String status(Status status) {

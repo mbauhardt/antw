@@ -33,4 +33,14 @@ public class TestSuite extends Name {
         }
         return testCases;
     }
+    
+    public Collection<TestCase> getErrorTests() {
+        List<TestCase> testCases = new ArrayList<TestCase>();
+        for (TestCase testCase : _tests.values()) {
+            if (testCase.error()) {
+                testCases.add(testCase);
+            }
+        }
+        return testCases;
+    }
 }

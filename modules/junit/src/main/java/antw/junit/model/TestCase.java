@@ -58,6 +58,7 @@ public class TestCase extends Name {
 
     private Status _status = Status.PASSED;
     private String _message = "";
+    private String _stackTrace = null;
     private Date _start;
     private Date _end;
     private TestSuite _testSuite;
@@ -71,12 +72,20 @@ public class TestCase extends Name {
         return _status;
     }
 
-    public void setMessage(String message) {
+    public TestCase setMessage(String message) {
         _message = message;
+        return this;
     }
 
     public String getMessage() {
         return _message;
+    }
+    
+    public void setStackTrace(String stackTrace) {
+	_stackTrace = stackTrace;
+    }
+    public String getStackTrace() {
+	return _stackTrace;
     }
 
     public TestCase setStartTime(Date date) {
@@ -121,5 +130,9 @@ public class TestCase extends Name {
 
     public boolean failed() {
         return _status == Status.ERROR || _status == Status.FAILURE;
+    }
+    
+    public boolean error() {
+        return _status == Status.ERROR;
     }
 }
