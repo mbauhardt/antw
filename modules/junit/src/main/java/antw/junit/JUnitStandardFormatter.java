@@ -13,9 +13,9 @@ import org.apache.tools.ant.taskdefs.optional.junit.JUnitTest;
 
 import antw.common.util.Constants;
 import antw.junit.model.TestCase;
+import antw.junit.model.TestCase.Status;
 import antw.junit.model.TestSuite;
 import antw.junit.model.TestSuites;
-import antw.junit.model.TestCase.Status;
 import antw.junit.util.TestUtil;
 
 public class JUnitStandardFormatter extends antw.common.Printer implements
@@ -57,15 +57,15 @@ public class JUnitStandardFormatter extends antw.common.Printer implements
 	String suiteName = TestUtil.getSuiteName(test);
 	String testCaseName = TestUtil.getNameOfTestCase(test);
 	_testSuites.getTestSuite(suiteName).getTest(testCaseName)
-		.setStartTime(new Date());
+		.setStart(new Date());
     }
 
     @Override
     public void endTest(Test test) {
 	String suiteName = TestUtil.getSuiteName(test);
 	String testCaseName = TestUtil.getNameOfTestCase(test);
-	TestCase testCase = _testSuites.getTestSuite(suiteName)
-		.getTest(testCaseName).setFinishTime(new Date());
+	TestCase testCase = (TestCase) _testSuites.getTestSuite(suiteName)
+		.getTest(testCaseName).setEnd(new Date());
 	space(4);
 	out("%-20s %-65s %-15s %-15s %-15s %-10s %n", new Object[] {
 		Constants.TEST_CASE_LABEL, "  " + testCase.getName() + "  ",

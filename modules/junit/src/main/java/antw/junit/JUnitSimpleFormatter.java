@@ -2,8 +2,6 @@ package antw.junit;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 
 import junit.framework.AssertionFailedError;
@@ -12,16 +10,15 @@ import junit.framework.Test;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.optional.junit.JUnitResultFormatter;
 import org.apache.tools.ant.taskdefs.optional.junit.JUnitTest;
-import org.junit.runner.Description;
 import org.junit.runner.RunWith;
 
 import antw.common.util.Constants;
 import antw.common.util.ExceptionUtil;
 import antw.common.util.StringUtil;
 import antw.junit.model.TestCase;
+import antw.junit.model.TestCase.Status;
 import antw.junit.model.TestSuite;
 import antw.junit.model.TestSuites;
-import antw.junit.model.TestCase.Status;
 import antw.junit.util.TestUtil;
 
 public class JUnitSimpleFormatter extends antw.common.Printer implements
@@ -87,15 +84,15 @@ public class JUnitSimpleFormatter extends antw.common.Printer implements
 	String suiteName = TestUtil.getSuiteName(test);
 	String testCaseName = TestUtil.getNameOfTestCase(test);
 	_testSuites.getTestSuite(suiteName).getTest(testCaseName)
-		.setStartTime(new Date());
+		.setStart(new Date());
     }
 
     @Override
     public void endTest(Test test) {
 	String suiteName = TestUtil.getSuiteName(test);
 	String testCaseName = TestUtil.getNameOfTestCase(test);
-	TestCase testCase = _testSuites.getTestSuite(suiteName)
-		.getTest(testCaseName).setFinishTime(new Date());
+	TestCase testCase = (TestCase) _testSuites.getTestSuite(suiteName)
+		.getTest(testCaseName).setEnd(new Date());
 	space(2);
 	out("%-10s %-80s %-15s %-15s %-10s %n",
 		new Object[] {

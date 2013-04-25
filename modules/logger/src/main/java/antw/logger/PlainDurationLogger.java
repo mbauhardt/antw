@@ -19,7 +19,7 @@ public class PlainDurationLogger extends LoggerAdapter {
 	Target target = _context.getTarget(event);
 	out(target.getProject().getName() + TAB + target.getName() + TAB
 		+ target.getCounter() + TAB + target.getStart() + TAB
-		+ target.getFinish() + TAB + target.getDuration());
+		+ target.getEnd() + TAB + target.getDuration());
     }
 
     @Override

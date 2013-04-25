@@ -27,12 +27,12 @@ public class ProjectCollector implements BuildListener, SubBuildListener {
 
     @Override
     public void targetStarted(BuildEvent event) {
-        _context.getTarget(event).addStartTime(new Date()).increment();
+        _context.getTarget(event).setStart(new Date()).increment();
     }
 
     @Override
     public void targetFinished(BuildEvent event) {
-        _context.getTarget(event).addFinishTime(new Date());
+        _context.getTarget(event).setEnd(new Date());
     }
 
     @Override

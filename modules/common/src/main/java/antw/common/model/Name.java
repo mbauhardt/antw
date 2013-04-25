@@ -1,6 +1,6 @@
 package antw.common.model;
 
-public class Name extends Counter {
+public class Name extends Duration {
 
     private String _name;
 

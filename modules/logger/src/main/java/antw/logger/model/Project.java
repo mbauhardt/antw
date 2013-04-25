@@ -1,7 +1,5 @@
 package antw.logger.model;
 
-import java.util.Collection;
-
 import antw.common.model.Name;
 
 public class Project extends Name {
@@ -13,40 +11,40 @@ public class Project extends Name {
     }
 
     public Project(String name) {
-        super(name);
+	super(name);
+    }
+
+    public Targets getTargets() {
+	return _targets;
     }
 
     public Target getTarget(String name) {
-        Target target = _targets.get(name);
-        target.setProject(this);
-        return target;
-    }
-
-    public Collection<Target> computeRelativeBuildTime(long duration) {
-        return _targets.computeRelativeBuildTime(duration);
+	Target target = _targets.get(name);
+	target.setProject(this);
+	return target;
     }
 
     public Project setSubProject(boolean subProject) {
-        _subProject = subProject;
-        return this;
+	_subProject = subProject;
+	return this;
     }
 
     public boolean isSubProject() {
-        return _subProject;
+	return _subProject;
     }
 
     @Override
     public int hashCode() {
-        return getName().hashCode();
+	return getName().hashCode();
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        Project other = (Project) obj;
-        return this.getName().equals(other.getName());
+	if (obj == null) {
+	    return false;
+	}
+	Project other = (Project) obj;
+	return this.getName().equals(other.getName());
     }
 
 }

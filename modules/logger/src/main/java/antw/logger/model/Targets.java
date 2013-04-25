@@ -7,15 +7,15 @@ import antw.common.model.Names;
 public class Targets extends Names<Target> {
 
     public Targets() {
-        super(Target.class);
+	super(Target.class);
     }
 
-    public Collection<Target> computeRelativeBuildTime(long duration) {
-        Collection<Target> targets = values();
-        for (Target target : targets) {
-            target.computeRelativeBuildTime(duration);
-        }
-        return targets;
+    public Collection<Target> computeRelativeDurationOverTargets(long duration) {
+	Collection<Target> values = values();
+	for (Target target : values) {
+	    target.computeRelativeDuration(duration);
+	}
+	return values;
     }
 
 }

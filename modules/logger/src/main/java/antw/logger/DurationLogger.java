@@ -38,7 +38,7 @@ public class DurationLogger extends LoggerAdapter {
         }
         out(TARGET_FORMAT,
                 new Object[] { target.getProject().getName(), target.getName(), target.getCounter(), target.getStart(),
-                        target.getFinish(), target.getDurationAsString() });
+                        target.getEnd(), target.getDurationAsString() });
         if (!target.getProject().isSubProject()) {
             newLine(2);
         }

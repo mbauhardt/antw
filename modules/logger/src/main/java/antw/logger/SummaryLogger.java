@@ -24,17 +24,17 @@ public class SummaryLogger extends LoggerAdapter {
     public void buildFinished(BuildEvent event) {
 	logHeader();
 	Projects projects = _context.getProjects();
-	Collection<Target> targets = projects.computeRelativeBuildTime(projects
-		.getEnd().getTime() - projects.getStart().getTime());
+	Long duration = projects.getDuration();
+	Collection<Target> targets = projects.computeDurationOverallTargets(duration);
 	for (Target target : targets) {
-	    if (target.getDurationInPercent() <= 3) {
+	    if (target.getRelativeDuration() <= 3) {
 		continue;
 	    }
 	    out(TARGET_FORMAT,
 		    new Object[] { target.getProject().getName(),
 			    target.getName(),
 			    TimeUtil.formatTimeDuration(target.getDuration()),
-			    target.getDurationInPercent() + "%" });
+			    target.getRelativeDuration() + "%" });
 	}
 	newLine();
 	out(TARGET_FORMAT,
