@@ -55,11 +55,14 @@ public class AntwLogger extends LoggerAdapter {
 	BuildListener antDefaultView = createAntDefaultView(event);
 	BuildListener profilerView = createJunitProfilerView();
 	BuildListener powerLineView = createPowerLineView(event);
+	BuildListener treeSummaryView = createTreeSummaryView(event);
 	return Arrays.asList(collector, treeView, durationView,
 		plainDurationView, summaryView, junitView, messageView,
-		antDefaultView, profilerView, powerLineView);
+		antDefaultView, profilerView, powerLineView, treeSummaryView);
 
     }
+
+    
 
     private void addBuildListers(BuildEvent event, List<BuildListener> listeners) {
 	for (BuildListener buildListener : listeners) {
@@ -157,6 +160,16 @@ public class AntwLogger extends LoggerAdapter {
 	((BuildLogger) powerlineView).setMessageOutputLevel(_level);
 	powerlineView.buildStarted(event);
 	return powerlineView;
+    }
+    
+    private BuildListener createTreeSummaryView(BuildEvent event) {
+	PrintStream treeSummaryStream = _context.openReportingStream("tree-summary.txt");
+	BuildListener treeSummaryView = (BuildListener) new TreeSummaryLogger(_context)
+		.setOutputPrint(treeSummaryStream)
+		.setErrorPrint(treeSummaryStream);
+	((BuildLogger) treeSummaryView).setMessageOutputLevel(_level);
+	treeSummaryView.buildStarted(event);
+	return treeSummaryView;
     }
 
     @Override

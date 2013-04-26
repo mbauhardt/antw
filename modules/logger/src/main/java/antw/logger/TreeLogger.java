@@ -18,6 +18,11 @@ public class TreeLogger extends LoggerAdapter {
     protected final LoggerContext _context;
     private boolean _junitTaskWasRunning;
 
+    public TreeLogger(String id, LoggerContext context) {
+	super(id);
+	_context = context;
+    }
+
     public TreeLogger(LoggerContext context) {
 	super("tree");
 	_context = context;
@@ -124,7 +129,7 @@ public class TreeLogger extends LoggerAdapter {
 	out("/");
     }
 
-    private void printTestCase(String message) {
+    protected void printTestCase(String message) {
 	space(_spaceCount + 2);
 	out("|--- " + StringUtil.remove(Constants.TEST_CASE_LABEL, message));
     }
@@ -135,7 +140,7 @@ public class TreeLogger extends LoggerAdapter {
 	out("\\");
     }
 
-    private void printTestSuite(String testStuite) {
+    protected void printTestSuite(String testStuite) {
 	space(_spaceCount + 2);
 	out("|");
 	space(_spaceCount + 1);
