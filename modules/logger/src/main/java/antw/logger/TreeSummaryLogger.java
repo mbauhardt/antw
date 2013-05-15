@@ -1,15 +1,18 @@
 package antw.logger;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.tools.ant.BuildEvent;
-import org.apache.tools.ant.taskdefs.Tstamp;
 
 import antw.common.util.Constants;
 import antw.common.util.TimeUtil;
@@ -89,18 +92,73 @@ public class TreeSummaryLogger extends TreeLogger {
 	    out("Total Time: " + _context.getProjects().getDurationAsString());
 	}
 
-	printTestSummary();
+	try {
+	    printTestSummary();
+	} catch (Exception e) {
+	    err(e, true);
+	}
 	newLine(2);
     }
 
     private void printTestSummary() {
 	newLine();
 	newLine();
-	out("Test Summary");
+	out("Test Summary Of Test Suites (classes) and Test Cases (methods)");
 	newLine();
 
-	logHeader();
+	logDurationHeader();
 	List<Duration> durations = computeAverageDuration();
+	logDurationRows(durations);
+	newLine();
+	newLine();
+	out("10 Slowest Test Suites");
+	newLine();
+	logSlowestTestSuites(durations);
+    }
+
+    private void logSlowestTestSuites(List<Duration> durations) {
+
+	Object[] modules = new Object[durations.size()];
+	String headerFormat = "";
+	String rowFormat = "";
+	for (int i = 0; i < durations.size(); i++) {
+	    Duration duration = durations.get(i);
+	    headerFormat += "%-50s ";
+	    rowFormat += "%-50s ";
+	    modules[i] = duration._module;
+	}
+	headerFormat += "%n";
+	rowFormat += "%n";
+	out(headerFormat, modules);
+	String line = "";
+	for (int i = 0; i < modules.length * 40; i++) {
+	    line += "-";
+	}
+	out(line);
+
+	int nullCount;
+	do {
+	    nullCount = 0;
+	    Object[] suites = new Object[durations.size()];
+	    for (int i = 0; i < durations.size(); i++) {
+		Duration duration = durations.get(i);
+		Iterator<String> iterator = duration._tenSlowestTestSuites
+			.iterator();
+		if (iterator.hasNext()) {
+		    String next = iterator.next();
+		    iterator.remove();
+		    suites[i] = next;
+		} else {
+		    suites[i] = null;
+		    nullCount++;
+		}
+	    }
+	    out(rowFormat, suites);
+	} while (nullCount < durations.size());
+
+    }
+
+    private void logDurationRows(List<Duration> durations) {
 	for (Duration duration : durations) {
 	    out(DURATION_FORMAT,
 		    new Object[] {
@@ -111,7 +169,6 @@ public class TreeSummaryLogger extends TreeLogger {
 			    duration._fastestTestSuite,
 			    duration._slowestTestSuite });
 	}
-
     }
 
     private class Duration {
@@ -121,6 +178,7 @@ public class TreeSummaryLogger extends TreeLogger {
 	long _averageDuration;
 	String _slowestTestSuite;
 	String _fastestTestSuite;
+	List<String> _tenSlowestTestSuites = new ArrayList<String>();
     }
 
     private List<Duration> computeAverageDuration() {
@@ -133,6 +191,8 @@ public class TreeSummaryLogger extends TreeLogger {
 	    int testCaseCount = 0;
 	    String fastestTestSuite = "";
 	    String slowestTestSuite = "";
+	    TreeMap<Long, String> tenSlowestTestSuites = new TreeMap<Long, String>(
+		    Collections.reverseOrder());
 	    List<String> testsuites = _testModules.get(module);
 	    for (String testsuite : testsuites) {
 		long testSuiteDuration = 0;
@@ -154,6 +214,7 @@ public class TreeSummaryLogger extends TreeLogger {
 			    .lastIndexOf(".") + 1);
 		    ;
 		}
+		tenSlowestTestSuites.put(testSuiteDuration, testsuite);
 	    }
 	    Duration durationPackage = new Duration();
 	    durationPackage._module = module;
@@ -165,19 +226,23 @@ public class TreeSummaryLogger extends TreeLogger {
 	    durationPackage._slowestTestSuite = (slowestTestSuite + " ("
 		    + TimeUtil.formatTimeDuration(slowestTestSuiteDuration) + ")");
 	    durations.add(durationPackage);
+
+	    Set<Entry<Long, String>> entrySet = tenSlowestTestSuites.entrySet();
+	    for (Entry<Long, String> entry : entrySet) {
+		String className = entry.getValue();
+		durationPackage._tenSlowestTestSuites.add(className
+			.substring(className.lastIndexOf(".") + 1)
+			+ " ("
+			+ TimeUtil.formatTimeDuration(entry.getKey()) + ")");
+		if (durationPackage._tenSlowestTestSuites.size() >= 10) {
+		    break;
+		}
+	    }
 	}
 	return durations;
     }
 
-    public static void main(String[] args) {
-	Pattern pattern = Pattern.compile("([0-9\\s,]+)(hrs|min|sec|ms)");
-	String s = "  [testcase] testValidateArgumentTypeTheSameOrNumeric_invalid                                 0 ms            PASSED    ";
-	Matcher matcher = pattern.matcher(s);
-	matcher.find();
-	System.out.println(matcher.group().trim());
-    }
-
-    private void logHeader() {
+    private void logDurationHeader() {
 	out(HEADER_FORMAT, new Object[] { "Module", "Test Case Count",
 		"Overall Duration", "Average Duration Test Case",
 		"Fastest Test Suite", "Slowest Test Suite" });
