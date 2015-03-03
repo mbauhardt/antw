@@ -48,14 +48,16 @@ public class JUnitSimpleFormatter extends antw.common.Printer implements
 	TestSuite testSuite = _testSuites.get(unitTest.getName());
 	String runWith = getRunWith(testSuite);
 	newLine();
-	out("%-10s %-80s %n",
+	out("%.15s \033[1m%.82s\033[0m %.80s %n",
 		new Object[] {
-			StringUtil.padding(Constants.TEST_SUITE_LABEL, 10),
-			StringUtil.padding(
-				testSuite.getName()
-					+ " running"
-					+ (runWith == null ? "\033[0;33m without @RunWith annotation \033[0;00m"
-						: " with " + runWith), 80) });
+			StringUtil.padding(Constants.TEST_SUITE_LABEL, 15),
+			StringUtil.padding(testSuite.getName(), 82),
+			StringUtil
+				.padding(
+					"running"
+						+ (runWith == null ? "\033[0;33m without @RunWith annotation \033[0;00m"
+							: " with " + runWith),
+					80) });
     }
 
     private String getRunWith(TestSuite testSuite) {
@@ -69,7 +71,7 @@ public class JUnitSimpleFormatter extends antw.common.Printer implements
 		return null;
 	    }
 	    return annotation.value().getSimpleName();
-	} catch (ClassNotFoundException e) {
+	} catch (Throwable e) {
 	    return null;
 	}
     }
@@ -94,13 +96,12 @@ public class JUnitSimpleFormatter extends antw.common.Printer implements
 	TestCase testCase = (TestCase) _testSuites.getTestSuite(suiteName)
 		.getTest(testCaseName).setEnd(new Date());
 	space(2);
-	out("%-10s %-80s %-15s %-15s %-10s %n",
+	out("%.15s %.80s %.30s %.25s %.10s %n",
 		new Object[] {
-			StringUtil.padding(Constants.TEST_CASE_LABEL, 10),
+			StringUtil.padding(Constants.TEST_CASE_LABEL, 15),
 			StringUtil.padding(testCase.getName(), 80),
-			StringUtil.padding(testCase.getDurationAsString(), 15),
-			StringUtil.padding(status(testCase.getStatus()), 15)
-				+ "\033[0;00m",
+			StringUtil.padding(testCase.getDurationAsString(), 30),
+			StringUtil.padding(status(testCase.getStatus()), 25),
 
 			StringUtil.padding(testCase.getMessage(), 10) });
 	if (testCase.getStackTrace() != null) {

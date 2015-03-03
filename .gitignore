@@ -13,3 +13,7 @@ antw.tmproj
 
 _site
 
+.idea
+*.iml
+
+.DS_store
